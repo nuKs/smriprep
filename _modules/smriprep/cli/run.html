@@ -41,13 +41,13 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../_sources/smriprep.cli.html#smriprep.cli.run.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Entrypoint&quot;&quot;&quot;</span>
     <span class="n">opts</span> <span class="o">=</span> <span class="n">get_parser</span><span class="p">()</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">build_opts</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="check_deps"><a class="viewcode-back" href="../../../_sources/smriprep.cli.html#smriprep.cli.run.check_deps">[docs]</a><span class="k">def</span> <span class="nf">check_deps</span><span class="p">(</span><span class="n">workflow</span><span class="p">):</span>
+<div class="viewcode-block" id="check_deps"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.check_deps">[docs]</a><span class="k">def</span> <span class="nf">check_deps</span><span class="p">(</span><span class="n">workflow</span><span class="p">):</span>
     <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="k">import</span> <span class="n">which</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span>
         <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_cmd</span><span class="p">)</span>
@@ -56,7 +56,7 @@
             <span class="n">which</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_cmd</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="get_parser"><a class="viewcode-back" href="../../../_sources/smriprep.cli.html#smriprep.cli.run.get_parser">[docs]</a><span class="k">def</span> <span class="nf">get_parser</span><span class="p">():</span>
+<div class="viewcode-block" id="get_parser"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.get_parser">[docs]</a><span class="k">def</span> <span class="nf">get_parser</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Build parser object&quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
     <span class="kn">from</span> <span class="nn">argparse</span> <span class="k">import</span> <span class="n">ArgumentParser</span>
@@ -187,7 +187,7 @@
     <span class="k">return</span> <span class="n">parser</span></div>
 
 
-<div class="viewcode-block" id="build_opts"><a class="viewcode-back" href="../../../_sources/smriprep.cli.html#smriprep.cli.run.build_opts">[docs]</a><span class="k">def</span> <span class="nf">build_opts</span><span class="p">(</span><span class="n">opts</span><span class="p">):</span>
+<div class="viewcode-block" id="build_opts"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.build_opts">[docs]</a><span class="k">def</span> <span class="nf">build_opts</span><span class="p">(</span><span class="n">opts</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Entry point&quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">os</span>
     <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
@@ -300,7 +300,7 @@
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">errno</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="build_workflow"><a class="viewcode-back" href="../../../_sources/smriprep.cli.html#smriprep.cli.run.build_workflow">[docs]</a><span class="k">def</span> <span class="nf">build_workflow</span><span class="p">(</span><span class="n">opts</span><span class="p">,</span> <span class="n">retval</span><span class="p">):</span>
+<div class="viewcode-block" id="build_workflow"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.build_workflow">[docs]</a><span class="k">def</span> <span class="nf">build_workflow</span><span class="p">(</span><span class="n">opts</span><span class="p">,</span> <span class="n">retval</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create the Nipype Workflow that supports the whole execution</span>
 <span class="sd">    graph, given the inputs.</span>
@@ -547,7 +547,7 @@
 <h3>Navigation</h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../changes.html">What’s new</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api.html">api</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/smriprep.html">smriprep package</a></li>
 </ul>
 
 <div class="relations">
@@ -585,7 +585,7 @@
       &copy;2019, The SMRIPrep Developers.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
