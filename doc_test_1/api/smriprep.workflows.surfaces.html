@@ -91,7 +91,10 @@ See <a class="reference internal" href="#smriprep.workflows.surfaces.init_autore
 <p>Memory annotations for FreeSurfer are based off <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/SystemRequirements">their documentation</a>.
 They specify an allocation of 4GB per subject. Here we define 5GB
 to have a certain margin.</p>
-<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-1.py">Source code</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-surfaces-1.png" src="../_images/smriprep-workflows-surfaces-1.png" />
+</div>
+<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-1.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-1.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-1.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-1.pdf">pdf</a>)</p>
 <p><strong>Parameters</strong></p>
 <blockquote>
 <div><dl class="simple">
@@ -185,7 +188,10 @@ $ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; 
 <p>The excluded steps in the second and third stages (<code class="docutils literal notranslate"><span class="pre">-no&lt;option&gt;</span></code>) are not
 fully hemisphere independent, and are therefore postponed to the final two
 stages.</p>
-<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-2.py">Source code</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-surfaces-2.png" src="../_images/smriprep-workflows-surfaces-2.png" />
+</div>
+<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-2.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-2.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-2.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-2.pdf">pdf</a>)</p>
 <p><strong>Inputs</strong></p>
 <blockquote>
 <div><dl class="simple">
@@ -222,7 +228,10 @@ These, along with the gray/white matter boundary (<code class="docutils literal 
 sufaces (<code class="docutils literal notranslate"><span class="pre">lh/rh.pial</span></code>) and inflated surfaces (<code class="docutils literal notranslate"><span class="pre">lh/rh.inflated</span></code>) are
 converted to GIFTI files.
 Additionally, the vertex coordinates are <code class="xref py py-class docutils literal notranslate"><span class="pre">recentered</span></code> to align with native T1w space.</p>
-<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-3.py">Source code</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-surfaces-3.png" src="../_images/smriprep-workflows-surfaces-3.png" />
+</div>
+<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-3.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-3.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-3.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-3.pdf">pdf</a>)</p>
 <p><strong>Inputs</strong></p>
 <blockquote>
 <div><dl class="simple">
@@ -274,7 +283,10 @@ $ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; 
 <p>The excluded steps in the second and third stages (<code class="docutils literal notranslate"><span class="pre">-no&lt;option&gt;</span></code>) are not
 fully hemisphere independent, and are therefore postponed to the final two
 stages.</p>
-<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-4.py">Source code</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-surfaces-4.png" src="../_images/smriprep-workflows-surfaces-4.png" />
+</div>
+<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-4.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-4.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-4.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-4.pdf">pdf</a>)</p>
 <p><strong>Inputs</strong></p>
 <blockquote>
 <div><dl class="simple">
@@ -311,7 +323,10 @@ These, along with the gray/white matter boundary (<code class="docutils literal 
 sufaces (<code class="docutils literal notranslate"><span class="pre">lh/rh.pial</span></code>) and inflated surfaces (<code class="docutils literal notranslate"><span class="pre">lh/rh.inflated</span></code>) are
 converted to GIFTI files.
 Additionally, the vertex coordinates are <code class="xref py py-class docutils literal notranslate"><span class="pre">recentered</span></code> to align with native T1w space.</p>
-<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-5.py">Source code</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-surfaces-5.png" src="../_images/smriprep-workflows-surfaces-5.png" />
+</div>
+<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-5.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-5.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-5.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-5.pdf">pdf</a>)</p>
 <p><strong>Inputs</strong></p>
 <blockquote>
 <div><dl class="simple">
@@ -337,7 +352,10 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <dt id="smriprep.workflows.surfaces.init_segs_to_native_wf">
 <code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_segs_to_native_wf</code><span class="sig-paren">(</span><em class="sig-param">name='segs_to_native'</em>, <em class="sig-param">segmentation='aseg'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/surfaces.html#init_segs_to_native_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.surfaces.init_segs_to_native_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a segmentation from FreeSurfer conformed space into native T1w space</p>
-<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-6.py">Source code</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-surfaces-6.png" src="../_images/smriprep-workflows-surfaces-6.png" />
+</div>
+<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-6.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-6.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-6.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-6.pdf">pdf</a>)</p>
 <dl class="simple">
 <dt><strong>Parameters</strong></dt><dd><dl class="simple">
 <dt>segmentation</dt><dd><p>The name of a segmentation (‘aseg’ or ‘aparc_aseg’ or ‘wmparc’)</p>
@@ -418,7 +436,10 @@ See <a class="reference internal" href="#smriprep.workflows.surfaces.init_autore
 <p>Memory annotations for FreeSurfer are based off <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/SystemRequirements">their documentation</a>.
 They specify an allocation of 4GB per subject. Here we define 5GB
 to have a certain margin.</p>
-<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-7.py">Source code</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-surfaces-7.png" src="../_images/smriprep-workflows-surfaces-7.png" />
+</div>
+<p>(<a class="reference external" href="../api/smriprep-workflows-surfaces-7.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-7.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-7.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-surfaces-7.pdf">pdf</a>)</p>
 <p><strong>Parameters</strong></p>
 <blockquote>
 <div><dl class="simple">
@@ -494,9 +515,10 @@ midthickness (or graymid) surface, and inflated surfaces</p>
         <div class="sphinxsidebarwrapper">
 <h3>Versions</h3>
 <ul>
-    <li><a href="../../ci_doc_deploy/api/smriprep.workflows.surfaces.html">ci_doc_deploy</a></li>
+    <li><a href="../../ci_doc_deploy/index.html">ci_doc_deploy</a></li>
     <li><a href="../../doc_test/api/smriprep.workflows.surfaces.html">doc_test</a></li>
     <li><a href="smriprep.workflows.surfaces.html">doc_test_1</a></li>
+    <li><a href="../../doc_test_2/api/smriprep.workflows.surfaces.html">doc_test_2</a></li>
 </ul>
         </div>
       </div>

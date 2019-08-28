@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>smriprep.workflows.base module &#8212; sMRIPrep version documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/banner.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="smriprep.workflows.norm module" href="smriprep.workflows.norm.html" />
+    <link rel="prev" title="smriprep.workflows.anatomical module" href="smriprep.workflows.anatomical.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-smriprep.workflows.base">
+<span id="smriprep-workflows-base-module"></span><h1>smriprep.workflows.base module<a class="headerlink" href="#module-smriprep.workflows.base" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="smriprep-base-processing-workflows">
+<h2>sMRIPrep base processing workflows<a class="headerlink" href="#smriprep-base-processing-workflows" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="smriprep.workflows.base.init_smriprep_wf">
+<code class="sig-prename descclassname">smriprep.workflows.base.</code><code class="sig-name descname">init_smriprep_wf</code><span class="sig-paren">(</span><em class="sig-param">debug</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">layout</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">low_mem</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">output_spaces</em>, <em class="sig-param">run_uuid</em>, <em class="sig-param">skull_strip_fixed_seed</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">subject_list</em>, <em class="sig-param">work_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/base.html#init_smriprep_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.base.init_smriprep_wf" title="Permalink to this definition">¶</a></dt>
+<dd><p>This workflow organizes the execution of sMRIPrep, with a sub-workflow for
+each subject.</p>
+<p>If FreeSurfer’s recon-all is to be run, a FreeSurfer derivatives folder is
+created and populated with any needed template subjects.</p>
+<p>(<a class="reference external" href="../api/smriprep-workflows-base-1.py">Source code</a>)</p>
+<p>Parameters</p>
+<blockquote>
+<div><dl>
+<dt>debug<span class="classifier">bool</span></dt><dd><p>Enable debugging outputs</p>
+</dd>
+<dt>freesurfer<span class="classifier">bool</span></dt><dd><p>Enable FreeSurfer surface reconstruction (may increase runtime)</p>
+</dd>
+<dt>hires<span class="classifier">bool</span></dt><dd><p>Enable sub-millimeter preprocessing in FreeSurfer</p>
+</dd>
+<dt>layout<span class="classifier">BIDSLayout object</span></dt><dd><p>BIDS dataset layout</p>
+</dd>
+<dt>longitudinal<span class="classifier">bool</span></dt><dd><p>Treat multiple sessions as longitudinal (may increase runtime)
+See sub-workflows for specific differences</p>
+</dd>
+<dt>low_mem<span class="classifier">bool</span></dt><dd><p>Write uncompressed .nii files in some cases to reduce memory usage</p>
+</dd>
+<dt>omp_nthreads<span class="classifier">int</span></dt><dd><p>Maximum number of threads an individual process may use</p>
+</dd>
+<dt>output_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save derivatives</p>
+</dd>
+<dt>output_spaces<span class="classifier">OrderedDict</span></dt><dd><p>List of spatial normalization targets. Some parts of pipeline will
+only be instantiated for some output spaces. Valid spaces:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Any template identifier from TemplateFlow</p></li>
+<li><p>Path to a template folder organized following TemplateFlow’s
+conventions</p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt>run_uuid<span class="classifier">str</span></dt><dd><p>Unique identifier for execution instance</p>
+</dd>
+<dt>skull_strip_fixed_seed<span class="classifier">bool</span></dt><dd><p>Do not use a random seed for skull-stripping - will ensure
+run-to-run replicability when used with –omp-nthreads 1</p>
+</dd>
+<dt>skull_strip_template<span class="classifier">tuple</span></dt><dd><p>Name of ANTs skull-stripping template (‘OASIS30ANTs’ or ‘NKI’),
+and dictionary with template specifications (e.g., {‘res’: ‘2’})</p>
+</dd>
+<dt>subject_list<span class="classifier">list</span></dt><dd><p>List of subject labels</p>
+</dd>
+<dt>work_dir<span class="classifier">str</span></dt><dd><p>Directory in which to store workflow execution state and
+temporary files</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="smriprep.workflows.base.init_single_subject_wf">
+<code class="sig-prename descclassname">smriprep.workflows.base.</code><code class="sig-name descname">init_single_subject_wf</code><span class="sig-paren">(</span><em class="sig-param">debug</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">layout</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">low_mem</em>, <em class="sig-param">name</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">output_spaces</em>, <em class="sig-param">reportlets_dir</em>, <em class="sig-param">skull_strip_fixed_seed</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">subject_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/base.html#init_single_subject_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.base.init_single_subject_wf" title="Permalink to this definition">¶</a></dt>
+<dd><p>This workflow organizes the preprocessing pipeline for a single subject.
+It collects and reports information about the subject, and prepares
+sub-workflows to perform anatomical and functional preprocessing.</p>
+<p>Anatomical preprocessing is performed in a single workflow, regardless of
+the number of sessions.
+Functional preprocessing is performed using a separate workflow for each
+individual BOLD series.</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-base-2.png" src="../_images/smriprep-workflows-base-2.png" />
+</div>
+<p>(<a class="reference external" href="../api/smriprep-workflows-base-2.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-base-2.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-base-2.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-base-2.pdf">pdf</a>)</p>
+<p>Parameters</p>
+<blockquote>
+<div><dl>
+<dt>debug<span class="classifier">bool</span></dt><dd><p>Enable debugging outputs</p>
+</dd>
+<dt>freesurfer<span class="classifier">bool</span></dt><dd><p>Enable FreeSurfer surface reconstruction (may increase runtime)</p>
+</dd>
+<dt>hires<span class="classifier">bool</span></dt><dd><p>Enable sub-millimeter preprocessing in FreeSurfer</p>
+</dd>
+<dt>layout<span class="classifier">BIDSLayout object</span></dt><dd><p>BIDS dataset layout</p>
+</dd>
+<dt>longitudinal<span class="classifier">bool</span></dt><dd><p>Treat multiple sessions as longitudinal (may increase runtime)
+See sub-workflows for specific differences</p>
+</dd>
+<dt>low_mem<span class="classifier">bool</span></dt><dd><p>Write uncompressed .nii files in some cases to reduce memory usage</p>
+</dd>
+<dt>name<span class="classifier">str</span></dt><dd><p>Name of workflow</p>
+</dd>
+<dt>omp_nthreads<span class="classifier">int</span></dt><dd><p>Maximum number of threads an individual process may use</p>
+</dd>
+<dt>output_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save derivatives</p>
+</dd>
+<dt>output_spaces<span class="classifier">OrderedDict</span></dt><dd><p>List of spatial normalization targets. Some parts of pipeline will
+only be instantiated for some output spaces. Valid spaces:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Any template identifier from TemplateFlow</p></li>
+<li><p>Path to a template folder organized following TemplateFlow’s
+conventions</p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt>reportlets_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save reportlets</p>
+</dd>
+<dt>skull_strip_fixed_seed<span class="classifier">bool</span></dt><dd><p>Do not use a random seed for skull-stripping - will ensure
+run-to-run replicability when used with –omp-nthreads 1</p>
+</dd>
+<dt>skull_strip_template<span class="classifier">tuple</span></dt><dd><p>Name of ANTs skull-stripping template (e.g., ‘OASIS30ANTs’) and
+dictionary of template specifications.</p>
+</dd>
+<dt>subject_id<span class="classifier">str</span></dt><dd><p>List of subject labels</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Inputs</p>
+<blockquote>
+<div><dl class="simple">
+<dt>subjects_dir</dt><dd><p>FreeSurfer SUBJECTS_DIR</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="sig-prename descclassname">smriprep.workflows.base.</code><code class="sig-name descname">init_single_subject_wf</code><span class="sig-paren">(</span><em class="sig-param">debug</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">layout</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">low_mem</em>, <em class="sig-param">name</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">output_spaces</em>, <em class="sig-param">reportlets_dir</em>, <em class="sig-param">skull_strip_fixed_seed</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">subject_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/base.html#init_single_subject_wf"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>This workflow organizes the preprocessing pipeline for a single subject.
+It collects and reports information about the subject, and prepares
+sub-workflows to perform anatomical and functional preprocessing.</p>
+<p>Anatomical preprocessing is performed in a single workflow, regardless of
+the number of sessions.
+Functional preprocessing is performed using a separate workflow for each
+individual BOLD series.</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-base-3.png" src="../_images/smriprep-workflows-base-3.png" />
+</div>
+<p>(<a class="reference external" href="../api/smriprep-workflows-base-3.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-base-3.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-base-3.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-base-3.pdf">pdf</a>)</p>
+<p>Parameters</p>
+<blockquote>
+<div><dl>
+<dt>debug<span class="classifier">bool</span></dt><dd><p>Enable debugging outputs</p>
+</dd>
+<dt>freesurfer<span class="classifier">bool</span></dt><dd><p>Enable FreeSurfer surface reconstruction (may increase runtime)</p>
+</dd>
+<dt>hires<span class="classifier">bool</span></dt><dd><p>Enable sub-millimeter preprocessing in FreeSurfer</p>
+</dd>
+<dt>layout<span class="classifier">BIDSLayout object</span></dt><dd><p>BIDS dataset layout</p>
+</dd>
+<dt>longitudinal<span class="classifier">bool</span></dt><dd><p>Treat multiple sessions as longitudinal (may increase runtime)
+See sub-workflows for specific differences</p>
+</dd>
+<dt>low_mem<span class="classifier">bool</span></dt><dd><p>Write uncompressed .nii files in some cases to reduce memory usage</p>
+</dd>
+<dt>name<span class="classifier">str</span></dt><dd><p>Name of workflow</p>
+</dd>
+<dt>omp_nthreads<span class="classifier">int</span></dt><dd><p>Maximum number of threads an individual process may use</p>
+</dd>
+<dt>output_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save derivatives</p>
+</dd>
+<dt>output_spaces<span class="classifier">OrderedDict</span></dt><dd><p>List of spatial normalization targets. Some parts of pipeline will
+only be instantiated for some output spaces. Valid spaces:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Any template identifier from TemplateFlow</p></li>
+<li><p>Path to a template folder organized following TemplateFlow’s
+conventions</p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt>reportlets_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save reportlets</p>
+</dd>
+<dt>skull_strip_fixed_seed<span class="classifier">bool</span></dt><dd><p>Do not use a random seed for skull-stripping - will ensure
+run-to-run replicability when used with –omp-nthreads 1</p>
+</dd>
+<dt>skull_strip_template<span class="classifier">tuple</span></dt><dd><p>Name of ANTs skull-stripping template (e.g., ‘OASIS30ANTs’) and
+dictionary of template specifications.</p>
+</dd>
+<dt>subject_id<span class="classifier">str</span></dt><dd><p>List of subject labels</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Inputs</p>
+<blockquote>
+<div><dl class="simple">
+<dt>subjects_dir</dt><dd><p>FreeSurfer SUBJECTS_DIR</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="sig-prename descclassname">smriprep.workflows.base.</code><code class="sig-name descname">init_smriprep_wf</code><span class="sig-paren">(</span><em class="sig-param">debug</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">layout</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">low_mem</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">output_spaces</em>, <em class="sig-param">run_uuid</em>, <em class="sig-param">skull_strip_fixed_seed</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">subject_list</em>, <em class="sig-param">work_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/base.html#init_smriprep_wf"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>This workflow organizes the execution of sMRIPrep, with a sub-workflow for
+each subject.</p>
+<p>If FreeSurfer’s recon-all is to be run, a FreeSurfer derivatives folder is
+created and populated with any needed template subjects.</p>
+<p>(<a class="reference external" href="../api/smriprep-workflows-base-4.py">Source code</a>)</p>
+<p>Parameters</p>
+<blockquote>
+<div><dl>
+<dt>debug<span class="classifier">bool</span></dt><dd><p>Enable debugging outputs</p>
+</dd>
+<dt>freesurfer<span class="classifier">bool</span></dt><dd><p>Enable FreeSurfer surface reconstruction (may increase runtime)</p>
+</dd>
+<dt>hires<span class="classifier">bool</span></dt><dd><p>Enable sub-millimeter preprocessing in FreeSurfer</p>
+</dd>
+<dt>layout<span class="classifier">BIDSLayout object</span></dt><dd><p>BIDS dataset layout</p>
+</dd>
+<dt>longitudinal<span class="classifier">bool</span></dt><dd><p>Treat multiple sessions as longitudinal (may increase runtime)
+See sub-workflows for specific differences</p>
+</dd>
+<dt>low_mem<span class="classifier">bool</span></dt><dd><p>Write uncompressed .nii files in some cases to reduce memory usage</p>
+</dd>
+<dt>omp_nthreads<span class="classifier">int</span></dt><dd><p>Maximum number of threads an individual process may use</p>
+</dd>
+<dt>output_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save derivatives</p>
+</dd>
+<dt>output_spaces<span class="classifier">OrderedDict</span></dt><dd><p>List of spatial normalization targets. Some parts of pipeline will
+only be instantiated for some output spaces. Valid spaces:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Any template identifier from TemplateFlow</p></li>
+<li><p>Path to a template folder organized following TemplateFlow’s
+conventions</p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt>run_uuid<span class="classifier">str</span></dt><dd><p>Unique identifier for execution instance</p>
+</dd>
+<dt>skull_strip_fixed_seed<span class="classifier">bool</span></dt><dd><p>Do not use a random seed for skull-stripping - will ensure
+run-to-run replicability when used with –omp-nthreads 1</p>
+</dd>
+<dt>skull_strip_template<span class="classifier">tuple</span></dt><dd><p>Name of ANTs skull-stripping template (‘OASIS30ANTs’ or ‘NKI’),
+and dictionary with template specifications (e.g., {‘res’: ‘2’})</p>
+</dd>
+<dt>subject_list<span class="classifier">list</span></dt><dd><p>List of subject labels</p>
+</dd>
+<dt>work_dir<span class="classifier">str</span></dt><dd><p>Directory in which to store workflow execution state and
+temporary files</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3>Versions</h3>
+<ul>
+    <li><a href="../../ci_doc_deploy/index.html">ci_doc_deploy</a></li>
+    <li><a href="../../doc_test/api/smriprep.workflows.base.html">doc_test</a></li>
+    <li><a href="../../doc_test_1/api/smriprep.workflows.base.html">doc_test_1</a></li>
+    <li><a href="smriprep.workflows.base.html">doc_test_2</a></li>
+</ul>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, The SMRIPrep Developers.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/smriprep.workflows.base.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

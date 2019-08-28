@@ -71,11 +71,11 @@
 <span class="s2">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="SummaryOutputSpec"><a class="viewcode-back" href="../../../api/smriprep.interfaces.reports.html#smriprep.interfaces.reports.SummaryOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">SummaryOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+<div class="viewcode-block" id="SummaryOutputSpec"><a class="viewcode-back" href="../../../_sources/smriprep.interfaces.html#smriprep.interfaces.reports.SummaryOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">SummaryOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
     <span class="n">out_report</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;HTML segment containing summary&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SummaryInterface"><a class="viewcode-back" href="../../../api/smriprep.interfaces.reports.html#smriprep.interfaces.reports.SummaryInterface">[docs]</a><span class="k">class</span> <span class="nc">SummaryInterface</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+<div class="viewcode-block" id="SummaryInterface"><a class="viewcode-back" href="../../../_sources/smriprep.interfaces.html#smriprep.interfaces.reports.SummaryInterface">[docs]</a><span class="k">class</span> <span class="nc">SummaryInterface</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">SummaryOutputSpec</span>
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
@@ -89,7 +89,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
-<div class="viewcode-block" id="SubjectSummaryInputSpec"><a class="viewcode-back" href="../../../api/smriprep.interfaces.reports.html#smriprep.interfaces.reports.SubjectSummaryInputSpec">[docs]</a><span class="k">class</span> <span class="nc">SubjectSummaryInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+<div class="viewcode-block" id="SubjectSummaryInputSpec"><a class="viewcode-back" href="../../../_sources/smriprep.interfaces.html#smriprep.interfaces.reports.SubjectSummaryInputSpec">[docs]</a><span class="k">class</span> <span class="nc">SubjectSummaryInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="n">t1w</span> <span class="o">=</span> <span class="n">InputMultiObject</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;T1w structural images&#39;</span><span class="p">)</span>
     <span class="n">t2w</span> <span class="o">=</span> <span class="n">InputMultiObject</span><span class="p">(</span><span class="n">File</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;T2w structural images&#39;</span><span class="p">)</span>
     <span class="n">subjects_dir</span> <span class="o">=</span> <span class="n">Directory</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;FreeSurfer subjects directory&#39;</span><span class="p">)</span>
@@ -97,13 +97,13 @@
     <span class="n">output_spaces</span> <span class="o">=</span> <span class="n">InputMultiObject</span><span class="p">(</span><span class="n">Str</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;list of standard spaces&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SubjectSummaryOutputSpec"><a class="viewcode-back" href="../../../api/smriprep.interfaces.reports.html#smriprep.interfaces.reports.SubjectSummaryOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">SubjectSummaryOutputSpec</span><span class="p">(</span><span class="n">SummaryOutputSpec</span><span class="p">):</span>
+<div class="viewcode-block" id="SubjectSummaryOutputSpec"><a class="viewcode-back" href="../../../_sources/smriprep.interfaces.html#smriprep.interfaces.reports.SubjectSummaryOutputSpec">[docs]</a><span class="k">class</span> <span class="nc">SubjectSummaryOutputSpec</span><span class="p">(</span><span class="n">SummaryOutputSpec</span><span class="p">):</span>
     <span class="c1"># This exists to ensure that the summary is run prior to the first ReconAll</span>
     <span class="c1"># call, allowing a determination whether there is a pre-existing directory</span>
     <span class="n">subject_id</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;FreeSurfer subject ID&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SubjectSummary"><a class="viewcode-back" href="../../../api/smriprep.interfaces.reports.html#smriprep.interfaces.reports.SubjectSummary">[docs]</a><span class="k">class</span> <span class="nc">SubjectSummary</span><span class="p">(</span><span class="n">SummaryInterface</span><span class="p">):</span>
+<div class="viewcode-block" id="SubjectSummary"><a class="viewcode-back" href="../../../_sources/smriprep.interfaces.html#smriprep.interfaces.reports.SubjectSummary">[docs]</a><span class="k">class</span> <span class="nc">SubjectSummary</span><span class="p">(</span><span class="n">SummaryInterface</span><span class="p">):</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">SubjectSummaryInputSpec</span>
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">SubjectSummaryOutputSpec</span>
 
@@ -136,13 +136,13 @@
                                        <span class="n">freesurfer_status</span><span class="o">=</span><span class="n">freesurfer_status</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="AboutSummaryInputSpec"><a class="viewcode-back" href="../../../api/smriprep.interfaces.reports.html#smriprep.interfaces.reports.AboutSummaryInputSpec">[docs]</a><span class="k">class</span> <span class="nc">AboutSummaryInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+<div class="viewcode-block" id="AboutSummaryInputSpec"><a class="viewcode-back" href="../../../_sources/smriprep.interfaces.html#smriprep.interfaces.reports.AboutSummaryInputSpec">[docs]</a><span class="k">class</span> <span class="nc">AboutSummaryInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
     <span class="n">version</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;sMRIPrep version&#39;</span><span class="p">)</span>
     <span class="n">command</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;sMRIPrep command&#39;</span><span class="p">)</span></div>
     <span class="c1"># Date not included - update timestamp only if version or command changes</span>
 
 
-<div class="viewcode-block" id="AboutSummary"><a class="viewcode-back" href="../../../api/smriprep.interfaces.reports.html#smriprep.interfaces.reports.AboutSummary">[docs]</a><span class="k">class</span> <span class="nc">AboutSummary</span><span class="p">(</span><span class="n">SummaryInterface</span><span class="p">):</span>
+<div class="viewcode-block" id="AboutSummary"><a class="viewcode-back" href="../../../_sources/smriprep.interfaces.html#smriprep.interfaces.reports.AboutSummary">[docs]</a><span class="k">class</span> <span class="nc">AboutSummary</span><span class="p">(</span><span class="n">SummaryInterface</span><span class="p">):</span>
     <span class="n">input_spec</span> <span class="o">=</span> <span class="n">AboutSummaryInputSpec</span>
 
     <span class="k">def</span> <span class="nf">_generate_segment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -162,13 +162,14 @@
     <li><a href="../../../ci_doc_deploy/_modules/smriprep/interfaces/reports.html">ci_doc_deploy</a></li>
     <li><a href="../../../doc_test/index.html">doc_test</a></li>
     <li><a href="../../../doc_test_1/index.html">doc_test_1</a></li>
+    <li><a href="../../../doc_test_2/index.html">doc_test_2</a></li>
 </ul>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2019, The SMRIPrep Developers.
+      &copy;20199, The sMRIPrep Developers.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
