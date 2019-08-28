@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>smriprep.cli.run module &#8212; sMRIPrep version documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/banner.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="smriprep.cli.utils module" href="smriprep.cli.utils.html" />
+    <link rel="prev" title="smriprep.cli package" href="smriprep.cli.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-smriprep.cli.run">
+<span id="smriprep-cli-run-module"></span><h1>smriprep.cli.run module<a class="headerlink" href="#module-smriprep.cli.run" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="smriprep-structural-mri-preprocessing-workflow">
+<h2>sMRIPrep: Structural MRI PREProcessing workflow<a class="headerlink" href="#smriprep-structural-mri-preprocessing-workflow" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="smriprep.cli.run.build_opts">
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_opts</code><span class="sig-paren">(</span><em class="sig-param">opts</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/cli/run.html#build_opts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.build_opts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entry point</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="smriprep.cli.run.build_workflow">
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_workflow</code><span class="sig-paren">(</span><em class="sig-param">opts</em>, <em class="sig-param">retval</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/cli/run.html#build_workflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.build_workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the Nipype Workflow that supports the whole execution
+graph, given the inputs.
+All the checks and the construction of the workflow are done
+inside this function that has pickleable inputs and output
+dictionary (<code class="docutils literal notranslate"><span class="pre">retval</span></code>) to allow isolation using a
+<code class="docutils literal notranslate"><span class="pre">multiprocessing.Process</span></code> that allows smriprep to enforce
+a hard-limited memory-scope.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="smriprep.cli.run.check_deps">
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">check_deps</code><span class="sig-paren">(</span><em class="sig-param">workflow</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/cli/run.html#check_deps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.check_deps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="smriprep.cli.run.get_parser">
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">get_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/cli/run.html#get_parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.get_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build parser object</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="smriprep.cli.run.main">
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/cli/run.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entrypoint</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3>Versions</h3>
+<ul>
+    <li><a href="../../ci_doc_deploy/api/smriprep.cli.run.html">ci_doc_deploy</a></li>
+    <li><a href="../../doc_test/api/smriprep.cli.run.html">doc_test</a></li>
+    <li><a href="smriprep.cli.run.html">doc_test_1</a></li>
+</ul>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, The SMRIPrep Developers.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/smriprep.cli.run.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
