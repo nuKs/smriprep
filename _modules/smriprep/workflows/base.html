@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>smriprep.workflows.base &#8212; sMRIPrep version documentation</title>
+    <title>smriprep.workflows.base &#8212; smriprep version documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/banner.css" />
@@ -66,7 +66,7 @@
 <span class="kn">from</span> <span class="nn">.anatomical</span> <span class="k">import</span> <span class="n">init_anat_preproc_wf</span>
 
 
-<div class="viewcode-block" id="init_smriprep_wf"><a class="viewcode-back" href="../../../_sources/smriprep.workflows.html#smriprep.workflows.base.init_smriprep_wf">[docs]</a><span class="k">def</span> <span class="nf">init_smriprep_wf</span><span class="p">(</span>
+<div class="viewcode-block" id="init_smriprep_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.base.html#smriprep.workflows.base.init_smriprep_wf">[docs]</a><span class="k">def</span> <span class="nf">init_smriprep_wf</span><span class="p">(</span>
     <span class="n">debug</span><span class="p">,</span>
     <span class="n">freesurfer</span><span class="p">,</span>
     <span class="n">hires</span><span class="p">,</span>
@@ -95,7 +95,7 @@
 
 <span class="sd">        import os</span>
 <span class="sd">        from collections import OrderedDict</span>
-<span class="sd">        from pybids import BIDSLayout</span>
+<span class="sd">        from bids import BIDSLayout</span>
 <span class="sd">        os.environ[&#39;FREESURFER_HOME&#39;] = os.getcwd()</span>
 <span class="sd">        from smriprep.workflows.base import init_smriprep_wf</span>
 <span class="sd">        wf = init_smriprep_wf(</span>
@@ -201,7 +201,7 @@
     <span class="k">return</span> <span class="n">smriprep_wf</span></div>
 
 
-<div class="viewcode-block" id="init_single_subject_wf"><a class="viewcode-back" href="../../../_sources/smriprep.workflows.html#smriprep.workflows.base.init_single_subject_wf">[docs]</a><span class="k">def</span> <span class="nf">init_single_subject_wf</span><span class="p">(</span>
+<div class="viewcode-block" id="init_single_subject_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.base.html#smriprep.workflows.base.init_single_subject_wf">[docs]</a><span class="k">def</span> <span class="nf">init_single_subject_wf</span><span class="p">(</span>
     <span class="n">debug</span><span class="p">,</span>
     <span class="n">freesurfer</span><span class="p">,</span>
     <span class="n">hires</span><span class="p">,</span>
@@ -419,7 +419,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;20199, The sMRIPrep Developers.
+      &copy;2019, The sMRIPrep Developers.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>

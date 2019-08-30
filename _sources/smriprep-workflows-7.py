@@ -1,6 +1,6 @@
 import os
 from collections import OrderedDict
-from pybids import BIDSLayout
+from bids import BIDSLayout
 os.environ['FREESURFER_HOME'] = os.getcwd()
 from smriprep.workflows.base import init_smriprep_wf
 wf = init_smriprep_wf(

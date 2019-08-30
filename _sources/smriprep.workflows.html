@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>smriprep.workflows package &#8212; sMRIPrep version documentation</title>
+    <title>smriprep.workflows package &#8212; smriprep version documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/banner.css" />
@@ -155,7 +155,7 @@ subject space to T1w</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">init_brain_extraction_wf()</span></code></p></li>
-<li><p><a class="reference internal" href="#smriprep.workflows.surfaces.init_surface_recon_wf" title="smriprep.workflows.surfaces.init_surface_recon_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_surface_recon_wf()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_surface_recon_wf" title="smriprep.workflows.surfaces.init_surface_recon_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_surface_recon_wf()</span></code></a></p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
@@ -276,7 +276,7 @@ subject space to T1w</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">init_brain_extraction_wf()</span></code></p></li>
-<li><p><a class="reference internal" href="#smriprep.workflows.surfaces.init_surface_recon_wf" title="smriprep.workflows.surfaces.init_surface_recon_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_surface_recon_wf()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_surface_recon_wf" title="smriprep.workflows.surfaces.init_surface_recon_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_surface_recon_wf()</span></code></a></p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
@@ -337,7 +337,10 @@ T1w images</p>
 each subject.</p>
 <p>If FreeSurfer’s recon-all is to be run, a FreeSurfer derivatives folder is
 created and populated with any needed template subjects.</p>
-<p>(<a class="reference external" href="../_sources/smriprep-workflows-4.py">Source code</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-4.png" src="../_images/smriprep-workflows-4.png" />
+</div>
+<p>(<a class="reference external" href="../_sources/smriprep-workflows-4.py">Source code</a>, <a class="reference external" href="../_sources/smriprep-workflows-4.png">png</a>, <a class="reference external" href="../_sources/smriprep-workflows-4.svg">svg</a>, <a class="reference external" href="../_sources/smriprep-workflows-4.pdf">pdf</a>)</p>
 <p>Parameters</p>
 <blockquote>
 <div><dl>
@@ -526,7 +529,10 @@ dictionary of template specifications.</p>
 each subject.</p>
 <p>If FreeSurfer’s recon-all is to be run, a FreeSurfer derivatives folder is
 created and populated with any needed template subjects.</p>
-<p>(<a class="reference external" href="../_sources/smriprep-workflows-7.py">Source code</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/smriprep-workflows-7.png" src="../_images/smriprep-workflows-7.png" />
+</div>
+<p>(<a class="reference external" href="../_sources/smriprep-workflows-7.py">Source code</a>, <a class="reference external" href="../_sources/smriprep-workflows-7.png">png</a>, <a class="reference external" href="../_sources/smriprep-workflows-7.svg">svg</a>, <a class="reference external" href="../_sources/smriprep-workflows-7.pdf">pdf</a>)</p>
 <p>Parameters</p>
 <blockquote>
 <div><dl>
@@ -805,7 +811,7 @@ and test the likelihood of the pixel to belong in the GM distribution.</p></li>
 <a class="reference external" href="https://github.com/nipy/mindboggle/blob/7f91faaa7664d820fe12ccc52ebaf21d679795e2/mindboggle/guts/segment.py#L1660">https://github.com/nipy/mindboggle/blob/7f91faaa7664d820fe12ccc52ebaf21d679795e2/mindboggle/guts/segment.py#L1660</a></p>
 <p>The final phase resumes reconstruction, using the T2w image to assist
 in finding the pial surface, if available.
-See <a class="reference internal" href="#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="smriprep.workflows.surfaces.init_autorecon_resume_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_autorecon_resume_wf()</span></code></a> for details.</p>
+See <a class="reference internal" href="../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="smriprep.workflows.surfaces.init_autorecon_resume_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_autorecon_resume_wf()</span></code></a> for details.</p>
 <p>Memory annotations for FreeSurfer are based off <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/SystemRequirements">their documentation</a>.
 They specify an allocation of 4GB per subject. Here we define 5GB
 to have a certain margin.</p>
@@ -870,8 +876,8 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <p><strong>Subworkflows</strong></p>
 <blockquote>
 <div><ul class="simple">
-<li><p><a class="reference internal" href="#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="smriprep.workflows.surfaces.init_autorecon_resume_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_autorecon_resume_wf()</span></code></a></p></li>
-<li><p><a class="reference internal" href="#smriprep.workflows.surfaces.init_gifti_surface_wf" title="smriprep.workflows.surfaces.init_gifti_surface_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_gifti_surface_wf()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="smriprep.workflows.surfaces.init_autorecon_resume_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_autorecon_resume_wf()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_gifti_surface_wf" title="smriprep.workflows.surfaces.init_gifti_surface_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_gifti_surface_wf()</span></code></a></p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
@@ -1150,7 +1156,7 @@ and test the likelihood of the pixel to belong in the GM distribution.</p></li>
 <a class="reference external" href="https://github.com/nipy/mindboggle/blob/7f91faaa7664d820fe12ccc52ebaf21d679795e2/mindboggle/guts/segment.py#L1660">https://github.com/nipy/mindboggle/blob/7f91faaa7664d820fe12ccc52ebaf21d679795e2/mindboggle/guts/segment.py#L1660</a></p>
 <p>The final phase resumes reconstruction, using the T2w image to assist
 in finding the pial surface, if available.
-See <a class="reference internal" href="#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="smriprep.workflows.surfaces.init_autorecon_resume_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_autorecon_resume_wf()</span></code></a> for details.</p>
+See <a class="reference internal" href="../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="smriprep.workflows.surfaces.init_autorecon_resume_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_autorecon_resume_wf()</span></code></a> for details.</p>
 <p>Memory annotations for FreeSurfer are based off <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/SystemRequirements">their documentation</a>.
 They specify an allocation of 4GB per subject. Here we define 5GB
 to have a certain margin.</p>
@@ -1215,8 +1221,8 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <p><strong>Subworkflows</strong></p>
 <blockquote>
 <div><ul class="simple">
-<li><p><a class="reference internal" href="#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="smriprep.workflows.surfaces.init_autorecon_resume_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_autorecon_resume_wf()</span></code></a></p></li>
-<li><p><a class="reference internal" href="#smriprep.workflows.surfaces.init_gifti_surface_wf" title="smriprep.workflows.surfaces.init_gifti_surface_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_gifti_surface_wf()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="smriprep.workflows.surfaces.init_autorecon_resume_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_autorecon_resume_wf()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_gifti_surface_wf" title="smriprep.workflows.surfaces.init_gifti_surface_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_gifti_surface_wf()</span></code></a></p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
@@ -1341,7 +1347,7 @@ subject space to T1w</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">init_brain_extraction_wf()</span></code></p></li>
-<li><p><a class="reference internal" href="#smriprep.workflows.surfaces.init_surface_recon_wf" title="smriprep.workflows.surfaces.init_surface_recon_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_surface_recon_wf()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_surface_recon_wf" title="smriprep.workflows.surfaces.init_surface_recon_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_surface_recon_wf()</span></code></a></p></li>
 </ul>
 </div></blockquote>
 </dd></dl>
@@ -1368,7 +1374,7 @@ subject space to T1w</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;20199, The sMRIPrep Developers.
+      &copy;2019, The sMRIPrep Developers.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>

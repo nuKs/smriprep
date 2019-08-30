@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>smriprep.workflows.anatomical &#8212; sMRIPrep version documentation</title>
+    <title>smriprep.workflows.anatomical &#8212; smriprep version documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/banner.css" />
@@ -69,7 +69,7 @@
 
 
 <span class="c1"># pylint: disable=R0914</span>
-<div class="viewcode-block" id="init_anat_preproc_wf"><a class="viewcode-back" href="../../../_sources/smriprep.workflows.html#smriprep.workflows.anatomical.init_anat_preproc_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_preproc_wf</span><span class="p">(</span>
+<div class="viewcode-block" id="init_anat_preproc_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.anatomical.html#smriprep.workflows.anatomical.init_anat_preproc_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_preproc_wf</span><span class="p">(</span>
         <span class="n">bids_root</span><span class="p">,</span> <span class="n">freesurfer</span><span class="p">,</span> <span class="n">hires</span><span class="p">,</span> <span class="n">longitudinal</span><span class="p">,</span> <span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span>
         <span class="n">output_spaces</span><span class="p">,</span> <span class="n">num_t1w</span><span class="p">,</span> <span class="n">reportlets_dir</span><span class="p">,</span> <span class="n">skull_strip_template</span><span class="p">,</span>
         <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_preproc_wf&#39;</span><span class="p">,</span> <span class="n">skull_strip_fixed_seed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -421,7 +421,7 @@
     <span class="k">return</span> <span class="n">workflow</span></div>
 
 
-<div class="viewcode-block" id="init_anat_template_wf"><a class="viewcode-back" href="../../../_sources/smriprep.workflows.html#smriprep.workflows.anatomical.init_anat_template_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_template_wf</span><span class="p">(</span><span class="n">longitudinal</span><span class="p">,</span> <span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">num_t1w</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_template_wf&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="init_anat_template_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.anatomical.html#smriprep.workflows.anatomical.init_anat_template_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_template_wf</span><span class="p">(</span><span class="n">longitudinal</span><span class="p">,</span> <span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">num_t1w</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_template_wf&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This workflow generates a canonically oriented structural template from</span>
 <span class="sd">    input T1w images.</span>
@@ -588,7 +588,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;20199, The sMRIPrep Developers.
+      &copy;2019, The sMRIPrep Developers.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
