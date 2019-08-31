@@ -1,17 +1,14 @@
 smriprep.interfaces package
 ===========================
 
+.. automodule:: smriprep.interfaces
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
 .. toctree::
 
    smriprep.interfaces.reports
-
-Module contents
----------------
-
-.. automodule:: smriprep.interfaces
-   :members:
-   :undoc-members:
-   :show-inheritance:

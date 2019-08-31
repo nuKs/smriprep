@@ -1,22 +1,20 @@
-import os
 from collections import OrderedDict
+from smriprep.workflows.base import init_single_subject_wf
 from bids import BIDSLayout
-os.environ['FREESURFER_HOME'] = os.getcwd()
-from smriprep.workflows.base import init_smriprep_wf
-wf = init_smriprep_wf(
+wf = init_single_subject_wf(
     debug=False,
     freesurfer=True,
     hires=True,
     layout=BIDSLayout('.', validate=False),
     longitudinal=False,
     low_mem=False,
+    name='single_subject_wf',
     omp_nthreads=1,
     output_dir='.',
     output_spaces=OrderedDict([('MNI152NLin2009cAsym', {}),
                                ('fsaverage5', {})]),
-    run_uuid='testrun',
+    reportlets_dir='.',
     skull_strip_fixed_seed=False,
     skull_strip_template=('OASIS30ANTs', {}),
-    subject_list=['smripreptest'],
-    work_dir='.',
+    subject_id='test',
 )

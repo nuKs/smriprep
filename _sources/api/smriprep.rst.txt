@@ -1,6 +1,11 @@
 smriprep package
 ================
 
+.. automodule:: smriprep
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -10,11 +15,3 @@ Subpackages
    smriprep.interfaces
    smriprep.utils
    smriprep.workflows
-
-Module contents
----------------
-
-.. automodule:: smriprep
-   :members:
-   :undoc-members:
-   :show-inheritance:
