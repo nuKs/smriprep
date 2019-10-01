@@ -1,11 +1,11 @@
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 from smriprep.workflows.base import init_single_subject_wf
-from bids import BIDSLayout
+BIDSLayout = namedtuple('BIDSLayout', ['root'])
 wf = init_single_subject_wf(
     debug=False,
     freesurfer=True,
     hires=True,
-    layout=BIDSLayout('.', validate=False),
+    layout=BIDSLayout('.'),
     longitudinal=False,
     low_mem=False,
     name='single_subject_wf',

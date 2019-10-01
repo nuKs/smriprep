@@ -3,13 +3,10 @@ strict digraph  {
 "autorecon3 (freesurfer)";
 "autorecon2_vol (freesurfer)";
 "outputnode (utility)";
-"recon_report (segmentation)";
 "autorecon_surfs (freesurfer)";
 "inputnode (utility)" -> "autorecon3 (freesurfer)";
 "inputnode (utility)" -> "autorecon2_vol (freesurfer)";
 "autorecon3 (freesurfer)" -> "outputnode (utility)";
-"autorecon3 (freesurfer)" -> "recon_report (segmentation)";
 "autorecon2_vol (freesurfer)" -> "autorecon_surfs (freesurfer)";
-"recon_report (segmentation)" -> "outputnode (utility)";
 "autorecon_surfs (freesurfer)" -> "autorecon3 (freesurfer)";
 }

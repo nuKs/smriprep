@@ -4,19 +4,15 @@ autorecon_resume_wfinputnode [label="{IN}|{ inputnode | utility |  }|{OUT|<outsu
 autorecon_resume_wfautorecon2_vol [label="{IN|<insubjectid> subject_id|<insubjectsdir> subjects_dir}|{ autorecon2_vol | freesurfer |  }|{OUT|<outsubjectid> subject_id|<outsubjectsdir> subjects_dir}"];
 autorecon_resume_wfautorecon_surfs [label="{IN|<insubjectid> subject_id|<insubjectsdir> subjects_dir}|{ autorecon_surfs | freesurfer |  }|{OUT|<outsubjectid> subject_id|<outsubjectsdir> subjects_dir}"];
 autorecon_resume_wfautorecon3 [label="{IN|<insubjectid> subject_id|<insubjectsdir> subjects_dir|<inuseFLAIR> use_FLAIR|<inuseT2> use_T2}|{ autorecon3 | freesurfer |  }|{OUT|<outsubjectid> subject_id|<outsubjectsdir> subjects_dir}"];
-autorecon_resume_wfrecon_report [label="{IN|<insubjectid> subject_id|<insubjectsdir> subjects_dir}|{ recon_report | segmentation |  }|{OUT|<outoutreport> out_report}"];
-autorecon_resume_wfoutputnode [label="{IN|<inoutreport> out_report|<insubjectid> subject_id|<insubjectsdir> subjects_dir}|{ outputnode | utility |  }|{OUT}"];
+autorecon_resume_wfoutputnode [label="{IN|<insubjectid> subject_id|<insubjectsdir> subjects_dir}|{ outputnode | utility |  }|{OUT}"];
 autorecon_resume_wfautorecon2_vol:outsubjectid:e -> autorecon_resume_wfautorecon_surfs:insubjectid:w;
 autorecon_resume_wfautorecon2_vol:outsubjectsdir:e -> autorecon_resume_wfautorecon_surfs:insubjectsdir:w;
 autorecon_resume_wfautorecon3:outsubjectid:e -> autorecon_resume_wfoutputnode:insubjectid:w;
-autorecon_resume_wfautorecon3:outsubjectid:e -> autorecon_resume_wfrecon_report:insubjectid:w;
 autorecon_resume_wfautorecon3:outsubjectsdir:e -> autorecon_resume_wfoutputnode:insubjectsdir:w;
-autorecon_resume_wfautorecon3:outsubjectsdir:e -> autorecon_resume_wfrecon_report:insubjectsdir:w;
 autorecon_resume_wfautorecon_surfs:outsubjectid:e -> autorecon_resume_wfautorecon3:insubjectid:w;
 autorecon_resume_wfautorecon_surfs:outsubjectsdir:e -> autorecon_resume_wfautorecon3:insubjectsdir:w;
 autorecon_resume_wfinputnode:outsubjectid:e -> autorecon_resume_wfautorecon2_vol:insubjectid:w;
 autorecon_resume_wfinputnode:outsubjectsdir:e -> autorecon_resume_wfautorecon2_vol:insubjectsdir:w;
 autorecon_resume_wfinputnode:outuseFLAIR:e -> autorecon_resume_wfautorecon3:inuseFLAIR:w;
 autorecon_resume_wfinputnode:outuseT2:e -> autorecon_resume_wfautorecon3:inuseT2:w;
-autorecon_resume_wfrecon_report:outoutreport:e -> autorecon_resume_wfoutputnode:inoutreport:w;
 }

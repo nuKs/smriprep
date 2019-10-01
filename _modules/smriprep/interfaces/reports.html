@@ -32,16 +32,9 @@
           <div class="body" role="main">
             
   <h1>Source code for smriprep.interfaces.reports</h1><div class="highlight"><pre>
-<span></span><span class="ch">#!/usr/bin/env python</span>
-<span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
+<span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Interfaces to generate reportlets</span>
-<span class="sd">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
-
-
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Interfaces to generate reportlets.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -51,6 +44,10 @@
     <span class="n">File</span><span class="p">,</span> <span class="n">Directory</span><span class="p">,</span> <span class="n">InputMultiObject</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">isdefined</span><span class="p">,</span>
     <span class="n">SimpleInterface</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="k">import</span> <span class="n">freesurfer</span> <span class="k">as</span> <span class="n">fs</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.io</span> <span class="k">import</span> <span class="n">FSSourceInputSpec</span> <span class="k">as</span> <span class="n">_FSSourceInputSpec</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.mixins</span> <span class="k">import</span> <span class="n">reporting</span>
+
+<span class="kn">from</span> <span class="nn">niworkflows.interfaces.report_base</span> <span class="k">import</span> <span class="n">SVGReportCapableInputSpec</span>
 
 
 <span class="n">SUBJECT_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
@@ -149,6 +146,49 @@
         <span class="k">return</span> <span class="n">ABOUT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
                                      <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">command</span><span class="p">,</span>
                                      <span class="n">date</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S %z&quot;</span><span class="p">))</span></div>
+
+
+<span class="k">class</span> <span class="nc">_FSSurfaceReportInputSpec</span><span class="p">(</span><span class="n">SVGReportCapableInputSpec</span><span class="p">,</span> <span class="n">_FSSourceInputSpec</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">_FSSurfaceReportOutputSpec</span><span class="p">(</span><span class="n">reporting</span><span class="o">.</span><span class="n">ReportCapableOutputSpec</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="FSSurfaceReport"><a class="viewcode-back" href="../../../api/smriprep.interfaces.reports.html#smriprep.interfaces.reports.FSSurfaceReport">[docs]</a><span class="k">class</span> <span class="nc">FSSurfaceReport</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Replaces ``ReconAllRPT``, without need of calling recon-all.&quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_FSSurfaceReportInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_FSSurfaceReportOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">niworkflows.viz.utils</span> <span class="k">import</span> <span class="n">plot_registration</span><span class="p">,</span> <span class="n">cuts_from_bbox</span><span class="p">,</span> <span class="n">compose_view</span>
+        <span class="kn">from</span> <span class="nn">nilearn.image</span> <span class="k">import</span> <span class="n">load_img</span>
+
+        <span class="n">rootdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">subjects_dir</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">subject_id</span>
+        <span class="n">_anat_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">rootdir</span> <span class="o">/</span> <span class="s1">&#39;mri&#39;</span> <span class="o">/</span> <span class="s1">&#39;brain.mgz&#39;</span><span class="p">)</span>
+        <span class="n">_contour_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">rootdir</span> <span class="o">/</span> <span class="s1">&#39;mri&#39;</span> <span class="o">/</span> <span class="s1">&#39;ribbon.mgz&#39;</span><span class="p">)</span>
+
+        <span class="n">anat</span> <span class="o">=</span> <span class="n">load_img</span><span class="p">(</span><span class="n">_anat_file</span><span class="p">)</span>
+        <span class="n">contour_nii</span> <span class="o">=</span> <span class="n">load_img</span><span class="p">(</span><span class="n">_contour_file</span><span class="p">)</span>
+
+        <span class="n">n_cuts</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="n">cuts</span> <span class="o">=</span> <span class="n">cuts_from_bbox</span><span class="p">(</span><span class="n">contour_nii</span><span class="p">,</span> <span class="n">cuts</span><span class="o">=</span><span class="n">n_cuts</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s1">&#39;out_report&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">runtime</span><span class="o">.</span><span class="n">cwd</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">out_report</span><span class="p">)</span>
+
+        <span class="c1"># Call composer</span>
+        <span class="n">compose_view</span><span class="p">(</span>
+            <span class="n">plot_registration</span><span class="p">(</span><span class="n">anat</span><span class="p">,</span> <span class="s1">&#39;fixed-image&#39;</span><span class="p">,</span>
+                              <span class="n">estimate_brightness</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">cuts</span><span class="o">=</span><span class="n">cuts</span><span class="p">,</span>
+                              <span class="n">contour</span><span class="o">=</span><span class="n">contour_nii</span><span class="p">,</span>
+                              <span class="n">compress</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">compress_report</span><span class="p">),</span>
+            <span class="p">[],</span>
+            <span class="n">out_file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s1">&#39;out_report&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
 </pre></div>
 
           </div>
@@ -163,6 +203,8 @@
     <li><a href="../../../doc_test/index.html">doc_test</a></li>
     <li><a href="../../../doc_test_1/index.html">doc_test_1</a></li>
     <li><a href="../../../doc_test_2/index.html">doc_test_2</a></li>
+    <li><a href="../../../doc_test_3/index.html">doc_test_3</a></li>
+    <li><a href="../../../doc_test_4/index.html">doc_test_4</a></li>
 </ul>
         </div>
       </div>

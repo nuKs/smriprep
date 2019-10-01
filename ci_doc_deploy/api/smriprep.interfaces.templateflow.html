@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>smriprep.interfaces.templateflow module &#8212; smriprep version documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/banner.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="smriprep.utils package" href="smriprep.utils.html" />
+    <link rel="prev" title="smriprep.interfaces.reports module" href="smriprep.interfaces.reports.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-smriprep.interfaces.templateflow">
+<span id="smriprep-interfaces-templateflow-module"></span><h1>smriprep.interfaces.templateflow module<a class="headerlink" href="#module-smriprep.interfaces.templateflow" title="Permalink to this headline">¶</a></h1>
+<p>Interfaces to get templates from TemplateFlow.</p>
+<dl class="class">
+<dt id="smriprep.interfaces.templateflow.TemplateFlowSelect">
+<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.templateflow.</code><code class="sig-name descname">TemplateFlowSelect</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/interfaces/templateflow.html#TemplateFlowSelect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateFlowSelect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
+<p>Select TemplateFlow elements.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;MNI152NLin2009cAsym&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">t1w_file</span>  
+<span class="go">&#39;.../tpl-MNI152NLin2009cAsym_res-01_T1w.nii.gz&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">brain_mask</span>  
+<span class="go">&#39;.../tpl-MNI152NLin2009cAsym_res-01_desc-brain_mask.nii.gz&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;MNIPediatricAsym&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_spec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cohort&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">t1w_file</span>  
+<span class="go">&#39;.../tpl-MNIPediatricAsym_cohort-5_res-1_T1w.nii.gz&#39;</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="smriprep.interfaces.templateflow.TemplateFlowSelect.input_spec">
+<code class="sig-name descname">input_spec</code><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateFlowSelect.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_TemplateFlowSelectInputSpec</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="smriprep.interfaces.templateflow.TemplateFlowSelect.output_spec">
+<code class="sig-name descname">output_spec</code><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateFlowSelect.output_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_TemplateFlowSelectOutputSpec</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3>Versions</h3>
+<ul>
+    <li><a href="smriprep.interfaces.templateflow.html">ci_doc_deploy</a></li>
+    <li><a href="../../doc_test/index.html">doc_test</a></li>
+    <li><a href="../../doc_test_1/index.html">doc_test_1</a></li>
+    <li><a href="../../doc_test_2/index.html">doc_test_2</a></li>
+    <li><a href="../../doc_test_3/index.html">doc_test_3</a></li>
+    <li><a href="../../doc_test_4/index.html">doc_test_4</a></li>
+</ul>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, The sMRIPrep Developers.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/smriprep.interfaces.templateflow.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

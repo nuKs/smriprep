@@ -12,22 +12,22 @@
 <!-- gifti_surface_wfinputnode -->
 <g id="node1" class="node">
 <title>gifti_surface_wfinputnode</title>
-<polygon fill="none" stroke="#000000" points="245.8392,-857.5 245.8392,-949.5 622.8392,-949.5 622.8392,-857.5 245.8392,-857.5"/>
-<text text-anchor="middle" x="263.3392" y="-899.8" font-family="Times,serif" font-size="14.00" fill="#000000">IN</text>
-<polyline fill="none" stroke="#000000" points="280.8392,-857.5 280.8392,-949.5 "/>
-<text text-anchor="middle" x="325.3392" y="-930.8" font-family="Times,serif" font-size="14.00" fill="#000000">inputnode</text>
-<polyline fill="none" stroke="#000000" points="280.8392,-919.5 369.8392,-919.5 "/>
-<text text-anchor="middle" x="325.3392" y="-900.3" font-family="Times,serif" font-size="14.00" fill="#000000">utility</text>
-<polyline fill="none" stroke="#000000" points="280.8392,-888.5 369.8392,-888.5 "/>
-<text text-anchor="middle" x="325.3392" y="-869.3" font-family="Times,serif" font-size="14.00" fill="#000000"> </text>
-<polyline fill="none" stroke="#000000" points="369.8392,-857.5 369.8392,-949.5 "/>
-<text text-anchor="middle" x="496.3392" y="-934.3" font-family="Times,serif" font-size="14.00" fill="#000000">OUT</text>
-<polyline fill="none" stroke="#000000" points="369.8392,-926.5 622.8392,-926.5 "/>
-<text text-anchor="middle" x="496.3392" y="-911.3" font-family="Times,serif" font-size="14.00" fill="#000000">subject_id</text>
-<polyline fill="none" stroke="#000000" points="369.8392,-903.5 622.8392,-903.5 "/>
-<text text-anchor="middle" x="496.3392" y="-888.3" font-family="Times,serif" font-size="14.00" fill="#000000">subjects_dir</text>
-<polyline fill="none" stroke="#000000" points="369.8392,-880.5 622.8392,-880.5 "/>
-<text text-anchor="middle" x="496.3392" y="-865.3" font-family="Times,serif" font-size="14.00" fill="#000000">t1_2_fsnative_reverse_transform</text>
+<polygon fill="none" stroke="#000000" points="355.3392,-857.5 355.3392,-949.5 623.3392,-949.5 623.3392,-857.5 355.3392,-857.5"/>
+<text text-anchor="middle" x="372.8392" y="-899.8" font-family="Times,serif" font-size="14.00" fill="#000000">IN</text>
+<polyline fill="none" stroke="#000000" points="390.3392,-857.5 390.3392,-949.5 "/>
+<text text-anchor="middle" x="434.8392" y="-930.8" font-family="Times,serif" font-size="14.00" fill="#000000">inputnode</text>
+<polyline fill="none" stroke="#000000" points="390.3392,-919.5 479.3392,-919.5 "/>
+<text text-anchor="middle" x="434.8392" y="-900.3" font-family="Times,serif" font-size="14.00" fill="#000000">utility</text>
+<polyline fill="none" stroke="#000000" points="390.3392,-888.5 479.3392,-888.5 "/>
+<text text-anchor="middle" x="434.8392" y="-869.3" font-family="Times,serif" font-size="14.00" fill="#000000"> </text>
+<polyline fill="none" stroke="#000000" points="479.3392,-857.5 479.3392,-949.5 "/>
+<text text-anchor="middle" x="551.3392" y="-934.3" font-family="Times,serif" font-size="14.00" fill="#000000">OUT</text>
+<polyline fill="none" stroke="#000000" points="479.3392,-926.5 623.3392,-926.5 "/>
+<text text-anchor="middle" x="551.3392" y="-911.3" font-family="Times,serif" font-size="14.00" fill="#000000">fsnative2t1w_xfm</text>
+<polyline fill="none" stroke="#000000" points="479.3392,-903.5 623.3392,-903.5 "/>
+<text text-anchor="middle" x="551.3392" y="-888.3" font-family="Times,serif" font-size="14.00" fill="#000000">subject_id</text>
+<polyline fill="none" stroke="#000000" points="479.3392,-880.5 623.3392,-880.5 "/>
+<text text-anchor="middle" x="551.3392" y="-865.3" font-family="Times,serif" font-size="14.00" fill="#000000">subjects_dir</text>
 </g>
 <!-- gifti_surface_wfget_surfaces -->
 <g id="node2" class="node">
@@ -56,15 +56,15 @@
 <text text-anchor="middle" x="287.3392" y="-713.3" font-family="Times,serif" font-size="14.00" fill="#000000">smoothwm</text>
 </g>
 <!-- gifti_surface_wfinputnode&#45;&gt;gifti_surface_wfget_surfaces -->
-<g id="edge8" class="edge">
+<g id="edge9" class="edge">
 <title>gifti_surface_wfinputnode:e&#45;&gt;gifti_surface_wfget_surfaces:w</title>
-<path fill="none" stroke="#000000" d="M623.3392,-915.5C649.3392,-915.5 641.1611,-875.9309 623.3392,-857 532.3885,-760.3899 118.2898,-917.6101 27.3392,-821 12.8231,-805.5807 4.8734,-776.1094 17.4539,-766.8542"/>
+<path fill="none" stroke="#000000" d="M623.3392,-891.5C638.6725,-891.5 633.8495,-868.1644 623.3392,-857 532.3885,-760.3899 118.2898,-917.6101 27.3392,-821 12.8231,-805.5807 4.8734,-776.1094 17.4539,-766.8542"/>
 <polygon fill="#000000" stroke="#000000" points="18.7025,-770.1367 27.3392,-764 16.7607,-763.4115 18.7025,-770.1367"/>
 </g>
 <!-- gifti_surface_wfinputnode&#45;&gt;gifti_surface_wfget_surfaces -->
-<g id="edge10" class="edge">
+<g id="edge11" class="edge">
 <title>gifti_surface_wfinputnode:e&#45;&gt;gifti_surface_wfget_surfaces:w</title>
-<path fill="none" stroke="#000000" d="M623.3392,-891.5C638.6725,-891.5 633.8495,-868.1644 623.3392,-857 532.3885,-760.3899 118.2898,-917.6101 27.3392,-821 .7205,-792.725 -12.7883,-736.3944 17.1681,-726.5008"/>
+<path fill="none" stroke="#000000" d="M623.3392,-868.5C628.4503,-868.5 626.8426,-860.7215 623.3392,-857 532.3885,-760.3899 118.2898,-917.6101 27.3392,-821 .7205,-792.725 -12.7883,-736.3944 17.1681,-726.5008"/>
 <polygon fill="#000000" stroke="#000000" points="17.9572,-729.9223 27.3392,-725 16.9353,-722.9973 17.9572,-729.9223"/>
 </g>
 <!-- gifti_surface_wfsave_midthickness -->
@@ -90,16 +90,16 @@
 <text text-anchor="middle" x="853.8392" y="-489.8" font-family="Times,serif" font-size="14.00" fill="#000000">out_file</text>
 </g>
 <!-- gifti_surface_wfinputnode&#45;&gt;gifti_surface_wfsave_midthickness -->
-<g id="edge9" class="edge">
+<g id="edge10" class="edge">
 <title>gifti_surface_wfinputnode:e&#45;&gt;gifti_surface_wfsave_midthickness:w</title>
-<path fill="none" stroke="#000000" d="M623.3392,-915.5C632.5928,-915.5 641.8554,-659.4317 604.3392,-599 587.7354,-572.2544 558.9489,-590.3377 543.3392,-563 532.562,-544.1258 521.6343,-515.9276 533.5266,-507.1831"/>
+<path fill="none" stroke="#000000" d="M623.3392,-891.5C632.5539,-891.5 670.1286,-704.9747 604.3392,-599 587.7354,-572.2544 558.9489,-590.3377 543.3392,-563 532.562,-544.1258 521.6343,-515.9276 533.5266,-507.1831"/>
 <polygon fill="#000000" stroke="#000000" points="534.6164,-510.5137 543.3392,-504.5 532.7701,-503.7615 534.6164,-510.5137"/>
 </g>
 <!-- gifti_surface_wfinputnode&#45;&gt;gifti_surface_wfsave_midthickness -->
-<g id="edge11" class="edge">
+<g id="edge12" class="edge">
 <title>gifti_surface_wfinputnode:e&#45;&gt;gifti_surface_wfsave_midthickness:w</title>
-<path fill="none" stroke="#000000" d="M623.3392,-891.5C753.3513,-891.5 706.8317,-701.8791 627.3392,-599 602.5047,-566.8593 565.6987,-596.9091 543.3392,-563 537.5361,-554.1994 532.4648,-541.193 534.8446,-533.9234"/>
-<polygon fill="#000000" stroke="#000000" points="536.794,-536.8314 543.3392,-528.5 533.027,-530.9313 536.794,-536.8314"/>
+<path fill="none" stroke="#000000" d="M623.3392,-868.5C743.1697,-868.5 705.3896,-693.2119 631.3392,-599 605.2258,-565.7769 566.8929,-598.0842 543.3392,-563 537.4633,-554.2478 532.4194,-541.2232 534.8233,-533.9376"/>
+<polygon fill="#000000" stroke="#000000" points="536.7944,-536.8317 543.3392,-528.5 533.0272,-530.9318 536.7944,-536.8317"/>
 </g>
 <!-- gifti_surface_wffix_surfs -->
 <g id="node7" class="node">
@@ -122,9 +122,9 @@
 <text text-anchor="middle" x="1082.3392" y="-120.3" font-family="Times,serif" font-size="14.00" fill="#000000">out_file</text>
 </g>
 <!-- gifti_surface_wfinputnode&#45;&gt;gifti_surface_wffix_surfs -->
-<g id="edge12" class="edge">
+<g id="edge8" class="edge">
 <title>gifti_surface_wfinputnode:e&#45;&gt;gifti_surface_wffix_surfs:w</title>
-<path fill="none" stroke="#000000" d="M623.3392,-868.5C737.9186,-868.5 916.3392,-705.4255 916.3392,-634 916.3392,-634 916.3392,-634 916.3392,-376 916.3392,-321.0323 809.0557,-145.2759 841.4785,-120.8319"/>
+<path fill="none" stroke="#000000" d="M623.3392,-915.5C803.9233,-915.5 916.3392,-814.5841 916.3392,-634 916.3392,-634 916.3392,-634 916.3392,-376 916.3392,-321.0323 809.0557,-145.2759 841.4785,-120.8319"/>
 <polygon fill="#000000" stroke="#000000" points="842.6938,-124.1244 851.3392,-118 840.7615,-117.3964 842.6938,-124.1244"/>
 </g>
 <!-- gifti_surface_wfmidthickness -->
@@ -213,15 +213,15 @@
 <path fill="none" stroke="#000000" d="M889.3392,-493.5C899.7836,-493.5 896.4929,-477.6099 889.3392,-470 800.5854,-375.5867 396.0929,-528.4133 307.3392,-434 278.2771,-403.0848 263.6212,-341.2906 297.1671,-331.3606"/>
 <polygon fill="#000000" stroke="#000000" points="297.8915,-334.7949 307.3392,-330 296.9634,-327.8567 297.8915,-334.7949"/>
 </g>
-<!-- gifti_surface_wffs_2_gii -->
+<!-- gifti_surface_wffs2gii -->
 <g id="node6" class="node">
-<title>gifti_surface_wffs_2_gii</title>
+<title>gifti_surface_wffs2gii</title>
 <polygon fill="none" stroke="#000000" points="599.3392,-212.5 599.3392,-281.5 837.3392,-281.5 837.3392,-212.5 599.3392,-212.5"/>
 <text text-anchor="middle" x="629.3392" y="-260.8" font-family="Times,serif" font-size="14.00" fill="#000000">IN</text>
 <polyline fill="none" stroke="#000000" points="599.3392,-247.5 659.3392,-247.5 "/>
 <text text-anchor="middle" x="629.3392" y="-226.3" font-family="Times,serif" font-size="14.00" fill="#000000">in_file</text>
 <polyline fill="none" stroke="#000000" points="659.3392,-212.5 659.3392,-281.5 "/>
-<text text-anchor="middle" x="703.8392" y="-266.3" font-family="Times,serif" font-size="14.00" fill="#000000">fs_2_gii</text>
+<text text-anchor="middle" x="703.8392" y="-266.3" font-family="Times,serif" font-size="14.00" fill="#000000">fs2gii</text>
 <polyline fill="none" stroke="#000000" points="659.3392,-258.5 748.3392,-258.5 "/>
 <text text-anchor="middle" x="703.8392" y="-243.3" font-family="Times,serif" font-size="14.00" fill="#000000">freesurfer</text>
 <polyline fill="none" stroke="#000000" points="659.3392,-235.5 748.3392,-235.5 "/>
@@ -231,15 +231,15 @@
 <polyline fill="none" stroke="#000000" points="748.3392,-247.5 837.3392,-247.5 "/>
 <text text-anchor="middle" x="792.8392" y="-226.3" font-family="Times,serif" font-size="14.00" fill="#000000">converted</text>
 </g>
-<!-- gifti_surface_wfsurface_list&#45;&gt;gifti_surface_wffs_2_gii -->
+<!-- gifti_surface_wfsurface_list&#45;&gt;gifti_surface_wffs2gii -->
 <g id="edge15" class="edge">
-<title>gifti_surface_wfsurface_list:e&#45;&gt;gifti_surface_wffs_2_gii:w</title>
+<title>gifti_surface_wfsurface_list:e&#45;&gt;gifti_surface_wffs2gii:w</title>
 <path fill="none" stroke="#000000" d="M497.3392,-347C562.6875,-347 533.8549,-242.0145 589.2702,-230.9418"/>
 <polygon fill="#000000" stroke="#000000" points="589.7086,-234.4161 599.3392,-230 589.0566,-227.4466 589.7086,-234.4161"/>
 </g>
-<!-- gifti_surface_wffs_2_gii&#45;&gt;gifti_surface_wffix_surfs -->
+<!-- gifti_surface_wffs2gii&#45;&gt;gifti_surface_wffix_surfs -->
 <g id="edge2" class="edge">
-<title>gifti_surface_wffs_2_gii:e&#45;&gt;gifti_surface_wffix_surfs:w</title>
+<title>gifti_surface_wffs2gii:e&#45;&gt;gifti_surface_wffix_surfs:w</title>
 <path fill="none" stroke="#000000" d="M837.3392,-230C873.0015,-230 824.4835,-159.4041 841.7314,-143.9612"/>
 <polygon fill="#000000" stroke="#000000" points="842.8136,-147.2902 851.3392,-141 840.7518,-140.6007 842.8136,-147.2902"/>
 </g>

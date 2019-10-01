@@ -32,14 +32,12 @@
           <div class="body" role="main">
             
   <h1>Source code for smriprep.workflows.surfaces</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
+<span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Surface preprocessing workflows</span>
-<span class="sd">-------------------------------</span>
+<span class="sd">Surface preprocessing workflows.</span>
 
-<span class="sd">``smriprep`` uses FreeSurfer to reconstruct surfaces from T1w/T2w</span>
+<span class="sd">**sMRIPrep** uses FreeSurfer_ to reconstruct surfaces from T1w/T2w</span>
 <span class="sd">structural images.</span>
 
 <span class="sd">.. autofunction:: init_surface_recon_wf</span>
@@ -63,13 +61,12 @@
     <span class="n">PatchedRobustRegister</span> <span class="k">as</span> <span class="n">RobustRegister</span><span class="p">,</span>
     <span class="n">RefineBrainMask</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">niworkflows.interfaces.segmentation</span> <span class="k">import</span> <span class="n">ReconAllRPT</span>
 <span class="kn">from</span> <span class="nn">niworkflows.interfaces.surf</span> <span class="k">import</span> <span class="n">NormalizeSurf</span>
 
 
 <div class="viewcode-block" id="init_surface_recon_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_surface_recon_wf">[docs]</a><span class="k">def</span> <span class="nf">init_surface_recon_wf</span><span class="p">(</span><span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">hires</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;surface_recon_wf&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This workflow reconstructs anatomical surfaces using FreeSurfer&#39;s ``recon-all``.</span>
+<span class="sd">    Reconstruct anatomical surfaces using FreeSurfer&#39;s ``recon-all``.</span>
 
 <span class="sd">    Reconstruction is performed in three phases.</span>
 <span class="sd">    The first phase initializes the subject with T1w and T2w (if available)</span>
@@ -167,9 +164,9 @@
 <span class="sd">            FreeSurfer SUBJECTS_DIR</span>
 <span class="sd">        subject_id</span>
 <span class="sd">            FreeSurfer subject ID</span>
-<span class="sd">        t1_2_fsnative_forward_transform</span>
+<span class="sd">        t1w2fsnative_xfm</span>
 <span class="sd">            LTA-style affine matrix translating from T1w to FreeSurfer-conformed subject space</span>
-<span class="sd">        t1_2_fsnative_reverse_transform</span>
+<span class="sd">        fsnative2t1w_xfm</span>
 <span class="sd">            LTA-style affine matrix translating from FreeSurfer-conformed subject space to T1w</span>
 <span class="sd">        surfaces</span>
 <span class="sd">            GIFTI surfaces for gray/white matter boundary, pial surface,</span>
@@ -180,15 +177,12 @@
 <span class="sd">            FreeSurfer&#39;s aseg segmentation, in native T1w space</span>
 <span class="sd">        out_aparc</span>
 <span class="sd">            FreeSurfer&#39;s aparc+aseg segmentation, in native T1w space</span>
-<span class="sd">        out_report</span>
-<span class="sd">            Reportlet visualizing quality of surface alignment</span>
 
 <span class="sd">    **Subworkflows**</span>
 
 <span class="sd">        * :py:func:`~smriprep.workflows.surfaces.init_autorecon_resume_wf`</span>
 <span class="sd">        * :py:func:`~smriprep.workflows.surfaces.init_gifti_surface_wf`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
     <span class="n">workflow</span><span class="o">.</span><span class="n">__desc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">Brain surfaces were reconstructed using `recon-all` [FreeSurfer </span><span class="si">{fs_ver}</span><span class="s2">,</span>
@@ -204,9 +198,9 @@
                     <span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
     <span class="n">outputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
         <span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span>
-            <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;t1_2_fsnative_forward_transform&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;t1_2_fsnative_reverse_transform&#39;</span><span class="p">,</span> <span class="s1">&#39;surfaces&#39;</span><span class="p">,</span> <span class="s1">&#39;out_brainmask&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;out_aseg&#39;</span><span class="p">,</span> <span class="s1">&#39;out_aparc&#39;</span><span class="p">,</span> <span class="s1">&#39;out_report&#39;</span><span class="p">]),</span>
+            <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w2fsnative_xfm&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;surfaces&#39;</span><span class="p">,</span> <span class="s1">&#39;out_brainmask&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;out_aseg&#39;</span><span class="p">,</span> <span class="s1">&#39;out_aparc&#39;</span><span class="p">]),</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">)</span>
 
     <span class="n">recon_config</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">FSDetectInputs</span><span class="p">(</span><span class="n">hires_enabled</span><span class="o">=</span><span class="n">hires</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;recon_config&#39;</span><span class="p">)</span>
@@ -221,10 +215,10 @@
 
     <span class="n">skull_strip_extern</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">FSInjectBrainExtracted</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;skull_strip_extern&#39;</span><span class="p">)</span>
 
-    <span class="n">fsnative_2_t1_xfm</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">RobustRegister</span><span class="p">(</span><span class="n">auto_sens</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">est_int_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fsnative_2_t1_xfm&#39;</span><span class="p">)</span>
-    <span class="n">t1_2_fsnative_xfm</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">LTAConvert</span><span class="p">(</span><span class="n">out_lta</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;t1_2_fsnative_xfm&#39;</span><span class="p">)</span>
+    <span class="n">fsnative2t1w_xfm</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">RobustRegister</span><span class="p">(</span><span class="n">auto_sens</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">est_int_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">)</span>
+    <span class="n">t1w2fsnative_xfm</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">LTAConvert</span><span class="p">(</span><span class="n">out_lta</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;t1w2fsnative_xfm&#39;</span><span class="p">)</span>
 
     <span class="n">autorecon_resume_wf</span> <span class="o">=</span> <span class="n">init_autorecon_resume_wf</span><span class="p">(</span><span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">)</span>
     <span class="n">gifti_surface_wf</span> <span class="o">=</span> <span class="n">init_gifti_surface_wf</span><span class="p">()</span>
@@ -262,11 +256,11 @@
                                              <span class="p">(</span><span class="s1">&#39;use_flair&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.use_FLAIR&#39;</span><span class="p">)]),</span>
         <span class="c1"># Construct transform from FreeSurfer conformed image to sMRIPrep</span>
         <span class="c1"># reoriented image</span>
-        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">fsnative_2_t1_xfm</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;target_file&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">autorecon1</span><span class="p">,</span> <span class="n">fsnative_2_t1_xfm</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;T1&#39;</span><span class="p">,</span> <span class="s1">&#39;source_file&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">fsnative_2_t1_xfm</span><span class="p">,</span> <span class="n">gifti_surface_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;out_reg_file&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1_2_fsnative_reverse_transform&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">fsnative_2_t1_xfm</span><span class="p">,</span> <span class="n">t1_2_fsnative_xfm</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_reg_file&#39;</span><span class="p">,</span> <span class="s1">&#39;in_lta&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">fsnative2t1w_xfm</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;target_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">autorecon1</span><span class="p">,</span> <span class="n">fsnative2t1w_xfm</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;T1&#39;</span><span class="p">,</span> <span class="s1">&#39;source_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">fsnative2t1w_xfm</span><span class="p">,</span> <span class="n">gifti_surface_wf</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;out_reg_file&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.fsnative2t1w_xfm&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">fsnative2t1w_xfm</span><span class="p">,</span> <span class="n">t1w2fsnative_xfm</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_reg_file&#39;</span><span class="p">,</span> <span class="s1">&#39;in_lta&#39;</span><span class="p">)]),</span>
         <span class="c1"># Refine ANTs mask, deriving new mask from FS&#39; aseg</span>
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">refine</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;corrected_t1&#39;</span><span class="p">,</span> <span class="s1">&#39;in_anat&#39;</span><span class="p">),</span>
                              <span class="p">(</span><span class="s1">&#39;ants_segs&#39;</span><span class="p">,</span> <span class="s1">&#39;in_ants&#39;</span><span class="p">)]),</span>
@@ -282,11 +276,10 @@
 
         <span class="c1"># Output</span>
         <span class="p">(</span><span class="n">autorecon_resume_wf</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;outputnode.subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">),</span>
-                                           <span class="p">(</span><span class="s1">&#39;outputnode.subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">),</span>
-                                           <span class="p">(</span><span class="s1">&#39;outputnode.out_report&#39;</span><span class="p">,</span> <span class="s1">&#39;out_report&#39;</span><span class="p">)]),</span>
+                                           <span class="p">(</span><span class="s1">&#39;outputnode.subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">gifti_surface_wf</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;outputnode.surfaces&#39;</span><span class="p">,</span> <span class="s1">&#39;surfaces&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">t1_2_fsnative_xfm</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_lta&#39;</span><span class="p">,</span> <span class="s1">&#39;t1_2_fsnative_forward_transform&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">fsnative_2_t1_xfm</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_reg_file&#39;</span><span class="p">,</span> <span class="s1">&#39;t1_2_fsnative_reverse_transform&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">t1w2fsnative_xfm</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_lta&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w2fsnative_xfm&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">fsnative2t1w_xfm</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_reg_file&#39;</span><span class="p">,</span> <span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">refine</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="s1">&#39;out_brainmask&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">aseg_to_native_wf</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;outputnode.out_file&#39;</span><span class="p">,</span> <span class="s1">&#39;out_aseg&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">aparc_to_native_wf</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;outputnode.out_file&#39;</span><span class="p">,</span> <span class="s1">&#39;out_aparc&#39;</span><span class="p">)]),</span>
@@ -297,8 +290,7 @@
 
 <div class="viewcode-block" id="init_autorecon_resume_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_autorecon_resume_wf">[docs]</a><span class="k">def</span> <span class="nf">init_autorecon_resume_wf</span><span class="p">(</span><span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;autorecon_resume_wf&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This workflow resumes recon-all execution, assuming the `-autorecon1` stage</span>
-<span class="sd">    has been completed.</span>
+<span class="sd">    Resume recon-all execution, assuming the `-autorecon1` stage has been completed.</span>
 
 <span class="sd">    In order to utilize resources efficiently, this is broken down into five</span>
 <span class="sd">    sub-stages; after the first stage, the second and third stages may be run</span>
@@ -350,8 +342,6 @@
 <span class="sd">            FreeSurfer SUBJECTS_DIR</span>
 <span class="sd">        subject_id</span>
 <span class="sd">            FreeSurfer subject ID</span>
-<span class="sd">        out_report</span>
-<span class="sd">            Reportlet visualizing quality of surface alignment</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
@@ -363,7 +353,7 @@
 
     <span class="n">outputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
         <span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span>
-            <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;out_report&#39;</span><span class="p">]),</span>
+            <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">]),</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">)</span>
 
     <span class="n">autorecon2_vol</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
@@ -391,12 +381,6 @@
     <span class="n">autorecon3</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">hemi</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;lh&#39;</span><span class="p">,</span> <span class="s1">&#39;rh&#39;</span><span class="p">]</span>
     <span class="n">autorecon3</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_always_run</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="c1"># Only generate the report once; should be nothing to do</span>
-    <span class="n">recon_report</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
-        <span class="n">ReconAllRPT</span><span class="p">(</span><span class="n">directive</span><span class="o">=</span><span class="s1">&#39;autorecon3&#39;</span><span class="p">,</span> <span class="n">generate_report</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;recon_report&#39;</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">recon_report</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_always_run</span> <span class="o">=</span> <span class="kc">True</span>
-
     <span class="k">def</span> <span class="nf">_dedup</span><span class="p">(</span><span class="n">in_list</span><span class="p">):</span>
         <span class="n">vals</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">in_list</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -415,9 +399,6 @@
                                        <span class="p">((</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="n">_dedup</span><span class="p">),</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">autorecon3</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[((</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="n">_dedup</span><span class="p">),</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">),</span>
                                   <span class="p">((</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="n">_dedup</span><span class="p">),</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">autorecon3</span><span class="p">,</span> <span class="n">recon_report</span><span class="p">,</span> <span class="p">[((</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="n">_dedup</span><span class="p">),</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">),</span>
-                                    <span class="p">((</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="n">_dedup</span><span class="p">),</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">recon_report</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_report&#39;</span><span class="p">,</span> <span class="s1">&#39;out_report&#39;</span><span class="p">)]),</span>
     <span class="p">])</span>
 
     <span class="k">return</span> <span class="n">workflow</span></div>
@@ -425,7 +406,7 @@
 
 <div class="viewcode-block" id="init_gifti_surface_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_gifti_surface_wf">[docs]</a><span class="k">def</span> <span class="nf">init_gifti_surface_wf</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;gifti_surface_wf&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This workflow prepares GIFTI surfaces from a FreeSurfer subjects directory</span>
+<span class="sd">    Prepare GIFTI surfaces from a FreeSurfer subjects directory.</span>
 
 <span class="sd">    If midthickness (or graymid) surfaces do not exist, they are generated and</span>
 <span class="sd">    saved to the subject directory as ``lh/rh.midthickness``.</span>
@@ -448,7 +429,7 @@
 <span class="sd">            FreeSurfer SUBJECTS_DIR</span>
 <span class="sd">        subject_id</span>
 <span class="sd">            FreeSurfer subject ID</span>
-<span class="sd">        t1_2_fsnative_reverse_transform</span>
+<span class="sd">        fsnative2t1w_xfm</span>
 <span class="sd">            LTA formatted affine transform file (inverse)</span>
 
 <span class="sd">    **Outputs**</span>
@@ -461,7 +442,7 @@
     <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
     <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">([</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
-                                               <span class="s1">&#39;t1_2_fsnative_reverse_transform&#39;</span><span class="p">]),</span>
+                                               <span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">]),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
     <span class="n">outputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">([</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">)</span>
 
@@ -477,8 +458,8 @@
 
     <span class="n">surface_list</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">ravel_inputs</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;surface_list&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">fs_2_gii</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">MRIsConvert</span><span class="p">(</span><span class="n">out_datatype</span><span class="o">=</span><span class="s1">&#39;gii&#39;</span><span class="p">),</span>
-                          <span class="n">iterfield</span><span class="o">=</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fs_2_gii&#39;</span><span class="p">)</span>
+    <span class="n">fs2gii</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">MRIsConvert</span><span class="p">(</span><span class="n">out_datatype</span><span class="o">=</span><span class="s1">&#39;gii&#39;</span><span class="p">),</span>
+                        <span class="n">iterfield</span><span class="o">=</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fs2gii&#39;</span><span class="p">)</span>
     <span class="n">fix_surfs</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">NormalizeSurf</span><span class="p">(),</span> <span class="n">iterfield</span><span class="o">=</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fix_surfs&#39;</span><span class="p">)</span>
 
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
@@ -495,9 +476,9 @@
                                       <span class="p">(</span><span class="s1">&#39;pial&#39;</span><span class="p">,</span> <span class="s1">&#39;in2&#39;</span><span class="p">),</span>
                                       <span class="p">(</span><span class="s1">&#39;inflated&#39;</span><span class="p">,</span> <span class="s1">&#39;in3&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">save_midthickness</span><span class="p">,</span> <span class="n">surface_list</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="s1">&#39;in4&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">surface_list</span><span class="p">,</span> <span class="n">fs_2_gii</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">fs_2_gii</span><span class="p">,</span> <span class="n">fix_surfs</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;converted&#39;</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">fix_surfs</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1_2_fsnative_reverse_transform&#39;</span><span class="p">,</span> <span class="s1">&#39;transform_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">surface_list</span><span class="p">,</span> <span class="n">fs2gii</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">fs2gii</span><span class="p">,</span> <span class="n">fix_surfs</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;converted&#39;</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">fix_surfs</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;transform_file&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">fix_surfs</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="s1">&#39;surfaces&#39;</span><span class="p">)]),</span>
     <span class="p">])</span>
     <span class="k">return</span> <span class="n">workflow</span></div>
@@ -505,8 +486,7 @@
 
 <div class="viewcode-block" id="init_segs_to_native_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_segs_to_native_wf">[docs]</a><span class="k">def</span> <span class="nf">init_segs_to_native_wf</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;segs_to_native&#39;</span><span class="p">,</span> <span class="n">segmentation</span><span class="o">=</span><span class="s1">&#39;aseg&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get a segmentation from FreeSurfer conformed space into native T1w space</span>
-
+<span class="sd">    Get a segmentation from FreeSurfer conformed space into native T1w space.</span>
 
 <span class="sd">    .. workflow::</span>
 <span class="sd">        :graph2use: orig</span>
@@ -588,6 +568,8 @@
     <li><a href="../../../doc_test/index.html">doc_test</a></li>
     <li><a href="../../../doc_test_1/index.html">doc_test_1</a></li>
     <li><a href="../../../doc_test_2/index.html">doc_test_2</a></li>
+    <li><a href="../../../doc_test_3/index.html">doc_test_3</a></li>
+    <li><a href="../../../doc_test_4/index.html">doc_test_4</a></li>
 </ul>
         </div>
       </div>

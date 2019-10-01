@@ -12,3 +12,4 @@ Submodules
 .. toctree::
 
    smriprep.interfaces.reports
+   smriprep.interfaces.templateflow

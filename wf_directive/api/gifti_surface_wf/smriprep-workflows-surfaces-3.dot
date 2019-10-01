@@ -5,7 +5,7 @@ strict digraph  {
 "fix_surfs (surf)";
 "midthickness (freesurfer)";
 "surface_list (utility)";
-"fs_2_gii (freesurfer)";
+"fs2gii (freesurfer)";
 "outputnode (utility)";
 "inputnode (utility)" -> "get_surfaces (io)";
 "inputnode (utility)" -> "save_midthickness (io)";
@@ -15,6 +15,6 @@ strict digraph  {
 "save_midthickness (io)" -> "surface_list (utility)";
 "fix_surfs (surf)" -> "outputnode (utility)";
 "midthickness (freesurfer)" -> "save_midthickness (io)";
-"surface_list (utility)" -> "fs_2_gii (freesurfer)";
-"fs_2_gii (freesurfer)" -> "fix_surfs (surf)";
+"surface_list (utility)" -> "fs2gii (freesurfer)";
+"fs2gii (freesurfer)" -> "fix_surfs (surf)";
 }

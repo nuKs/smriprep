@@ -35,7 +35,7 @@
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">sMRIPrep base processing workflows.</span>
+<span class="sd">*sMRIPrep* base processing workflows.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -77,8 +77,7 @@
     <span class="n">work_dir</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This workflow organizes the execution of sMRIPrep, with a sub-workflow for</span>
-<span class="sd">    each subject.</span>
+<span class="sd">    Create the execution graph of *sMRIPrep*, with a sub-workflow for each subject.</span>
 
 <span class="sd">    If FreeSurfer&#39;s recon-all is to be run, a FreeSurfer derivatives folder is</span>
 <span class="sd">    created and populated with any needed template subjects.</span>
@@ -88,15 +87,15 @@
 <span class="sd">        :simple_form: yes</span>
 
 <span class="sd">        import os</span>
-<span class="sd">        from collections import OrderedDict</span>
-<span class="sd">        from bids import BIDSLayout</span>
+<span class="sd">        from collections import OrderedDict, namedtuple</span>
+<span class="sd">        BIDSLayout = namedtuple(&#39;BIDSLayout&#39;, [&#39;root&#39;])</span>
 <span class="sd">        os.environ[&#39;FREESURFER_HOME&#39;] = os.getcwd()</span>
 <span class="sd">        from smriprep.workflows.base import init_smriprep_wf</span>
 <span class="sd">        wf = init_smriprep_wf(</span>
 <span class="sd">            debug=False,</span>
 <span class="sd">            freesurfer=True,</span>
 <span class="sd">            hires=True,</span>
-<span class="sd">            layout=BIDSLayout(&#39;.&#39;, validate=False),</span>
+<span class="sd">            layout=BIDSLayout(&#39;.&#39;),</span>
 <span class="sd">            longitudinal=False,</span>
 <span class="sd">            low_mem=False,</span>
 <span class="sd">            omp_nthreads=1,</span>
@@ -212,6 +211,8 @@
     <span class="n">subject_id</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a single subject workflow.</span>
+
 <span class="sd">    This workflow organizes the preprocessing pipeline for a single subject.</span>
 <span class="sd">    It collects and reports information about the subject, and prepares</span>
 <span class="sd">    sub-workflows to perform anatomical and functional preprocessing.</span>
@@ -225,14 +226,14 @@
 <span class="sd">        :graph2use: orig</span>
 <span class="sd">        :simple_form: yes</span>
 
-<span class="sd">        from collections import OrderedDict</span>
+<span class="sd">        from collections import OrderedDict, namedtuple</span>
 <span class="sd">        from smriprep.workflows.base import init_single_subject_wf</span>
-<span class="sd">        from bids import BIDSLayout</span>
+<span class="sd">        BIDSLayout = namedtuple(&#39;BIDSLayout&#39;, [&#39;root&#39;])</span>
 <span class="sd">        wf = init_single_subject_wf(</span>
 <span class="sd">            debug=False,</span>
 <span class="sd">            freesurfer=True,</span>
 <span class="sd">            hires=True,</span>
-<span class="sd">            layout=BIDSLayout(&#39;.&#39;, validate=False),</span>
+<span class="sd">            layout=BIDSLayout(&#39;.&#39;),</span>
 <span class="sd">            longitudinal=False,</span>
 <span class="sd">            low_mem=False,</span>
 <span class="sd">            name=&#39;single_subject_wf&#39;,</span>
@@ -285,7 +286,7 @@
 <span class="sd">        subject_id : str</span>
 <span class="sd">            List of subject labels</span>
 
-<span class="sd">    Inputs</span>
+<span class="sd">    **Inputs**</span>
 
 <span class="sd">        subjects_dir</span>
 <span class="sd">            FreeSurfer SUBJECTS_DIR</span>
@@ -407,6 +408,8 @@
     <li><a href="../../../doc_test/index.html">doc_test</a></li>
     <li><a href="../../../doc_test_1/index.html">doc_test_1</a></li>
     <li><a href="../../../doc_test_2/index.html">doc_test_2</a></li>
+    <li><a href="../../../doc_test_3/index.html">doc_test_3</a></li>
+    <li><a href="../../../doc_test_4/index.html">doc_test_4</a></li>
 </ul>
         </div>
       </div>

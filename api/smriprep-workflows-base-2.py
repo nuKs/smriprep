@@ -1,13 +1,13 @@
 import os
-from collections import OrderedDict
-from bids import BIDSLayout
+from collections import OrderedDict, namedtuple
+BIDSLayout = namedtuple('BIDSLayout', ['root'])
 os.environ['FREESURFER_HOME'] = os.getcwd()
 from smriprep.workflows.base import init_smriprep_wf
 wf = init_smriprep_wf(
     debug=False,
     freesurfer=True,
     hires=True,
-    layout=BIDSLayout('.', validate=False),
+    layout=BIDSLayout('.'),
     longitudinal=False,
     low_mem=False,
     omp_nthreads=1,

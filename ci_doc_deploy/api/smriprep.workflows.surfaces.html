@@ -34,14 +34,13 @@
             
   <div class="section" id="module-smriprep.workflows.surfaces">
 <span id="smriprep-workflows-surfaces-module"></span><h1>smriprep.workflows.surfaces module<a class="headerlink" href="#module-smriprep.workflows.surfaces" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="surface-preprocessing-workflows">
-<h2>Surface preprocessing workflows<a class="headerlink" href="#surface-preprocessing-workflows" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">smriprep</span></code> uses FreeSurfer to reconstruct surfaces from T1w/T2w
+<p>Surface preprocessing workflows.</p>
+<p><strong>sMRIPrep</strong> uses <a href="#id2"><span class="problematic" id="id3">FreeSurfer_</span></a> to reconstruct surfaces from T1w/T2w
 structural images.</p>
 <dl class="function">
 <dt id="smriprep.workflows.surfaces.init_surface_recon_wf">
 <code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_surface_recon_wf</code><span class="sig-paren">(</span><em class="sig-param">omp_nthreads</em>, <em class="sig-param">hires</em>, <em class="sig-param">name='surface_recon_wf'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/surfaces.html#init_surface_recon_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.surfaces.init_surface_recon_wf" title="Permalink to this definition">¶</a></dt>
-<dd><p>This workflow reconstructs anatomical surfaces using FreeSurfer’s <code class="docutils literal notranslate"><span class="pre">recon-all</span></code>.</p>
+<dd><p>Reconstruct anatomical surfaces using FreeSurfer’s <code class="docutils literal notranslate"><span class="pre">recon-all</span></code>.</p>
 <p>Reconstruction is performed in three phases.
 The first phase initializes the subject with T1w and T2w (if available)
 structural images and performs basic reconstruction (<code class="docutils literal notranslate"><span class="pre">autorecon1</span></code>) with the
@@ -132,9 +131,9 @@ to have a certain margin.</p>
 </dd>
 <dt>subject_id</dt><dd><p>FreeSurfer subject ID</p>
 </dd>
-<dt>t1_2_fsnative_forward_transform</dt><dd><p>LTA-style affine matrix translating from T1w to FreeSurfer-conformed subject space</p>
+<dt>t1w2fsnative_xfm</dt><dd><p>LTA-style affine matrix translating from T1w to FreeSurfer-conformed subject space</p>
 </dd>
-<dt>t1_2_fsnative_reverse_transform</dt><dd><p>LTA-style affine matrix translating from FreeSurfer-conformed subject space to T1w</p>
+<dt>fsnative2t1w_xfm</dt><dd><p>LTA-style affine matrix translating from FreeSurfer-conformed subject space to T1w</p>
 </dd>
 <dt>surfaces</dt><dd><p>GIFTI surfaces for gray/white matter boundary, pial surface,
 midthickness (or graymid) surface, and inflated surfaces</p>
@@ -144,8 +143,6 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <dt>out_aseg</dt><dd><p>FreeSurfer’s aseg segmentation, in native T1w space</p>
 </dd>
 <dt>out_aparc</dt><dd><p>FreeSurfer’s aparc+aseg segmentation, in native T1w space</p>
-</dd>
-<dt>out_report</dt><dd><p>Reportlet visualizing quality of surface alignment</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -161,8 +158,7 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <dl class="function">
 <dt id="smriprep.workflows.surfaces.init_autorecon_resume_wf">
 <code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_autorecon_resume_wf</code><span class="sig-paren">(</span><em class="sig-param">omp_nthreads</em>, <em class="sig-param">name='autorecon_resume_wf'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/surfaces.html#init_autorecon_resume_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="Permalink to this definition">¶</a></dt>
-<dd><p>This workflow resumes recon-all execution, assuming the <cite>-autorecon1</cite> stage
-has been completed.</p>
+<dd><p>Resume recon-all execution, assuming the <cite>-autorecon1</cite> stage has been completed.</p>
 <p>In order to utilize resources efficiently, this is broken down into five
 sub-stages; after the first stage, the second and third stages may be run
 simultaneously, and the fourth and fifth stages may be run simultaneously,
@@ -212,8 +208,6 @@ stages.</p>
 </dd>
 <dt>subject_id</dt><dd><p>FreeSurfer subject ID</p>
 </dd>
-<dt>out_report</dt><dd><p>Reportlet visualizing quality of surface alignment</p>
-</dd>
 </dl>
 </div></blockquote>
 </dd></dl>
@@ -221,7 +215,7 @@ stages.</p>
 <dl class="function">
 <dt id="smriprep.workflows.surfaces.init_gifti_surface_wf">
 <code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_gifti_surface_wf</code><span class="sig-paren">(</span><em class="sig-param">name='gifti_surface_wf'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/surfaces.html#init_gifti_surface_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.surfaces.init_gifti_surface_wf" title="Permalink to this definition">¶</a></dt>
-<dd><p>This workflow prepares GIFTI surfaces from a FreeSurfer subjects directory</p>
+<dd><p>Prepare GIFTI surfaces from a FreeSurfer subjects directory.</p>
 <p>If midthickness (or graymid) surfaces do not exist, they are generated and
 saved to the subject directory as <code class="docutils literal notranslate"><span class="pre">lh/rh.midthickness</span></code>.
 These, along with the gray/white matter boundary (<code class="docutils literal notranslate"><span class="pre">lh/rh.smoothwm</span></code>), pial
@@ -239,7 +233,7 @@ Additionally, the vertex coordinates are <code class="xref py py-class docutils 
 </dd>
 <dt>subject_id</dt><dd><p>FreeSurfer subject ID</p>
 </dd>
-<dt>t1_2_fsnative_reverse_transform</dt><dd><p>LTA formatted affine transform file (inverse)</p>
+<dt>fsnative2t1w_xfm</dt><dd><p>LTA formatted affine transform file (inverse)</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -256,8 +250,7 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <dl class="function">
 <dt>
 <code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_autorecon_resume_wf</code><span class="sig-paren">(</span><em class="sig-param">omp_nthreads</em>, <em class="sig-param">name='autorecon_resume_wf'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/surfaces.html#init_autorecon_resume_wf"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>This workflow resumes recon-all execution, assuming the <cite>-autorecon1</cite> stage
-has been completed.</p>
+<dd><p>Resume recon-all execution, assuming the <cite>-autorecon1</cite> stage has been completed.</p>
 <p>In order to utilize resources efficiently, this is broken down into five
 sub-stages; after the first stage, the second and third stages may be run
 simultaneously, and the fourth and fifth stages may be run simultaneously,
@@ -307,8 +300,6 @@ stages.</p>
 </dd>
 <dt>subject_id</dt><dd><p>FreeSurfer subject ID</p>
 </dd>
-<dt>out_report</dt><dd><p>Reportlet visualizing quality of surface alignment</p>
-</dd>
 </dl>
 </div></blockquote>
 </dd></dl>
@@ -316,7 +307,7 @@ stages.</p>
 <dl class="function">
 <dt>
 <code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_gifti_surface_wf</code><span class="sig-paren">(</span><em class="sig-param">name='gifti_surface_wf'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/surfaces.html#init_gifti_surface_wf"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>This workflow prepares GIFTI surfaces from a FreeSurfer subjects directory</p>
+<dd><p>Prepare GIFTI surfaces from a FreeSurfer subjects directory.</p>
 <p>If midthickness (or graymid) surfaces do not exist, they are generated and
 saved to the subject directory as <code class="docutils literal notranslate"><span class="pre">lh/rh.midthickness</span></code>.
 These, along with the gray/white matter boundary (<code class="docutils literal notranslate"><span class="pre">lh/rh.smoothwm</span></code>), pial
@@ -334,7 +325,7 @@ Additionally, the vertex coordinates are <code class="xref py py-class docutils 
 </dd>
 <dt>subject_id</dt><dd><p>FreeSurfer subject ID</p>
 </dd>
-<dt>t1_2_fsnative_reverse_transform</dt><dd><p>LTA formatted affine transform file (inverse)</p>
+<dt>fsnative2t1w_xfm</dt><dd><p>LTA formatted affine transform file (inverse)</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -351,7 +342,7 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <dl class="function">
 <dt id="smriprep.workflows.surfaces.init_segs_to_native_wf">
 <code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_segs_to_native_wf</code><span class="sig-paren">(</span><em class="sig-param">name='segs_to_native'</em>, <em class="sig-param">segmentation='aseg'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/surfaces.html#init_segs_to_native_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.surfaces.init_segs_to_native_wf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a segmentation from FreeSurfer conformed space into native T1w space</p>
+<dd><p>Get a segmentation from FreeSurfer conformed space into native T1w space.</p>
 <div class="figure align-default">
 <img alt="../_images/smriprep-workflows-surfaces-6.png" src="../_images/smriprep-workflows-surfaces-6.png" />
 </div>
@@ -386,7 +377,7 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <dl class="function">
 <dt>
 <code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_surface_recon_wf</code><span class="sig-paren">(</span><em class="sig-param">omp_nthreads</em>, <em class="sig-param">hires</em>, <em class="sig-param">name='surface_recon_wf'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/surfaces.html#init_surface_recon_wf"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>This workflow reconstructs anatomical surfaces using FreeSurfer’s <code class="docutils literal notranslate"><span class="pre">recon-all</span></code>.</p>
+<dd><p>Reconstruct anatomical surfaces using FreeSurfer’s <code class="docutils literal notranslate"><span class="pre">recon-all</span></code>.</p>
 <p>Reconstruction is performed in three phases.
 The first phase initializes the subject with T1w and T2w (if available)
 structural images and performs basic reconstruction (<code class="docutils literal notranslate"><span class="pre">autorecon1</span></code>) with the
@@ -477,9 +468,9 @@ to have a certain margin.</p>
 </dd>
 <dt>subject_id</dt><dd><p>FreeSurfer subject ID</p>
 </dd>
-<dt>t1_2_fsnative_forward_transform</dt><dd><p>LTA-style affine matrix translating from T1w to FreeSurfer-conformed subject space</p>
+<dt>t1w2fsnative_xfm</dt><dd><p>LTA-style affine matrix translating from T1w to FreeSurfer-conformed subject space</p>
 </dd>
-<dt>t1_2_fsnative_reverse_transform</dt><dd><p>LTA-style affine matrix translating from FreeSurfer-conformed subject space to T1w</p>
+<dt>fsnative2t1w_xfm</dt><dd><p>LTA-style affine matrix translating from FreeSurfer-conformed subject space to T1w</p>
 </dd>
 <dt>surfaces</dt><dd><p>GIFTI surfaces for gray/white matter boundary, pial surface,
 midthickness (or graymid) surface, and inflated surfaces</p>
@@ -489,8 +480,6 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <dt>out_aseg</dt><dd><p>FreeSurfer’s aseg segmentation, in native T1w space</p>
 </dd>
 <dt>out_aparc</dt><dd><p>FreeSurfer’s aparc+aseg segmentation, in native T1w space</p>
-</dd>
-<dt>out_report</dt><dd><p>Reportlet visualizing quality of surface alignment</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -503,7 +492,6 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 </div></blockquote>
 </dd></dl>
 
-</div>
 </div>
 
 
@@ -519,6 +507,8 @@ midthickness (or graymid) surface, and inflated surfaces</p>
     <li><a href="../../doc_test/api/smriprep.workflows.surfaces.html">doc_test</a></li>
     <li><a href="../../doc_test_1/api/smriprep.workflows.surfaces.html">doc_test_1</a></li>
     <li><a href="../../doc_test_2/api/smriprep.workflows.surfaces.html">doc_test_2</a></li>
+    <li><a href="../../doc_test_3/api/smriprep.workflows.surfaces.html">doc_test_3</a></li>
+    <li><a href="../../doc_test_4/api/smriprep.workflows.surfaces.html">doc_test_4</a></li>
 </ul>
         </div>
       </div>

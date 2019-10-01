@@ -39,15 +39,15 @@
 <dl class="function">
 <dt id="smriprep.workflows.anatomical.init_anat_preproc_wf">
 <code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_preproc_wf</code><span class="sig-paren">(</span><em class="sig-param">bids_root</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">output_spaces</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">reportlets_dir</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">name='anat_preproc_wf'</em>, <em class="sig-param">skull_strip_fixed_seed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/anatomical.html#init_anat_preproc_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_preproc_wf" title="Permalink to this definition">¶</a></dt>
-<dd><p>This workflow controls the anatomical preprocessing stages of smriprep.</p>
+<dd><p>Stage the anatomical preprocessing steps of <em>sMRIPrep</em>.</p>
 <p>This includes:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Creation of a structural template</p></li>
-<li><p>Skull-stripping and bias correction</p></li>
-<li><p>Tissue segmentation</p></li>
-<li><p>Normalization</p></li>
-<li><p>Surface reconstruction with FreeSurfer</p></li>
+<li><p>T1w reference: realigning and then averaging T1w images.</p></li>
+<li><p>Brain extraction and INU (bias field) correction.</p></li>
+<li><p>Brain tissue segmentation.</p></li>
+<li><p>Spatial normalization to standard spaces.</p></li>
+<li><p>Surface reconstruction with <a href="#id1"><span class="problematic" id="id2">FreeSurfer_</span></a>.</p></li>
 </ul>
 </div></blockquote>
 <div class="figure align-default">
@@ -111,37 +111,39 @@ run-to-run replicability when used with –omp-nthreads 1
 <p><strong>Outputs</strong></p>
 <blockquote>
 <div><dl class="simple">
-<dt>t1_preproc</dt><dd><p>Bias-corrected structural template, defining T1w space</p>
+<dt>t1w_preproc</dt><dd><p>The T1w reference map, which is calculated as the average of bias-corrected
+and preprocessed T1w images, defining the anatomical space.</p>
 </dd>
-<dt>t1_brain</dt><dd><p>Skull-stripped <code class="docutils literal notranslate"><span class="pre">t1_preproc</span></code></p>
+<dt>t1w_brain</dt><dd><p>Skull-stripped <code class="docutils literal notranslate"><span class="pre">t1w_preproc</span></code></p>
 </dd>
-<dt>t1_mask</dt><dd><p>Mask of the skull-stripped template image</p>
+<dt>t1w_mask</dt><dd><p>Brain (binary) mask estimated by brain extraction.</p>
 </dd>
-<dt>t1_seg</dt><dd><p>Segmentation of preprocessed structural image, including
-gray-matter (GM), white-matter (WM) and cerebrospinal fluid (CSF)</p>
+<dt>t1w_dseg</dt><dd><p>Brain tissue segmentation of the preprocessed structural image, including
+gray-matter (GM), white-matter (WM) and cerebrospinal fluid (CSF).</p>
 </dd>
-<dt>t1_tpms</dt><dd><p>List of tissue probability maps in T1w space</p>
+<dt>t1w_tpms</dt><dd><p>List of tissue probability maps corresponding to <code class="docutils literal notranslate"><span class="pre">t1w_dseg</span></code>.</p>
 </dd>
-<dt>t1_2_tpl</dt><dd><p>T1w template, normalized to MNI space</p>
+<dt>std_t1w</dt><dd><p>T1w reference resampled in one or more standard spaces.</p>
 </dd>
-<dt>t1_2_tpl_forward_transform</dt><dd><p>ANTs-compatible affine-and-warp transform file</p>
+<dt>std_mask</dt><dd><p>Mask of skull-stripped template, in MNI space</p>
 </dd>
-<dt>t1_2_tpl_reverse_transform</dt><dd><p>ANTs-compatible affine-and-warp transform file (inverse)</p>
+<dt>std_dseg</dt><dd><p>Segmentation, resampled into MNI space</p>
 </dd>
-<dt>tpl_mask</dt><dd><p>Mask of skull-stripped template, in MNI space</p>
-</dd>
-<dt>tpl_seg</dt><dd><p>Segmentation, resampled into MNI space</p>
-</dd>
-<dt>tpl_tpms</dt><dd><p>List of tissue probability maps in MNI space</p>
+<dt>std_tpms</dt><dd><p>List of tissue probability maps in MNI space</p>
 </dd>
 <dt>subjects_dir</dt><dd><p>FreeSurfer SUBJECTS_DIR</p>
 </dd>
+<dt>anat2std_xfm</dt><dd><p>Nonlinear spatial transform to resample imaging data given in anatomical space
+into standard space.</p>
+</dd>
+<dt>std2anat_xfm</dt><dd><p>Inverse transform of the above.</p>
+</dd>
 <dt>subject_id</dt><dd><p>FreeSurfer subject ID</p>
 </dd>
-<dt>t1_2_fsnative_forward_transform</dt><dd><p>LTA-style affine matrix translating from T1w to
+<dt>t1w2fsnative_xfm</dt><dd><p>LTA-style affine matrix translating from T1w to
 FreeSurfer-conformed subject space</p>
 </dd>
-<dt>t1_2_fsnative_reverse_transform</dt><dd><p>LTA-style affine matrix translating from FreeSurfer-conformed
+<dt>fsnative2t1w_xfm</dt><dd><p>LTA-style affine matrix translating from FreeSurfer-conformed
 subject space to T1w</p>
 </dd>
 <dt>surfaces</dt><dd><p>GIFTI surfaces (gray/white boundary, midthickness, pial, inflated)</p>
@@ -160,15 +162,15 @@ subject space to T1w</p>
 <dl class="function">
 <dt>
 <code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_preproc_wf</code><span class="sig-paren">(</span><em class="sig-param">bids_root</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">output_spaces</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">reportlets_dir</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">name='anat_preproc_wf'</em>, <em class="sig-param">skull_strip_fixed_seed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/anatomical.html#init_anat_preproc_wf"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>This workflow controls the anatomical preprocessing stages of smriprep.</p>
+<dd><p>Stage the anatomical preprocessing steps of <em>sMRIPrep</em>.</p>
 <p>This includes:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Creation of a structural template</p></li>
-<li><p>Skull-stripping and bias correction</p></li>
-<li><p>Tissue segmentation</p></li>
-<li><p>Normalization</p></li>
-<li><p>Surface reconstruction with FreeSurfer</p></li>
+<li><p>T1w reference: realigning and then averaging T1w images.</p></li>
+<li><p>Brain extraction and INU (bias field) correction.</p></li>
+<li><p>Brain tissue segmentation.</p></li>
+<li><p>Spatial normalization to standard spaces.</p></li>
+<li><p>Surface reconstruction with <a href="#id3"><span class="problematic" id="id4">FreeSurfer_</span></a>.</p></li>
 </ul>
 </div></blockquote>
 <div class="figure align-default">
@@ -232,37 +234,39 @@ run-to-run replicability when used with –omp-nthreads 1
 <p><strong>Outputs</strong></p>
 <blockquote>
 <div><dl class="simple">
-<dt>t1_preproc</dt><dd><p>Bias-corrected structural template, defining T1w space</p>
+<dt>t1w_preproc</dt><dd><p>The T1w reference map, which is calculated as the average of bias-corrected
+and preprocessed T1w images, defining the anatomical space.</p>
 </dd>
-<dt>t1_brain</dt><dd><p>Skull-stripped <code class="docutils literal notranslate"><span class="pre">t1_preproc</span></code></p>
+<dt>t1w_brain</dt><dd><p>Skull-stripped <code class="docutils literal notranslate"><span class="pre">t1w_preproc</span></code></p>
 </dd>
-<dt>t1_mask</dt><dd><p>Mask of the skull-stripped template image</p>
+<dt>t1w_mask</dt><dd><p>Brain (binary) mask estimated by brain extraction.</p>
 </dd>
-<dt>t1_seg</dt><dd><p>Segmentation of preprocessed structural image, including
-gray-matter (GM), white-matter (WM) and cerebrospinal fluid (CSF)</p>
+<dt>t1w_dseg</dt><dd><p>Brain tissue segmentation of the preprocessed structural image, including
+gray-matter (GM), white-matter (WM) and cerebrospinal fluid (CSF).</p>
 </dd>
-<dt>t1_tpms</dt><dd><p>List of tissue probability maps in T1w space</p>
+<dt>t1w_tpms</dt><dd><p>List of tissue probability maps corresponding to <code class="docutils literal notranslate"><span class="pre">t1w_dseg</span></code>.</p>
 </dd>
-<dt>t1_2_tpl</dt><dd><p>T1w template, normalized to MNI space</p>
+<dt>std_t1w</dt><dd><p>T1w reference resampled in one or more standard spaces.</p>
 </dd>
-<dt>t1_2_tpl_forward_transform</dt><dd><p>ANTs-compatible affine-and-warp transform file</p>
+<dt>std_mask</dt><dd><p>Mask of skull-stripped template, in MNI space</p>
 </dd>
-<dt>t1_2_tpl_reverse_transform</dt><dd><p>ANTs-compatible affine-and-warp transform file (inverse)</p>
+<dt>std_dseg</dt><dd><p>Segmentation, resampled into MNI space</p>
 </dd>
-<dt>tpl_mask</dt><dd><p>Mask of skull-stripped template, in MNI space</p>
-</dd>
-<dt>tpl_seg</dt><dd><p>Segmentation, resampled into MNI space</p>
-</dd>
-<dt>tpl_tpms</dt><dd><p>List of tissue probability maps in MNI space</p>
+<dt>std_tpms</dt><dd><p>List of tissue probability maps in MNI space</p>
 </dd>
 <dt>subjects_dir</dt><dd><p>FreeSurfer SUBJECTS_DIR</p>
 </dd>
+<dt>anat2std_xfm</dt><dd><p>Nonlinear spatial transform to resample imaging data given in anatomical space
+into standard space.</p>
+</dd>
+<dt>std2anat_xfm</dt><dd><p>Inverse transform of the above.</p>
+</dd>
 <dt>subject_id</dt><dd><p>FreeSurfer subject ID</p>
 </dd>
-<dt>t1_2_fsnative_forward_transform</dt><dd><p>LTA-style affine matrix translating from T1w to
+<dt>t1w2fsnative_xfm</dt><dd><p>LTA-style affine matrix translating from T1w to
 FreeSurfer-conformed subject space</p>
 </dd>
-<dt>t1_2_fsnative_reverse_transform</dt><dd><p>LTA-style affine matrix translating from FreeSurfer-conformed
+<dt>fsnative2t1w_xfm</dt><dd><p>LTA-style affine matrix translating from FreeSurfer-conformed
 subject space to T1w</p>
 </dd>
 <dt>surfaces</dt><dd><p>GIFTI surfaces (gray/white boundary, midthickness, pial, inflated)</p>
@@ -281,8 +285,7 @@ subject space to T1w</p>
 <dl class="function">
 <dt id="smriprep.workflows.anatomical.init_anat_template_wf">
 <code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_template_wf</code><span class="sig-paren">(</span><em class="sig-param">longitudinal</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">name='anat_template_wf'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/anatomical.html#init_anat_template_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_template_wf" title="Permalink to this definition">¶</a></dt>
-<dd><p>This workflow generates a canonically oriented structural template from
-input T1w images.</p>
+<dd><p>Generate a canonically-oriented, structural average from all input T1w images.</p>
 <div class="figure align-default">
 <img alt="../_images/smriprep-workflows-anatomical-3.png" src="../_images/smriprep-workflows-anatomical-3.png" />
 </div>
@@ -290,7 +293,7 @@ input T1w images.</p>
 <p><strong>Parameters</strong></p>
 <blockquote>
 <div><dl class="simple">
-<dt>longitudinal<span class="classifier">bool</span></dt><dd><p>Create unbiased structural template, regardless of number of inputs
+<dt>longitudinal<span class="classifier">bool</span></dt><dd><p>Create unbiased structural average, regardless of number of inputs
 (may increase runtime)</p>
 </dd>
 <dt>omp_nthreads<span class="classifier">int</span></dt><dd><p>Maximum number of threads an individual process may use</p>
@@ -311,10 +314,9 @@ input T1w images.</p>
 <p><strong>Outputs</strong></p>
 <blockquote>
 <div><dl class="simple">
-<dt>t1_template</dt><dd><p>Structural template, defining T1w space</p>
+<dt>t1w_ref</dt><dd><p>Structural reference averaging input T1w images, defining the T1w space.</p>
 </dd>
-<dt>template_transforms</dt><dd><p>List of affine transforms from <code class="docutils literal notranslate"><span class="pre">t1_template</span></code> to original
-T1w images</p>
+<dt>t1w_realign_xfm</dt><dd><p>List of affine transforms to realign input T1w images</p>
 </dd>
 <dt>out_report</dt><dd><p>Conformation report</p>
 </dd>
@@ -337,6 +339,8 @@ T1w images</p>
     <li><a href="../../doc_test/api/smriprep.workflows.anatomical.html">doc_test</a></li>
     <li><a href="../../doc_test_1/api/smriprep.workflows.anatomical.html">doc_test_1</a></li>
     <li><a href="../../doc_test_2/api/smriprep.workflows.anatomical.html">doc_test_2</a></li>
+    <li><a href="../../doc_test_3/api/smriprep.workflows.anatomical.html">doc_test_3</a></li>
+    <li><a href="../../doc_test_4/api/smriprep.workflows.anatomical.html">doc_test_4</a></li>
 </ul>
         </div>
       </div>
