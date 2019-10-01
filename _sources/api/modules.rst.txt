@@ -1,7 +1,0 @@
-smriprep
-========
-
-.. toctree::
-   :maxdepth: 1
-
-   smriprep
