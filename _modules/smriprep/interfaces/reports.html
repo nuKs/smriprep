@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.interfaces.reports &mdash; smriprep version documentation</title>
+  <title>smriprep.interfaces.reports &mdash; smriprep 0.3.2+114.g24974cb documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                version
+                0.3.2
               </div>
             
           
@@ -150,7 +150,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for smriprep.interfaces.reports</h1><div class="highlight"><pre>
+  
+
+
+
+
+
+<h1>Source code for smriprep.interfaces.reports</h1><div class="highlight"><pre>
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
 <span class="sd">&quot;&quot;&quot;Interfaces to generate reportlets.&quot;&quot;&quot;</span>
@@ -283,14 +289,14 @@
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
         <span class="kn">from</span> <span class="nn">niworkflows.viz.utils</span> <span class="k">import</span> <span class="n">plot_registration</span><span class="p">,</span> <span class="n">cuts_from_bbox</span><span class="p">,</span> <span class="n">compose_view</span>
-        <span class="kn">from</span> <span class="nn">nilearn.image</span> <span class="k">import</span> <span class="n">load_img</span>
+        <span class="kn">from</span> <span class="nn">nibabel</span> <span class="k">import</span> <span class="n">load</span>
 
         <span class="n">rootdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">subjects_dir</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">subject_id</span>
         <span class="n">_anat_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">rootdir</span> <span class="o">/</span> <span class="s1">&#39;mri&#39;</span> <span class="o">/</span> <span class="s1">&#39;brain.mgz&#39;</span><span class="p">)</span>
         <span class="n">_contour_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">rootdir</span> <span class="o">/</span> <span class="s1">&#39;mri&#39;</span> <span class="o">/</span> <span class="s1">&#39;ribbon.mgz&#39;</span><span class="p">)</span>
 
-        <span class="n">anat</span> <span class="o">=</span> <span class="n">load_img</span><span class="p">(</span><span class="n">_anat_file</span><span class="p">)</span>
-        <span class="n">contour_nii</span> <span class="o">=</span> <span class="n">load_img</span><span class="p">(</span><span class="n">_contour_file</span><span class="p">)</span>
+        <span class="n">anat</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">_anat_file</span><span class="p">)</span>
+        <span class="n">contour_nii</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">_contour_file</span><span class="p">)</span>
 
         <span class="n">n_cuts</span> <span class="o">=</span> <span class="mi">7</span>
         <span class="n">cuts</span> <span class="o">=</span> <span class="n">cuts_from_bbox</span><span class="p">(</span><span class="n">contour_nii</span><span class="p">,</span> <span class="n">cuts</span><span class="o">=</span><span class="n">n_cuts</span><span class="p">)</span>
@@ -320,7 +326,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, The sMRIPrep Developers
+        &copy; Copyright Copyright 2018, Center for Reproducible Neuroscience, Stanford University
 
     </p>
   </div>
@@ -338,21 +344,13 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: ci_doc_deploy
+        v: master
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
         <dl>
-            <dt>Tags</dt>
-            <dd><a href="../../../doc_test/index.html">doc_test</a></dd>
-            <dd><a href="../../../doc_test_1/index.html">doc_test_1</a></dd>
-            <dd><a href="../../../doc_test_2/index.html">doc_test_2</a></dd>
-            <dd><a href="../../../doc_test_3/index.html">doc_test_3</a></dd>
-            <dd><a href="../../../doc_test_4/index.html">doc_test_4</a></dd>
-        </dl>
-        <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../ci_doc_deploy/_modules/smriprep/interfaces/reports.html">ci_doc_deploy</a></dd>
+            <dd><a href="../../../master/_modules/smriprep/interfaces/reports.html">master</a></dd>
         </dl>
     </div>
 </div>
