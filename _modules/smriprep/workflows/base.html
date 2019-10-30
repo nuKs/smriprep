@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.base &mdash; smriprep 0.3.2+122.g78c1d334 documentation</title>
+  <title>smriprep.workflows.base &mdash; smriprep 0.3.2+127.g72f4132b documentation</title>
   
 
   
@@ -186,6 +186,7 @@
 <div class="viewcode-block" id="init_smriprep_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.base.html#smriprep.workflows.base.init_smriprep_wf">[docs]</a><span class="k">def</span> <span class="nf">init_smriprep_wf</span><span class="p">(</span>
     <span class="n">debug</span><span class="p">,</span>
     <span class="n">freesurfer</span><span class="p">,</span>
+    <span class="n">fs_subjects_dir</span><span class="p">,</span>
     <span class="n">hires</span><span class="p">,</span>
     <span class="n">layout</span><span class="p">,</span>
     <span class="n">longitudinal</span><span class="p">,</span>
@@ -217,6 +218,7 @@
 <span class="sd">        wf = init_smriprep_wf(</span>
 <span class="sd">            debug=False,</span>
 <span class="sd">            freesurfer=True,</span>
+<span class="sd">            fs_subjects_dir=None,</span>
 <span class="sd">            hires=True,</span>
 <span class="sd">            layout=BIDSLayout(&#39;.&#39;),</span>
 <span class="sd">            longitudinal=False,</span>
@@ -238,6 +240,8 @@
 <span class="sd">            Enable debugging outputs</span>
 <span class="sd">        freesurfer : bool</span>
 <span class="sd">            Enable FreeSurfer surface reconstruction (may increase runtime)</span>
+<span class="sd">        fs_subjects_dir : os.PathLike or None</span>
+<span class="sd">            Use existing FreeSurfer subjects directory if provided</span>
 <span class="sd">        hires : bool</span>
 <span class="sd">            Enable sub-millimeter preprocessing in FreeSurfer</span>
 <span class="sd">        layout : BIDSLayout object</span>
@@ -283,6 +287,8 @@
                 <span class="n">spaces</span><span class="o">=</span><span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">output_spaces</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;fsaverage&#39;</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span>
                     <span class="s1">&#39;fsnative&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="s1">&#39;fsnative&#39;</span> <span class="ow">in</span> <span class="n">output_spaces</span><span class="p">)),</span>
             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fsdir_run_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">run_uuid</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">),</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fs_subjects_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fsdir</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">subjects_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fs_subjects_dir</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
 
     <span class="n">reportlets_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="s1">&#39;reportlets&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">subject_id</span> <span class="ow">in</span> <span class="n">subject_list</span><span class="p">:</span>

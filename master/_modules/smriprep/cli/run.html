@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.cli.run &mdash; smriprep 0.3.2+122.g78c1d334 documentation</title>
+  <title>smriprep.cli.run &mdash; smriprep 0.3.2+127.g72f4132b documentation</title>
   
 
   
@@ -259,6 +259,10 @@
         <span class="s1">&#39;--fs-license-file&#39;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to FreeSurfer license key file. Get it (for free) by registering&#39;</span>
              <span class="s1">&#39; at https://surfer.nmr.mgh.harvard.edu/registration.html&#39;</span><span class="p">)</span>
+    <span class="n">g_fs</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--fs-subjects-dir&#39;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path to existing FreeSurfer subjects directory to reuse. &#39;</span>
+             <span class="s1">&#39;(default: OUTPUT_DIR/freesurfer)&#39;</span><span class="p">)</span>
 
     <span class="c1"># Surface generation xor</span>
     <span class="n">g_surfs</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s1">&#39;Surface preprocessing options&#39;</span><span class="p">)</span>
@@ -600,6 +604,7 @@
     <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;workflow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">init_smriprep_wf</span><span class="p">(</span>
         <span class="n">debug</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">sloppy</span><span class="p">,</span>
         <span class="n">freesurfer</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">run_reconall</span><span class="p">,</span>
+        <span class="n">fs_subjects_dir</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">fs_subjects_dir</span><span class="p">,</span>
         <span class="n">hires</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">hires</span><span class="p">,</span>
         <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span>
         <span class="n">longitudinal</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">longitudinal</span><span class="p">,</span>

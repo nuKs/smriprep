@@ -6,6 +6,7 @@ from smriprep.workflows.base import init_smriprep_wf
 wf = init_smriprep_wf(
     debug=False,
     freesurfer=True,
+    fs_subjects_dir=None,
     hires=True,
     layout=BIDSLayout('.'),
     longitudinal=False,
