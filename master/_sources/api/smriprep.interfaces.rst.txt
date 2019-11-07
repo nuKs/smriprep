@@ -11,5 +11,6 @@ Submodules
 
 .. toctree::
 
+   smriprep.interfaces.freesurfer
    smriprep.interfaces.reports
    smriprep.interfaces.templateflow

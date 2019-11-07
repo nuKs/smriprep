@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.surfaces module &mdash; smriprep 0.3.2+127.g72f4132b documentation</title>
+  <title>smriprep.workflows.surfaces module &mdash; smriprep 0.3.2+139.gf4789893 documentation</title>
   
 
   
@@ -301,31 +301,34 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <dt id="smriprep.workflows.surfaces.init_autorecon_resume_wf">
 <code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_autorecon_resume_wf</code><span class="sig-paren">(</span><em class="sig-param">omp_nthreads</em>, <em class="sig-param">name='autorecon_resume_wf'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/surfaces.html#init_autorecon_resume_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.surfaces.init_autorecon_resume_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resume recon-all execution, assuming the <cite>-autorecon1</cite> stage has been completed.</p>
-<p>In order to utilize resources efficiently, this is broken down into five
+<p>In order to utilize resources efficiently, this is broken down into seven
 sub-stages; after the first stage, the second and third stages may be run
-simultaneously, and the fourth and fifth stages may be run simultaneously,
-if resources permit:</p>
+simultaneously, and the fifth and sixth stages may be run simultaneously,
+if resources permit; the fourth stage must be run prior to the fifth and
+sixth, and the seventh must be run after:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
     -autorecon2-volonly
 $ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
-    -autorecon-hemi lh \
-    -noparcstats -nocortparc2 -noparcstats2 -nocortparc3 \
-    -noparcstats3 -nopctsurfcon -nohyporelabel -noaparc2aseg \
-    -noapas2aseg -nosegstats -nowmparc -nobalabels
+    -autorecon-hemi lh -T2pial \
+    -noparcstats -noparcstats2 -noparcstats3 -nohyporelabel -nobalabels
 $ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
-    -autorecon-hemi rh \
-    -noparcstats -nocortparc2 -noparcstats2 -nocortparc3 \
-    -noparcstats3 -nopctsurfcon -nohyporelabel -noaparc2aseg \
-    -noapas2aseg -nosegstats -nowmparc -nobalabels
+    -autorecon-hemi rh -T2pial \
+    -noparcstats -noparcstats2 -noparcstats3 -nohyporelabel -nobalabels
 $ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
-    -autorecon3 -hemi lh -T2pial
+    -cortribbon
 $ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
-    -autorecon3 -hemi rh -T2pial
+    -autorecon-hemi lh -nohyporelabel
+$ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
+    -autorecon-hemi rh -nohyporelabel
+$ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
+    -autorecon3
 </pre></div>
 </div>
-<p>The excluded steps in the second and third stages (<code class="docutils literal notranslate"><span class="pre">-no&lt;option&gt;</span></code>) are not
-fully hemisphere independent, and are therefore postponed to the final two
-stages.</p>
+<p>The parcellation statistics steps are excluded from the second and third
+stages, because they require calculation of the cortical ribbon volume
+(the fourth stage).
+Hypointensity relabeling is excluded from hemisphere-specific steps to avoid
+race conditions, as it is a volumetric operation.</p>
 <div class="figure align-default">
 <img alt="../_images/smriprep-workflows-surfaces-2.png" src="../_images/smriprep-workflows-surfaces-2.png" />
 </div>
@@ -393,31 +396,34 @@ midthickness (or graymid) surface, and inflated surfaces</p>
 <dt>
 <code class="sig-prename descclassname">smriprep.workflows.surfaces.</code><code class="sig-name descname">init_autorecon_resume_wf</code><span class="sig-paren">(</span><em class="sig-param">omp_nthreads</em>, <em class="sig-param">name='autorecon_resume_wf'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/surfaces.html#init_autorecon_resume_wf"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Resume recon-all execution, assuming the <cite>-autorecon1</cite> stage has been completed.</p>
-<p>In order to utilize resources efficiently, this is broken down into five
+<p>In order to utilize resources efficiently, this is broken down into seven
 sub-stages; after the first stage, the second and third stages may be run
-simultaneously, and the fourth and fifth stages may be run simultaneously,
-if resources permit:</p>
+simultaneously, and the fifth and sixth stages may be run simultaneously,
+if resources permit; the fourth stage must be run prior to the fifth and
+sixth, and the seventh must be run after:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
     -autorecon2-volonly
 $ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
-    -autorecon-hemi lh \
-    -noparcstats -nocortparc2 -noparcstats2 -nocortparc3 \
-    -noparcstats3 -nopctsurfcon -nohyporelabel -noaparc2aseg \
-    -noapas2aseg -nosegstats -nowmparc -nobalabels
+    -autorecon-hemi lh -T2pial \
+    -noparcstats -noparcstats2 -noparcstats3 -nohyporelabel -nobalabels
 $ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
-    -autorecon-hemi rh \
-    -noparcstats -nocortparc2 -noparcstats2 -nocortparc3 \
-    -noparcstats3 -nopctsurfcon -nohyporelabel -noaparc2aseg \
-    -noapas2aseg -nosegstats -nowmparc -nobalabels
+    -autorecon-hemi rh -T2pial \
+    -noparcstats -noparcstats2 -noparcstats3 -nohyporelabel -nobalabels
 $ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
-    -autorecon3 -hemi lh -T2pial
+    -cortribbon
 $ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
-    -autorecon3 -hemi rh -T2pial
+    -autorecon-hemi lh -nohyporelabel
+$ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
+    -autorecon-hemi rh -nohyporelabel
+$ recon-all -sd &lt;output dir&gt;/freesurfer -subjid sub-&lt;subject_label&gt; \
+    -autorecon3
 </pre></div>
 </div>
-<p>The excluded steps in the second and third stages (<code class="docutils literal notranslate"><span class="pre">-no&lt;option&gt;</span></code>) are not
-fully hemisphere independent, and are therefore postponed to the final two
-stages.</p>
+<p>The parcellation statistics steps are excluded from the second and third
+stages, because they require calculation of the cortical ribbon volume
+(the fourth stage).
+Hypointensity relabeling is excluded from hemisphere-specific steps to avoid
+race conditions, as it is a volumetric operation.</p>
 <div class="figure align-default">
 <img alt="../_images/smriprep-workflows-surfaces-4.png" src="../_images/smriprep-workflows-surfaces-4.png" />
 </div>
@@ -676,6 +682,10 @@ midthickness (or graymid) surface, and inflated surfaces</p>
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../0.4.0rc1/api/smriprep.workflows.surfaces.html">0.4.0rc1</a></dd>
+        </dl>
         <dl>
             <dt>Branches</dt>
             <dd><a href="../master/api/smriprep.workflows.surfaces.html">master</a></dd>
