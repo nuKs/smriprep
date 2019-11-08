@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.norm &mdash; smriprep 0.4.0rc1+4.g845d5739 documentation</title>
+  <title>smriprep.workflows.norm &mdash; smriprep 0.4.0rc1+9.ga3c1a0ae documentation</title>
   
 
   
@@ -167,7 +167,7 @@
 
 <span class="kn">from</span> <span class="nn">nipype.interfaces.ants.base</span> <span class="k">import</span> <span class="n">Info</span> <span class="k">as</span> <span class="n">ANTsInfo</span>
 
-<span class="kn">from</span> <span class="nn">templateflow</span> <span class="k">import</span> <span class="n">api</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">from</span> <span class="nn">templateflow.api</span> <span class="k">import</span> <span class="n">get_metadata</span>
 <span class="kn">from</span> <span class="nn">niworkflows.engine.workflows</span> <span class="k">import</span> <span class="n">LiterateWorkflow</span> <span class="k">as</span> <span class="n">Workflow</span>
 <span class="kn">from</span> <span class="nn">niworkflows.interfaces.ants</span> <span class="k">import</span> <span class="n">ImageMath</span>
 <span class="kn">from</span> <span class="nn">niworkflows.interfaces.mni</span> <span class="k">import</span> <span class="n">RobustMNINormalization</span>
@@ -263,7 +263,7 @@
 
     <span class="c1"># Append template citations to description</span>
     <span class="k">for</span> <span class="n">template</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">:</span>
-        <span class="n">template_meta</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+        <span class="n">template_meta</span> <span class="o">=</span> <span class="n">get_metadata</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
         <span class="n">template_refs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;@</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">template</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
 
         <span class="k">if</span> <span class="n">template_meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;RRID&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>

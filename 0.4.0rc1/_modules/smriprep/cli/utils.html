@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.cli.utils &mdash; smriprep 0.4.0rc1+4.g845d5739 documentation</title>
+  <title>smriprep.cli.utils &mdash; smriprep 0.4.0rc1+9.ga3c1a0ae documentation</title>
   
 
   
@@ -162,9 +162,7 @@
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
 <span class="sd">&quot;&quot;&quot;CLI Utilities.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">argparse</span> <span class="k">import</span> <span class="n">Action</span>
-<span class="kn">from</span> <span class="nn">templateflow.api</span> <span class="k">import</span> <span class="n">templates</span> <span class="k">as</span> <span class="n">get_templates</span>
-
-<span class="n">TEMPLATES</span> <span class="o">=</span> <span class="n">get_templates</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">..conf</span> <span class="k">import</span> <span class="n">TF_TEMPLATES</span> <span class="k">as</span> <span class="n">_TF_TEMPLATES</span>
 
 
 <div class="viewcode-block" id="ParseTemplates"><a class="viewcode-back" href="../../../api/smriprep.cli.utils.html#smriprep.cli.utils.ParseTemplates">[docs]</a><span class="k">class</span> <span class="nc">ParseTemplates</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
@@ -175,20 +173,7 @@
 
 
 <span class="k">def</span> <span class="nf">_template</span><span class="p">(</span><span class="n">inlist</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return an OrderedDict with templates.</span>
-
-<span class="sd">    &gt;&gt;&gt; list(_template([&#39;MNI152NLin2009cAsym&#39;]).keys())</span>
-<span class="sd">    [&#39;MNI152NLin2009cAsym&#39;]</span>
-
-<span class="sd">    &gt;&gt;&gt; _template([&#39;MNI152NLin2009cAsym&#39;, &#39;MNI152NLin2009cAsym:res-2&#39;])</span>
-<span class="sd">    OrderedDict([(&#39;MNI152NLin2009cAsym&#39;, {})])</span>
-
-<span class="sd">    &gt;&gt;&gt; _template([&#39;MNI152NLin2009cAsym&#39;, &#39;MNI152NLin2009cAsym:res-2&#39;,</span>
-<span class="sd">    ...            &#39;MNI152NLin6Asym:res-2&#39;, &#39;MNI152NLin6Asym&#39;])</span>
-<span class="sd">    OrderedDict([(&#39;MNI152NLin2009cAsym&#39;, {}), (&#39;MNI152NLin6Asym&#39;, {&#39;res&#39;: &#39;2&#39;})])</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Return an OrderedDict with templates.&quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inlist</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">inlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">inlist</span><span class="p">]</span>
@@ -201,26 +186,7 @@
 
 
 <div class="viewcode-block" id="output_space"><a class="viewcode-back" href="../../../api/smriprep.cli.utils.html#smriprep.cli.utils.output_space">[docs]</a><span class="k">def</span> <span class="nf">output_space</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parse one element of ``--output-spaces``.</span>
-
-<span class="sd">    &gt;&gt;&gt; output_space(&#39;MNI152NLin2009cAsym&#39;)</span>
-<span class="sd">    (&#39;MNI152NLin2009cAsym&#39;, {})</span>
-
-<span class="sd">    &gt;&gt;&gt; output_space(&#39;MNI152NLin2009cAsym:native&#39;)</span>
-<span class="sd">    (&#39;MNI152NLin2009cAsym&#39;, {&#39;native&#39;: True})</span>
-
-<span class="sd">    &gt;&gt;&gt; output_space(&#39;MNI152NLin2009cAsym:res-2&#39;)</span>
-<span class="sd">    (&#39;MNI152NLin2009cAsym&#39;, {&#39;res&#39;: &#39;2&#39;})</span>
-
-<span class="sd">    &gt;&gt;&gt; output_space(&#39;MNIInfant:res-2:cohort-1&#39;) == (&#39;MNIInfant&#39;, {&#39;res&#39;: &#39;2&#39;, &#39;cohort&#39;: &#39;1&#39;})</span>
-<span class="sd">    True</span>
-
-<span class="sd">    &gt;&gt;&gt; output_space(&#39;UnkownTemplate&#39;)  # doctest: +IGNORE_EXCEPTION_DETAIL</span>
-<span class="sd">    Traceback (most recent call last):</span>
-<span class="sd">    ValueError:</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Parse one element of ``--output-spaces``.&quot;&quot;&quot;</span>
     <span class="n">tpl_args</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
     <span class="n">template</span> <span class="o">=</span> <span class="n">tpl_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">spec</span> <span class="o">=</span> <span class="p">{}</span>
@@ -228,7 +194,7 @@
         <span class="n">mitems</span> <span class="o">=</span> <span class="n">modifier</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">spec</span><span class="p">[</span><span class="n">mitems</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mitems</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">mitems</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">template</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">TEMPLATES</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">template</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_TF_TEMPLATES</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">Template identifier &quot;</span><span class="si">{}</span><span class="s2">&quot; not found. Please, make sure TemplateFlow is </span><span class="se">\</span>
 <span class="s2">correctly installed and contains the given template identifiers.&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">template</span><span class="p">))</span>
