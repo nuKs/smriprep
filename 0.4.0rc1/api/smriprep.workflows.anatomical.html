@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.anatomical module &mdash; smriprep 0.4.0rc1+9.ga3c1a0ae documentation</title>
+  <title>smriprep.workflows.anatomical module &mdash; smriprep 0.4.0rc1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4.0rc1
               </div>
             
           
@@ -207,15 +207,14 @@
 </ul>
 </dd>
 </dl>
-<dl>
-<dt>bids_root<span class="classifier">str</span></dt><dd><p>Path of the input BIDS dataset root</p>
-</dd>
-<dt>debug<span class="classifier">bool</span></dt><dd><p>Enable debugging outputs</p>
-</dd>
-<dt>freesurfer<span class="classifier">bool</span></dt><dd><p>Enable FreeSurfer surface reconstruction (increases runtime by 6h,
-at the very least)</p>
-</dd>
-<dt>output_spaces<span class="classifier">list</span></dt><dd><p>List of spatial normalization targets. Some parts of pipeline will
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul>
+<li><p><strong>bids_root</strong> (<em>str</em>) – Path of the input BIDS dataset root</p></li>
+<li><p><strong>debug</strong> (<em>bool</em>) – Enable debugging outputs</p></li>
+<li><p><strong>freesurfer</strong> (<em>bool</em>) – Enable FreeSurfer surface reconstruction (increases runtime by 6h,
+at the very least)</p></li>
+<li><p><strong>output_spaces</strong> (<em>list</em>) – List of spatial normalization targets. Some parts of pipeline will
 only be instantiated for some output spaces. Valid spaces:</p>
 <blockquote>
 <div><ul class="simple">
@@ -224,74 +223,52 @@ only be instantiated for some output spaces. Valid spaces:</p>
 conventions</p></li>
 </ul>
 </div></blockquote>
-</dd>
-<dt>hires<span class="classifier">bool</span></dt><dd><p>Enable sub-millimeter preprocessing in FreeSurfer</p>
-</dd>
-<dt>longitudinal<span class="classifier">bool</span></dt><dd><p>Create unbiased structural template, regardless of number of inputs
-(may increase runtime)</p>
-</dd>
-<dt>name<span class="classifier">str, optional</span></dt><dd><p>Workflow name (default: anat_preproc_wf)</p>
-</dd>
-<dt>omp_nthreads<span class="classifier">int</span></dt><dd><p>Maximum number of threads an individual process may use</p>
-</dd>
-<dt>output_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save derivatives</p>
-</dd>
-<dt>reportlets_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save reportlets</p>
-</dd>
-<dt>skull_strip_fixed_seed<span class="classifier">bool</span></dt><dd><p>Do not use a random seed for skull-stripping - will ensure
+</li>
+<li><p><strong>hires</strong> (<em>bool</em>) – Enable sub-millimeter preprocessing in FreeSurfer</p></li>
+<li><p><strong>longitudinal</strong> (<em>bool</em>) – Create unbiased structural template, regardless of number of inputs
+(may increase runtime)</p></li>
+<li><p><strong>name</strong> (<em>str, optional</em>) – Workflow name (default: anat_preproc_wf)</p></li>
+<li><p><strong>omp_nthreads</strong> (<em>int</em>) – Maximum number of threads an individual process may use</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory in which to save derivatives</p></li>
+<li><p><strong>reportlets_dir</strong> (<em>str</em>) – Directory in which to save reportlets</p></li>
+<li><p><strong>skull_strip_fixed_seed</strong> (<em>bool</em>) – Do not use a random seed for skull-stripping - will ensure
 run-to-run replicability when used with –omp-nthreads 1
-(default: <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p>
+(default: <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>skull_strip_template</strong> (<em>tuple</em>) – Name of ANTs skull-stripping template and specifications.</p></li>
+</ul>
 </dd>
-<dt>skull_strip_template<span class="classifier">tuple</span></dt><dd><p>Name of ANTs skull-stripping template and specifications.</p>
+<dt class="field-even">Inputs</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>t1w</strong> – List of T1-weighted structural images</p></li>
+<li><p><strong>t2w</strong> – List of T2-weighted structural images</p></li>
+<li><p><strong>flair</strong> – List of FLAIR images</p></li>
+<li><p><strong>subjects_dir</strong> – FreeSurfer SUBJECTS_DIR</p></li>
+</ul>
 </dd>
-</dl>
-<dl class="simple">
-<dt>t1w</dt><dd><p>List of T1-weighted structural images</p>
-</dd>
-<dt>t2w</dt><dd><p>List of T2-weighted structural images</p>
-</dd>
-<dt>flair</dt><dd><p>List of FLAIR images</p>
-</dd>
-<dt>subjects_dir</dt><dd><p>FreeSurfer SUBJECTS_DIR</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>t1w_preproc</dt><dd><p>The T1w reference map, which is calculated as the average of bias-corrected
-and preprocessed T1w images, defining the anatomical space.</p>
-</dd>
-<dt>t1w_brain</dt><dd><p>Skull-stripped <code class="docutils literal notranslate"><span class="pre">t1w_preproc</span></code></p>
-</dd>
-<dt>t1w_mask</dt><dd><p>Brain (binary) mask estimated by brain extraction.</p>
-</dd>
-<dt>t1w_dseg</dt><dd><p>Brain tissue segmentation of the preprocessed structural image, including
-gray-matter (GM), white-matter (WM) and cerebrospinal fluid (CSF).</p>
-</dd>
-<dt>t1w_tpms</dt><dd><p>List of tissue probability maps corresponding to <code class="docutils literal notranslate"><span class="pre">t1w_dseg</span></code>.</p>
-</dd>
-<dt>std_t1w</dt><dd><p>T1w reference resampled in one or more standard spaces.</p>
-</dd>
-<dt>std_mask</dt><dd><p>Mask of skull-stripped template, in MNI space</p>
-</dd>
-<dt>std_dseg</dt><dd><p>Segmentation, resampled into MNI space</p>
-</dd>
-<dt>std_tpms</dt><dd><p>List of tissue probability maps in MNI space</p>
-</dd>
-<dt>subjects_dir</dt><dd><p>FreeSurfer SUBJECTS_DIR</p>
-</dd>
-<dt>anat2std_xfm</dt><dd><p>Nonlinear spatial transform to resample imaging data given in anatomical space
-into standard space.</p>
-</dd>
-<dt>std2anat_xfm</dt><dd><p>Inverse transform of the above.</p>
-</dd>
-<dt>subject_id</dt><dd><p>FreeSurfer subject ID</p>
-</dd>
-<dt>t1w2fsnative_xfm</dt><dd><p>LTA-style affine matrix translating from T1w to
-FreeSurfer-conformed subject space</p>
-</dd>
-<dt>fsnative2t1w_xfm</dt><dd><p>LTA-style affine matrix translating from FreeSurfer-conformed
-subject space to T1w</p>
-</dd>
-<dt>surfaces</dt><dd><p>GIFTI surfaces (gray/white boundary, midthickness, pial, inflated)</p>
+<dt class="field-odd">Outputs</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t1w_preproc</strong> – The T1w reference map, which is calculated as the average of bias-corrected
+and preprocessed T1w images, defining the anatomical space.</p></li>
+<li><p><strong>t1w_brain</strong> – Skull-stripped <code class="docutils literal notranslate"><span class="pre">t1w_preproc</span></code></p></li>
+<li><p><strong>t1w_mask</strong> – Brain (binary) mask estimated by brain extraction.</p></li>
+<li><p><strong>t1w_dseg</strong> – Brain tissue segmentation of the preprocessed structural image, including
+gray-matter (GM), white-matter (WM) and cerebrospinal fluid (CSF).</p></li>
+<li><p><strong>t1w_tpms</strong> – List of tissue probability maps corresponding to <code class="docutils literal notranslate"><span class="pre">t1w_dseg</span></code>.</p></li>
+<li><p><strong>std_t1w</strong> – T1w reference resampled in one or more standard spaces.</p></li>
+<li><p><strong>std_mask</strong> – Mask of skull-stripped template, in MNI space</p></li>
+<li><p><strong>std_dseg</strong> – Segmentation, resampled into MNI space</p></li>
+<li><p><strong>std_tpms</strong> – List of tissue probability maps in MNI space</p></li>
+<li><p><strong>subjects_dir</strong> – FreeSurfer SUBJECTS_DIR</p></li>
+<li><p><strong>anat2std_xfm</strong> – Nonlinear spatial transform to resample imaging data given in anatomical space
+into standard space.</p></li>
+<li><p><strong>std2anat_xfm</strong> – Inverse transform of the above.</p></li>
+<li><p><strong>subject_id</strong> – FreeSurfer subject ID</p></li>
+<li><p><strong>t1w2fsnative_xfm</strong> – LTA-style affine matrix translating from T1w to
+FreeSurfer-conformed subject space</p></li>
+<li><p><strong>fsnative2t1w_xfm</strong> – LTA-style affine matrix translating from FreeSurfer-conformed
+subject space to T1w</p></li>
+<li><p><strong>surfaces</strong> – GIFTI surfaces (gray/white boundary, midthickness, pial, inflated)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -307,27 +284,25 @@ subject space to T1w</p>
 <p>(<a class="reference external" href="../api/smriprep-workflows-anatomical-2.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-anatomical-2.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-anatomical-2.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-anatomical-2.pdf">pdf</a>)</p>
 </dd>
 </dl>
-<dl class="simple">
-<dt>longitudinal<span class="classifier">bool</span></dt><dd><p>Create unbiased structural average, regardless of number of inputs
-(may increase runtime)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>longitudinal</strong> (<em>bool</em>) – Create unbiased structural average, regardless of number of inputs
+(may increase runtime)</p></li>
+<li><p><strong>omp_nthreads</strong> (<em>int</em>) – Maximum number of threads an individual process may use</p></li>
+<li><p><strong>num_t1w</strong> (<em>int</em>) – Number of T1w images</p></li>
+<li><p><strong>name</strong> (<em>str, optional</em>) – Workflow name (default: anat_template_wf)</p></li>
+</ul>
 </dd>
-<dt>omp_nthreads<span class="classifier">int</span></dt><dd><p>Maximum number of threads an individual process may use</p>
+<dt class="field-even">Inputs</dt>
+<dd class="field-even"><p><strong>t1w</strong> – List of T1-weighted structural images</p>
 </dd>
-<dt>num_t1w<span class="classifier">int</span></dt><dd><p>Number of T1w images</p>
-</dd>
-<dt>name<span class="classifier">str, optional</span></dt><dd><p>Workflow name (default: anat_template_wf)</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>t1w</dt><dd><p>List of T1-weighted structural images</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>t1w_ref</dt><dd><p>Structural reference averaging input T1w images, defining the T1w space.</p>
-</dd>
-<dt>t1w_realign_xfm</dt><dd><p>List of affine transforms to realign input T1w images</p>
-</dd>
-<dt>out_report</dt><dd><p>Conformation report</p>
+<dt class="field-odd">Outputs</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t1w_ref</strong> – Structural reference averaging input T1w images, defining the T1w space.</p></li>
+<li><p><strong>t1w_realign_xfm</strong> – List of affine transforms to realign input T1w images</p></li>
+<li><p><strong>out_report</strong> – Conformation report</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
