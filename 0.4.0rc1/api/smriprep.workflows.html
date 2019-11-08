@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows package &mdash; smriprep 0.3.2+139.gf4789893 documentation</title>
+  <title>smriprep.workflows package &mdash; smriprep 0.4.0rc1+4.g845d5739 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3.2
+                0.4.0
               </div>
             
           
@@ -192,13 +192,19 @@
 <li><p>Surface reconstruction with <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/">FreeSurfer</a>.</p></li>
 </ul>
 </div></blockquote>
-<div class="figure align-default">
+<dl>
+<dt>Workflow Graph</dt><dd><div class="figure align-default">
 <img alt="../_images/smriprep-workflows-1.png" src="../_images/smriprep-workflows-1.png" />
 </div>
 <p>(<a class="reference external" href="../api/smriprep-workflows-1.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-1.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-1.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-1.pdf">pdf</a>)</p>
-<p><strong>Parameters</strong></p>
-<blockquote>
-<div><dl>
+</dd>
+<dt>Subworkflows</dt><dd><ul class="simple">
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">init_brain_extraction_wf()</span></code></p></li>
+<li><p><a class="reference internal" href="smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_surface_recon_wf" title="smriprep.workflows.surfaces.init_surface_recon_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_surface_recon_wf()</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl>
 <dt>bids_root<span class="classifier">str</span></dt><dd><p>Path of the input BIDS dataset root</p>
 </dd>
 <dt>debug<span class="classifier">bool</span></dt><dd><p>Enable debugging outputs</p>
@@ -236,10 +242,7 @@ run-to-run replicability when used with –omp-nthreads 1
 <dt>skull_strip_template<span class="classifier">tuple</span></dt><dd><p>Name of ANTs skull-stripping template and specifications.</p>
 </dd>
 </dl>
-</div></blockquote>
-<p><strong>Inputs</strong></p>
-<blockquote>
-<div><dl class="simple">
+<dl class="simple">
 <dt>t1w</dt><dd><p>List of T1-weighted structural images</p>
 </dd>
 <dt>t2w</dt><dd><p>List of T2-weighted structural images</p>
@@ -249,10 +252,7 @@ run-to-run replicability when used with –omp-nthreads 1
 <dt>subjects_dir</dt><dd><p>FreeSurfer SUBJECTS_DIR</p>
 </dd>
 </dl>
-</div></blockquote>
-<p><strong>Outputs</strong></p>
-<blockquote>
-<div><dl class="simple">
+<dl class="simple">
 <dt>t1w_preproc</dt><dd><p>The T1w reference map, which is calculated as the average of bias-corrected
 and preprocessed T1w images, defining the anatomical space.</p>
 </dd>
@@ -291,14 +291,6 @@ subject space to T1w</p>
 <dt>surfaces</dt><dd><p>GIFTI surfaces (gray/white boundary, midthickness, pial, inflated)</p>
 </dd>
 </dl>
-</div></blockquote>
-<p><strong>Subworkflows</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">init_brain_extraction_wf()</span></code></p></li>
-<li><p><a class="reference internal" href="smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_surface_recon_wf" title="smriprep.workflows.surfaces.init_surface_recon_wf"><code class="xref py py-func docutils literal notranslate"><span class="pre">init_surface_recon_wf()</span></code></a></p></li>
-</ul>
-</div></blockquote>
 </dd></dl>
 
 <div class="section" id="submodules">

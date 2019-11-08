@@ -1,2 +1,2 @@
-from smriprep.workflows.surfaces import init_surface_recon_wf
-wf = init_surface_recon_wf(omp_nthreads=1, hires=True)
+from smriprep.workflows.surfaces import init_autorecon_resume_wf
+wf = init_autorecon_resume_wf(omp_nthreads=1)

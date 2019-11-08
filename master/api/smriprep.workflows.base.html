@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.base module &mdash; smriprep 0.3.2+139.gf4789893 documentation</title>
+  <title>smriprep.workflows.base module &mdash; smriprep 0.4.0rc1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3.2
+                0.4.0rc1
               </div>
             
           
@@ -193,53 +193,36 @@ individual BOLD series.</p>
 <img alt="../_images/smriprep-workflows-base-1.png" src="../_images/smriprep-workflows-base-1.png" />
 </div>
 <p>(<a class="reference external" href="../api/smriprep-workflows-base-1.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-base-1.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-base-1.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-base-1.pdf">pdf</a>)</p>
-<p><strong>Parameters</strong></p>
-<blockquote>
-<div><dl class="simple">
-<dt>debug<span class="classifier">bool</span></dt><dd><p>Enable debugging outputs</p>
-</dd>
-<dt>freesurfer<span class="classifier">bool</span></dt><dd><p>Enable FreeSurfer surface reconstruction (may increase runtime)</p>
-</dd>
-<dt>hires<span class="classifier">bool</span></dt><dd><p>Enable sub-millimeter preprocessing in FreeSurfer</p>
-</dd>
-<dt>layout<span class="classifier">BIDSLayout object</span></dt><dd><p>BIDS dataset layout</p>
-</dd>
-<dt>longitudinal<span class="classifier">bool</span></dt><dd><p>Treat multiple sessions as longitudinal (may increase runtime)
-See sub-workflows for specific differences</p>
-</dd>
-<dt>low_mem<span class="classifier">bool</span></dt><dd><p>Write uncompressed .nii files in some cases to reduce memory usage</p>
-</dd>
-<dt>name<span class="classifier">str</span></dt><dd><p>Name of workflow</p>
-</dd>
-<dt>omp_nthreads<span class="classifier">int</span></dt><dd><p>Maximum number of threads an individual process may use</p>
-</dd>
-<dt>output_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save derivatives</p>
-</dd>
-<dt>output_spaces<span class="classifier">OrderedDict</span></dt><dd><p>List of spatial normalization targets. Some parts of pipeline will
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>debug</strong> (<em>bool</em>) – Enable debugging outputs</p></li>
+<li><p><strong>freesurfer</strong> (<em>bool</em>) – Enable FreeSurfer surface reconstruction (may increase runtime)</p></li>
+<li><p><strong>hires</strong> (<em>bool</em>) – Enable sub-millimeter preprocessing in FreeSurfer</p></li>
+<li><p><strong>layout</strong> (<em>BIDSLayout object</em>) – BIDS dataset layout</p></li>
+<li><p><strong>longitudinal</strong> (<em>bool</em>) – Treat multiple sessions as longitudinal (may increase runtime)
+See sub-workflows for specific differences</p></li>
+<li><p><strong>low_mem</strong> (<em>bool</em>) – Write uncompressed .nii files in some cases to reduce memory usage</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Name of workflow</p></li>
+<li><p><strong>omp_nthreads</strong> (<em>int</em>) – Maximum number of threads an individual process may use</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory in which to save derivatives</p></li>
+<li><p><strong>output_spaces</strong> (<em>OrderedDict</em>) – List of spatial normalization targets. Some parts of pipeline will
 only be instantiated for some output spaces. Valid spaces:
 - Any template identifier from TemplateFlow
 - Path to a template folder organized following TemplateFlow’s
-conventions</p>
+conventions</p></li>
+<li><p><strong>reportlets_dir</strong> (<em>str</em>) – Directory in which to save reportlets</p></li>
+<li><p><strong>skull_strip_fixed_seed</strong> (<em>bool</em>) – Do not use a random seed for skull-stripping - will ensure
+run-to-run replicability when used with –omp-nthreads 1</p></li>
+<li><p><strong>skull_strip_template</strong> (<em>tuple</em>) – Name of ANTs skull-stripping template (e.g., ‘OASIS30ANTs’) and
+dictionary of template specifications.</p></li>
+<li><p><strong>subject_id</strong> (<em>str</em>) – List of subject labels</p></li>
+</ul>
 </dd>
-<dt>reportlets_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save reportlets</p>
-</dd>
-<dt>skull_strip_fixed_seed<span class="classifier">bool</span></dt><dd><p>Do not use a random seed for skull-stripping - will ensure
-run-to-run replicability when used with –omp-nthreads 1</p>
-</dd>
-<dt>skull_strip_template<span class="classifier">tuple</span></dt><dd><p>Name of ANTs skull-stripping template (e.g., ‘OASIS30ANTs’) and
-dictionary of template specifications.</p>
-</dd>
-<dt>subject_id<span class="classifier">str</span></dt><dd><p>List of subject labels</p>
-</dd>
-</dl>
-</div></blockquote>
-<p><strong>Inputs</strong></p>
-<blockquote>
-<div><dl class="simple">
-<dt>subjects_dir</dt><dd><p>FreeSurfer SUBJECTS_DIR</p>
+<dt class="field-even">Inputs</dt>
+<dd class="field-even"><p><strong>subjects_dir</strong> – FreeSurfer SUBJECTS_DIR</p>
 </dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
 <dl class="function">
@@ -252,49 +235,35 @@ created and populated with any needed template subjects.</p>
 <img alt="../_images/smriprep-workflows-base-2.png" src="../_images/smriprep-workflows-base-2.png" />
 </div>
 <p>(<a class="reference external" href="../api/smriprep-workflows-base-2.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-base-2.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-base-2.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-base-2.pdf">pdf</a>)</p>
-<p><strong>Parameters</strong></p>
-<blockquote>
-<div><dl class="simple">
-<dt>debug<span class="classifier">bool</span></dt><dd><p>Enable debugging outputs</p>
-</dd>
-<dt>freesurfer<span class="classifier">bool</span></dt><dd><p>Enable FreeSurfer surface reconstruction (may increase runtime)</p>
-</dd>
-<dt>fs_subjects_dir<span class="classifier">os.PathLike or None</span></dt><dd><p>Use existing FreeSurfer subjects directory if provided</p>
-</dd>
-<dt>hires<span class="classifier">bool</span></dt><dd><p>Enable sub-millimeter preprocessing in FreeSurfer</p>
-</dd>
-<dt>layout<span class="classifier">BIDSLayout object</span></dt><dd><p>BIDS dataset layout</p>
-</dd>
-<dt>longitudinal<span class="classifier">bool</span></dt><dd><p>Treat multiple sessions as longitudinal (may increase runtime)
-See sub-workflows for specific differences</p>
-</dd>
-<dt>low_mem<span class="classifier">bool</span></dt><dd><p>Write uncompressed .nii files in some cases to reduce memory usage</p>
-</dd>
-<dt>omp_nthreads<span class="classifier">int</span></dt><dd><p>Maximum number of threads an individual process may use</p>
-</dd>
-<dt>output_dir<span class="classifier">str</span></dt><dd><p>Directory in which to save derivatives</p>
-</dd>
-<dt>output_spaces<span class="classifier">OrderedDict</span></dt><dd><p>List of spatial normalization targets. Some parts of pipeline will
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>debug</strong> (<em>bool</em>) – Enable debugging outputs</p></li>
+<li><p><strong>freesurfer</strong> (<em>bool</em>) – Enable FreeSurfer surface reconstruction (may increase runtime)</p></li>
+<li><p><strong>fs_subjects_dir</strong> (<em>os.PathLike or None</em>) – Use existing FreeSurfer subjects directory if provided</p></li>
+<li><p><strong>hires</strong> (<em>bool</em>) – Enable sub-millimeter preprocessing in FreeSurfer</p></li>
+<li><p><strong>layout</strong> (<em>BIDSLayout object</em>) – BIDS dataset layout</p></li>
+<li><p><strong>longitudinal</strong> (<em>bool</em>) – Treat multiple sessions as longitudinal (may increase runtime)
+See sub-workflows for specific differences</p></li>
+<li><p><strong>low_mem</strong> (<em>bool</em>) – Write uncompressed .nii files in some cases to reduce memory usage</p></li>
+<li><p><strong>omp_nthreads</strong> (<em>int</em>) – Maximum number of threads an individual process may use</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em>) – Directory in which to save derivatives</p></li>
+<li><p><strong>output_spaces</strong> (<em>OrderedDict</em>) – List of spatial normalization targets. Some parts of pipeline will
 only be instantiated for some output spaces. Valid spaces:
 - Any template identifier from TemplateFlow
 - Path to a template folder organized following TemplateFlow’s
-conventions</p>
-</dd>
-<dt>run_uuid<span class="classifier">str</span></dt><dd><p>Unique identifier for execution instance</p>
-</dd>
-<dt>skull_strip_fixed_seed<span class="classifier">bool</span></dt><dd><p>Do not use a random seed for skull-stripping - will ensure
-run-to-run replicability when used with –omp-nthreads 1</p>
-</dd>
-<dt>skull_strip_template<span class="classifier">tuple</span></dt><dd><p>Name of ANTs skull-stripping template (‘OASIS30ANTs’ or ‘NKI’),
-and dictionary with template specifications (e.g., {‘res’: ‘2’})</p>
-</dd>
-<dt>subject_list<span class="classifier">list</span></dt><dd><p>List of subject labels</p>
-</dd>
-<dt>work_dir<span class="classifier">str</span></dt><dd><p>Directory in which to store workflow execution state and
-temporary files</p>
+conventions</p></li>
+<li><p><strong>run_uuid</strong> (<em>str</em>) – Unique identifier for execution instance</p></li>
+<li><p><strong>skull_strip_fixed_seed</strong> (<em>bool</em>) – Do not use a random seed for skull-stripping - will ensure
+run-to-run replicability when used with –omp-nthreads 1</p></li>
+<li><p><strong>skull_strip_template</strong> (<em>tuple</em>) – Name of ANTs skull-stripping template (‘OASIS30ANTs’ or ‘NKI’),
+and dictionary with template specifications (e.g., {‘res’: ‘2’})</p></li>
+<li><p><strong>subject_list</strong> (<em>list</em>) – List of subject labels</p></li>
+<li><p><strong>work_dir</strong> (<em>str</em>) – Directory in which to store workflow execution state and
+temporary files</p></li>
+</ul>
 </dd>
 </dl>
-</div></blockquote>
 </dd></dl>
 
 </div>

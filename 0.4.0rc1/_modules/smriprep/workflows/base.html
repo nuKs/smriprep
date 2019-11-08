@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.base &mdash; smriprep 0.3.2+139.gf4789893 documentation</title>
+  <title>smriprep.workflows.base &mdash; smriprep 0.4.0rc1+4.g845d5739 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.3.2
+                0.4.0
               </div>
             
           
@@ -160,11 +160,7 @@
 <h1>Source code for smriprep.workflows.base</h1><div class="highlight"><pre>
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">*sMRIPrep* base processing workflows.</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-
+<span class="sd">&quot;&quot;&quot;*sMRIPrep* base processing workflows.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
@@ -237,46 +233,46 @@
 <span class="sd">            work_dir=&#39;.&#39;,</span>
 <span class="sd">        )</span>
 
-<span class="sd">    **Parameters**</span>
-
-<span class="sd">        debug : bool</span>
-<span class="sd">            Enable debugging outputs</span>
-<span class="sd">        freesurfer : bool</span>
-<span class="sd">            Enable FreeSurfer surface reconstruction (may increase runtime)</span>
-<span class="sd">        fs_subjects_dir : os.PathLike or None</span>
-<span class="sd">            Use existing FreeSurfer subjects directory if provided</span>
-<span class="sd">        hires : bool</span>
-<span class="sd">            Enable sub-millimeter preprocessing in FreeSurfer</span>
-<span class="sd">        layout : BIDSLayout object</span>
-<span class="sd">            BIDS dataset layout</span>
-<span class="sd">        longitudinal : bool</span>
-<span class="sd">            Treat multiple sessions as longitudinal (may increase runtime)</span>
-<span class="sd">            See sub-workflows for specific differences</span>
-<span class="sd">        low_mem : bool</span>
-<span class="sd">            Write uncompressed .nii files in some cases to reduce memory usage</span>
-<span class="sd">        omp_nthreads : int</span>
-<span class="sd">            Maximum number of threads an individual process may use</span>
-<span class="sd">        output_dir : str</span>
-<span class="sd">            Directory in which to save derivatives</span>
-<span class="sd">        output_spaces : OrderedDict</span>
-<span class="sd">            List of spatial normalization targets. Some parts of pipeline will</span>
-<span class="sd">            only be instantiated for some output spaces. Valid spaces:</span>
-<span class="sd">            - Any template identifier from TemplateFlow</span>
-<span class="sd">            - Path to a template folder organized following TemplateFlow&#39;s</span>
-<span class="sd">            conventions</span>
-<span class="sd">        run_uuid : str</span>
-<span class="sd">            Unique identifier for execution instance</span>
-<span class="sd">        skull_strip_fixed_seed : bool</span>
-<span class="sd">            Do not use a random seed for skull-stripping - will ensure</span>
-<span class="sd">            run-to-run replicability when used with --omp-nthreads 1</span>
-<span class="sd">        skull_strip_template : tuple</span>
-<span class="sd">            Name of ANTs skull-stripping template (&#39;OASIS30ANTs&#39; or &#39;NKI&#39;),</span>
-<span class="sd">            and dictionary with template specifications (e.g., {&#39;res&#39;: &#39;2&#39;})</span>
-<span class="sd">        subject_list : list</span>
-<span class="sd">            List of subject labels</span>
-<span class="sd">        work_dir : str</span>
-<span class="sd">            Directory in which to store workflow execution state and</span>
-<span class="sd">            temporary files</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    debug : bool</span>
+<span class="sd">        Enable debugging outputs</span>
+<span class="sd">    freesurfer : bool</span>
+<span class="sd">        Enable FreeSurfer surface reconstruction (may increase runtime)</span>
+<span class="sd">    fs_subjects_dir : os.PathLike or None</span>
+<span class="sd">        Use existing FreeSurfer subjects directory if provided</span>
+<span class="sd">    hires : bool</span>
+<span class="sd">        Enable sub-millimeter preprocessing in FreeSurfer</span>
+<span class="sd">    layout : BIDSLayout object</span>
+<span class="sd">        BIDS dataset layout</span>
+<span class="sd">    longitudinal : bool</span>
+<span class="sd">        Treat multiple sessions as longitudinal (may increase runtime)</span>
+<span class="sd">        See sub-workflows for specific differences</span>
+<span class="sd">    low_mem : bool</span>
+<span class="sd">        Write uncompressed .nii files in some cases to reduce memory usage</span>
+<span class="sd">    omp_nthreads : int</span>
+<span class="sd">        Maximum number of threads an individual process may use</span>
+<span class="sd">    output_dir : str</span>
+<span class="sd">        Directory in which to save derivatives</span>
+<span class="sd">    output_spaces : OrderedDict</span>
+<span class="sd">        List of spatial normalization targets. Some parts of pipeline will</span>
+<span class="sd">        only be instantiated for some output spaces. Valid spaces:</span>
+<span class="sd">        - Any template identifier from TemplateFlow</span>
+<span class="sd">        - Path to a template folder organized following TemplateFlow&#39;s</span>
+<span class="sd">        conventions</span>
+<span class="sd">    run_uuid : str</span>
+<span class="sd">        Unique identifier for execution instance</span>
+<span class="sd">    skull_strip_fixed_seed : bool</span>
+<span class="sd">        Do not use a random seed for skull-stripping - will ensure</span>
+<span class="sd">        run-to-run replicability when used with --omp-nthreads 1</span>
+<span class="sd">    skull_strip_template : tuple</span>
+<span class="sd">        Name of ANTs skull-stripping template (&#39;OASIS30ANTs&#39; or &#39;NKI&#39;),</span>
+<span class="sd">        and dictionary with template specifications (e.g., {&#39;res&#39;: &#39;2&#39;})</span>
+<span class="sd">    subject_list : list</span>
+<span class="sd">        List of subject labels</span>
+<span class="sd">    work_dir : str</span>
+<span class="sd">        Directory in which to store workflow execution state and</span>
+<span class="sd">        temporary files</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">smriprep_wf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;smriprep_wf&#39;</span><span class="p">)</span>
@@ -380,48 +376,48 @@
 <span class="sd">        )</span>
 
 
-<span class="sd">    **Parameters**</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    debug : bool</span>
+<span class="sd">        Enable debugging outputs</span>
+<span class="sd">    freesurfer : bool</span>
+<span class="sd">        Enable FreeSurfer surface reconstruction (may increase runtime)</span>
+<span class="sd">    hires : bool</span>
+<span class="sd">        Enable sub-millimeter preprocessing in FreeSurfer</span>
+<span class="sd">    layout : BIDSLayout object</span>
+<span class="sd">        BIDS dataset layout</span>
+<span class="sd">    longitudinal : bool</span>
+<span class="sd">        Treat multiple sessions as longitudinal (may increase runtime)</span>
+<span class="sd">        See sub-workflows for specific differences</span>
+<span class="sd">    low_mem : bool</span>
+<span class="sd">        Write uncompressed .nii files in some cases to reduce memory usage</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name of workflow</span>
+<span class="sd">    omp_nthreads : int</span>
+<span class="sd">        Maximum number of threads an individual process may use</span>
+<span class="sd">    output_dir : str</span>
+<span class="sd">        Directory in which to save derivatives</span>
+<span class="sd">    output_spaces : OrderedDict</span>
+<span class="sd">        List of spatial normalization targets. Some parts of pipeline will</span>
+<span class="sd">        only be instantiated for some output spaces. Valid spaces:</span>
+<span class="sd">        - Any template identifier from TemplateFlow</span>
+<span class="sd">        - Path to a template folder organized following TemplateFlow&#39;s</span>
+<span class="sd">        conventions</span>
+<span class="sd">    reportlets_dir : str</span>
+<span class="sd">        Directory in which to save reportlets</span>
+<span class="sd">    skull_strip_fixed_seed : bool</span>
+<span class="sd">        Do not use a random seed for skull-stripping - will ensure</span>
+<span class="sd">        run-to-run replicability when used with --omp-nthreads 1</span>
+<span class="sd">    skull_strip_template : tuple</span>
+<span class="sd">        Name of ANTs skull-stripping template (e.g., &#39;OASIS30ANTs&#39;) and</span>
+<span class="sd">        dictionary of template specifications.</span>
+<span class="sd">    subject_id : str</span>
+<span class="sd">        List of subject labels</span>
 
-<span class="sd">        debug : bool</span>
-<span class="sd">            Enable debugging outputs</span>
-<span class="sd">        freesurfer : bool</span>
-<span class="sd">            Enable FreeSurfer surface reconstruction (may increase runtime)</span>
-<span class="sd">        hires : bool</span>
-<span class="sd">            Enable sub-millimeter preprocessing in FreeSurfer</span>
-<span class="sd">        layout : BIDSLayout object</span>
-<span class="sd">            BIDS dataset layout</span>
-<span class="sd">        longitudinal : bool</span>
-<span class="sd">            Treat multiple sessions as longitudinal (may increase runtime)</span>
-<span class="sd">            See sub-workflows for specific differences</span>
-<span class="sd">        low_mem : bool</span>
-<span class="sd">            Write uncompressed .nii files in some cases to reduce memory usage</span>
-<span class="sd">        name : str</span>
-<span class="sd">            Name of workflow</span>
-<span class="sd">        omp_nthreads : int</span>
-<span class="sd">            Maximum number of threads an individual process may use</span>
-<span class="sd">        output_dir : str</span>
-<span class="sd">            Directory in which to save derivatives</span>
-<span class="sd">        output_spaces : OrderedDict</span>
-<span class="sd">            List of spatial normalization targets. Some parts of pipeline will</span>
-<span class="sd">            only be instantiated for some output spaces. Valid spaces:</span>
-<span class="sd">            - Any template identifier from TemplateFlow</span>
-<span class="sd">            - Path to a template folder organized following TemplateFlow&#39;s</span>
-<span class="sd">            conventions</span>
-<span class="sd">        reportlets_dir : str</span>
-<span class="sd">            Directory in which to save reportlets</span>
-<span class="sd">        skull_strip_fixed_seed : bool</span>
-<span class="sd">            Do not use a random seed for skull-stripping - will ensure</span>
-<span class="sd">            run-to-run replicability when used with --omp-nthreads 1</span>
-<span class="sd">        skull_strip_template : tuple</span>
-<span class="sd">            Name of ANTs skull-stripping template (e.g., &#39;OASIS30ANTs&#39;) and</span>
-<span class="sd">            dictionary of template specifications.</span>
-<span class="sd">        subject_id : str</span>
-<span class="sd">            List of subject labels</span>
-
-<span class="sd">    **Inputs**</span>
-
-<span class="sd">        subjects_dir</span>
-<span class="sd">            FreeSurfer SUBJECTS_DIR</span>
+<span class="sd">    Inputs</span>
+<span class="sd">    ------</span>
+<span class="sd">    subjects_dir</span>
+<span class="sd">        FreeSurfer SUBJECTS_DIR</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">..interfaces.reports</span> <span class="k">import</span> <span class="n">AboutSummary</span><span class="p">,</span> <span class="n">SubjectSummary</span>

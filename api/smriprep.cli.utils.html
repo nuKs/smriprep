@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.cli.utils module &mdash; smriprep 0.3.2+139.gf4789893 documentation</title>
+  <title>smriprep.cli.utils module &mdash; smriprep 0.4.0rc1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3.2
+                0.4.0rc1
               </div>
             
           
@@ -177,12 +177,12 @@
 
 <div class="section" id="module-smriprep.cli.utils">
 <span id="smriprep-cli-utils-module"></span><h1>smriprep.cli.utils module<a class="headerlink" href="#module-smriprep.cli.utils" title="Permalink to this headline">¶</a></h1>
-<p>CLI Utilities</p>
+<p>CLI Utilities.</p>
 <dl class="class">
 <dt id="smriprep.cli.utils.ParseTemplates">
 <em class="property">class </em><code class="sig-prename descclassname">smriprep.cli.utils.</code><code class="sig-name descname">ParseTemplates</code><span class="sig-paren">(</span><em class="sig-param">option_strings</em>, <em class="sig-param">dest</em>, <em class="sig-param">nargs=None</em>, <em class="sig-param">const=None</em>, <em class="sig-param">default=None</em>, <em class="sig-param">type=None</em>, <em class="sig-param">choices=None</em>, <em class="sig-param">required=False</em>, <em class="sig-param">help=None</em>, <em class="sig-param">metavar=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/cli/utils.html#ParseTemplates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.utils.ParseTemplates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.Action" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">argparse.Action</span></code></a></p>
-<p>Manipulate a string of templates with modifiers</p>
+<p>Manipulate a string of templates with modifiers.</p>
 </dd></dl>
 
 <dl class="function">
@@ -203,6 +203,11 @@
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output_space</span><span class="p">(</span><span class="s1">&#39;MNIInfant:res-2:cohort-1&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;MNIInfant&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;cohort&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">})</span>
 <span class="go">True</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output_space</span><span class="p">(</span><span class="s1">&#39;UnkownTemplate&#39;</span><span class="p">)</span>  
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">ValueError</span>:
 </pre></div>
 </div>
 </dd></dl>
