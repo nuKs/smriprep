@@ -1,0 +1,35 @@
+strict digraph  {
+"inputnode (utility)";
+"tf_select (templateflow)";
+"registration (mni)";
+"trunc_mov (ants)";
+"tpl_moving (fixes)";
+"std_mask (fixes)";
+"std_dseg (fixes)";
+"std_tpms (fixes)";
+"poutputnode (utility)";
+"outputnode (utility)";
+"inputnode (utility)" -> "tf_select (templateflow)";
+"inputnode (utility)" -> "registration (mni)";
+"inputnode (utility)" -> "trunc_mov (ants)";
+"inputnode (utility)" -> "tpl_moving (fixes)";
+"inputnode (utility)" -> "std_mask (fixes)";
+"inputnode (utility)" -> "std_dseg (fixes)";
+"inputnode (utility)" -> "std_tpms (fixes)";
+"inputnode (utility)" -> "poutputnode (utility)";
+"tf_select (templateflow)" -> "tpl_moving (fixes)";
+"tf_select (templateflow)" -> "std_mask (fixes)";
+"tf_select (templateflow)" -> "std_dseg (fixes)";
+"tf_select (templateflow)" -> "std_tpms (fixes)";
+"registration (mni)" -> "tpl_moving (fixes)";
+"registration (mni)" -> "std_mask (fixes)";
+"registration (mni)" -> "std_dseg (fixes)";
+"registration (mni)" -> "std_tpms (fixes)";
+"registration (mni)" -> "poutputnode (utility)";
+"trunc_mov (ants)" -> "registration (mni)";
+"tpl_moving (fixes)" -> "poutputnode (utility)";
+"std_mask (fixes)" -> "poutputnode (utility)";
+"std_dseg (fixes)" -> "poutputnode (utility)";
+"std_tpms (fixes)" -> "poutputnode (utility)";
+"poutputnode (utility)" -> "outputnode (utility)";
+}
