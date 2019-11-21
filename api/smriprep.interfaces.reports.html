@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.interfaces.reports module &mdash; smriprep 0.4.0rc3 documentation</title>
+  <title>smriprep.interfaces.reports module &mdash; smriprep 0.4.0rc4 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.4.0rc3
+                0.4.0rc4
               </div>
             
           
@@ -172,20 +172,23 @@
   
 
 
+    
+    
 
 
 
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../master/api/smriprep.interfaces.reports.html"><b>Warning:</b> This document is for an old version of smriprep. The main version is master.</a></p>
 <div class="section" id="module-smriprep.interfaces.reports">
 <span id="smriprep-interfaces-reports-module"></span><h1>smriprep.interfaces.reports module<a class="headerlink" href="#module-smriprep.interfaces.reports" title="Permalink to this headline">¶</a></h1>
 <p>Interfaces to generate reportlets.</p>
 <dl class="class">
 <dt id="smriprep.interfaces.reports.AboutSummary">
-<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">AboutSummary</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.AboutSummary" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">AboutSummary</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/200ef2eddf274aa0d7b3984f47fc6d6ca894631f/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.AboutSummary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#smriprep.interfaces.reports.SummaryInterface" title="smriprep.interfaces.reports.SummaryInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">smriprep.interfaces.reports.SummaryInterface</span></code></a></p>
 <p>About section reportlet.</p>
 <dl class="attribute">
 <dt id="smriprep.interfaces.reports.AboutSummary.input_spec">
-<code class="sig-name descname">input_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.AboutSummary.input_spec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">input_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/200ef2eddf274aa0d7b3984f47fc6d6ca894631f/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.AboutSummary.input_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_AboutSummaryInputSpec</span></code></p>
 </dd></dl>
 
@@ -193,18 +196,18 @@
 
 <dl class="class">
 <dt id="smriprep.interfaces.reports.FSSurfaceReport">
-<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">FSSurfaceReport</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">FSSurfaceReport</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/200ef2eddf274aa0d7b3984f47fc6d6ca894631f/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Replaces <code class="docutils literal notranslate"><span class="pre">ReconAllRPT</span></code>, without need of calling recon-all.</p>
 <dl class="attribute">
 <dt id="smriprep.interfaces.reports.FSSurfaceReport.input_spec">
-<code class="sig-name descname">input_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport.input_spec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">input_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/200ef2eddf274aa0d7b3984f47fc6d6ca894631f/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport.input_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FSSurfaceReportInputSpec</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="smriprep.interfaces.reports.FSSurfaceReport.output_spec">
-<code class="sig-name descname">output_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport.output_spec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">output_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/200ef2eddf274aa0d7b3984f47fc6d6ca894631f/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.FSSurfaceReport.output_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_FSSurfaceReportOutputSpec</span></code></p>
 </dd></dl>
 
@@ -212,18 +215,18 @@
 
 <dl class="class">
 <dt id="smriprep.interfaces.reports.SubjectSummary">
-<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">SubjectSummary</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">SubjectSummary</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/200ef2eddf274aa0d7b3984f47fc6d6ca894631f/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#smriprep.interfaces.reports.SummaryInterface" title="smriprep.interfaces.reports.SummaryInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">smriprep.interfaces.reports.SummaryInterface</span></code></a></p>
 <p>Subject html summary reportlet.</p>
 <dl class="attribute">
 <dt id="smriprep.interfaces.reports.SubjectSummary.input_spec">
-<code class="sig-name descname">input_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary.input_spec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">input_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/200ef2eddf274aa0d7b3984f47fc6d6ca894631f/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary.input_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_SubjectSummaryInputSpec</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="smriprep.interfaces.reports.SubjectSummary.output_spec">
-<code class="sig-name descname">output_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary.output_spec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">output_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/200ef2eddf274aa0d7b3984f47fc6d6ca894631f/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.SubjectSummary.output_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_SubjectSummaryOutputSpec</span></code></p>
 </dd></dl>
 
@@ -231,12 +234,12 @@
 
 <dl class="class">
 <dt id="smriprep.interfaces.reports.SummaryInterface">
-<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">SummaryInterface</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.SummaryInterface" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.reports.</code><code class="sig-name descname">SummaryInterface</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/200ef2eddf274aa0d7b3984f47fc6d6ca894631f/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.SummaryInterface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Base Nipype interface for html summaries.</p>
 <dl class="attribute">
 <dt id="smriprep.interfaces.reports.SummaryInterface.output_spec">
-<code class="sig-name descname">output_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.SummaryInterface.output_spec" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">output_spec</code><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/200ef2eddf274aa0d7b3984f47fc6d6ca894631f/smriprep/interfaces/reports.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.interfaces.reports.SummaryInterface.output_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_SummaryOutputSpec</span></code></p>
 </dd></dl>
 
@@ -282,7 +285,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: master
+        v: 0.4.0rc4
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
