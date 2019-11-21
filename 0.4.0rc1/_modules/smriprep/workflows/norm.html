@@ -183,16 +183,27 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Build an individual spatial normalization workflow using ``antsRegistration``.</span>
 
-<span class="sd">    .. workflow ::</span>
-<span class="sd">        :graph2use: orig</span>
-<span class="sd">        :simple_form: yes</span>
+<span class="sd">    Workflow Graph</span>
+<span class="sd">        .. workflow ::</span>
+<span class="sd">            :graph2use: orig</span>
+<span class="sd">            :simple_form: yes</span>
 
-<span class="sd">        from smriprep.workflows.norm import init_anat_norm_wf</span>
-<span class="sd">        wf = init_anat_norm_wf(</span>
-<span class="sd">            debug=False,</span>
-<span class="sd">            omp_nthreads=1,</span>
-<span class="sd">            templates=[(&#39;MNI152NLin2009cAsym&#39;, {}), (&#39;MNI152NLin6Asym&#39;, {})],</span>
-<span class="sd">        )</span>
+<span class="sd">            from smriprep.workflows.norm import init_anat_norm_wf</span>
+<span class="sd">            wf = init_anat_norm_wf(</span>
+<span class="sd">                debug=False,</span>
+<span class="sd">                omp_nthreads=1,</span>
+<span class="sd">                templates=[(&#39;MNI152NLin2009cAsym&#39;, {}), (&#39;MNI152NLin6Asym&#39;, {})],</span>
+<span class="sd">            )</span>
+
+<span class="sd">    .. important::</span>
+<span class="sd">        This workflow defines an iterable input over the input parameter ``templates``,</span>
+<span class="sd">        so Nipype will produce one copy of the downstream workflows which connect</span>
+<span class="sd">        ``poutputnode.template`` or ``poutputnode.template_spec`` to their inputs</span>
+<span class="sd">        (``poutputnode`` stands for *parametric output node*).</span>
+<span class="sd">        Nipype refers to this expansion of the graph as *parameterized execution*.</span>
+<span class="sd">        If a joint list of values is required (and thus cutting off parameterization),</span>
+<span class="sd">        please use the equivalent outputs of ``outputnode`` (which *joins* all the</span>
+<span class="sd">        parameterized execution paths).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -240,9 +251,11 @@
 <span class="sd">    std_tpms</span>
 <span class="sd">        The ``moving_tpms`` in template space (matches ``standardized`` output).</span>
 <span class="sd">    template</span>
-<span class="sd">        The input parameter ``template`` for further use in nodes depending</span>
-<span class="sd">        on this</span>
-<span class="sd">        workflow.</span>
+<span class="sd">        Template name extracted from the input parameter ``template``, for further</span>
+<span class="sd">        use in downstream nodes.</span>
+<span class="sd">    template_spec</span>
+<span class="sd">        Template specifications extracted from the input parameter ``template``, for</span>
+<span class="sd">        further use in downstream nodes.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ntpls</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span>
@@ -393,6 +406,7 @@
             <dd><a href="norm.html">0.4.0rc1</a></dd>
             <dd><a href="../../../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../../../0.4.0rc3/index.html">0.4.0rc3</a></dd>
+            <dd><a href="../../../../0.4.0rc4/index.html">0.4.0rc4</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>

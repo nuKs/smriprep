@@ -202,36 +202,37 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create the execution graph of *sMRIPrep*, with a sub-workflow for each subject.</span>
 
-<span class="sd">    If FreeSurfer&#39;s recon-all is to be run, a FreeSurfer derivatives folder is</span>
+<span class="sd">    If FreeSurfer&#39;s ``recon-all`` is to be run, a FreeSurfer derivatives folder is</span>
 <span class="sd">    created and populated with any needed template subjects.</span>
 
-<span class="sd">    .. workflow::</span>
-<span class="sd">        :graph2use: orig</span>
-<span class="sd">        :simple_form: yes</span>
+<span class="sd">    Workflow Graph</span>
+<span class="sd">        .. workflow::</span>
+<span class="sd">            :graph2use: orig</span>
+<span class="sd">            :simple_form: yes</span>
 
-<span class="sd">        import os</span>
-<span class="sd">        from collections import OrderedDict, namedtuple</span>
-<span class="sd">        BIDSLayout = namedtuple(&#39;BIDSLayout&#39;, [&#39;root&#39;])</span>
-<span class="sd">        os.environ[&#39;FREESURFER_HOME&#39;] = os.getcwd()</span>
-<span class="sd">        from smriprep.workflows.base import init_smriprep_wf</span>
-<span class="sd">        wf = init_smriprep_wf(</span>
-<span class="sd">            debug=False,</span>
-<span class="sd">            freesurfer=True,</span>
-<span class="sd">            fs_subjects_dir=None,</span>
-<span class="sd">            hires=True,</span>
-<span class="sd">            layout=BIDSLayout(&#39;.&#39;),</span>
-<span class="sd">            longitudinal=False,</span>
-<span class="sd">            low_mem=False,</span>
-<span class="sd">            omp_nthreads=1,</span>
-<span class="sd">            output_dir=&#39;.&#39;,</span>
-<span class="sd">            output_spaces=OrderedDict([(&#39;MNI152NLin2009cAsym&#39;, {}),</span>
-<span class="sd">                                       (&#39;fsaverage5&#39;, {})]),</span>
-<span class="sd">            run_uuid=&#39;testrun&#39;,</span>
-<span class="sd">            skull_strip_fixed_seed=False,</span>
-<span class="sd">            skull_strip_template=(&#39;OASIS30ANTs&#39;, {}),</span>
-<span class="sd">            subject_list=[&#39;smripreptest&#39;],</span>
-<span class="sd">            work_dir=&#39;.&#39;,</span>
-<span class="sd">        )</span>
+<span class="sd">            import os</span>
+<span class="sd">            from collections import OrderedDict, namedtuple</span>
+<span class="sd">            BIDSLayout = namedtuple(&#39;BIDSLayout&#39;, [&#39;root&#39;])</span>
+<span class="sd">            os.environ[&#39;FREESURFER_HOME&#39;] = os.getcwd()</span>
+<span class="sd">            from smriprep.workflows.base import init_smriprep_wf</span>
+<span class="sd">            wf = init_smriprep_wf(</span>
+<span class="sd">                debug=False,</span>
+<span class="sd">                freesurfer=True,</span>
+<span class="sd">                fs_subjects_dir=None,</span>
+<span class="sd">                hires=True,</span>
+<span class="sd">                layout=BIDSLayout(&#39;.&#39;),</span>
+<span class="sd">                longitudinal=False,</span>
+<span class="sd">                low_mem=False,</span>
+<span class="sd">                omp_nthreads=1,</span>
+<span class="sd">                output_dir=&#39;.&#39;,</span>
+<span class="sd">                output_spaces=OrderedDict([(&#39;MNI152NLin2009cAsym&#39;, {}),</span>
+<span class="sd">                                           (&#39;fsaverage5&#39;, {})]),</span>
+<span class="sd">                run_uuid=&#39;testrun&#39;,</span>
+<span class="sd">                skull_strip_fixed_seed=False,</span>
+<span class="sd">                skull_strip_template=(&#39;OASIS30ANTs&#39;, {}),</span>
+<span class="sd">                subject_list=[&#39;smripreptest&#39;],</span>
+<span class="sd">                work_dir=&#39;.&#39;,</span>
+<span class="sd">            )</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -350,31 +351,31 @@
 <span class="sd">    Functional preprocessing is performed using a separate workflow for each</span>
 <span class="sd">    individual BOLD series.</span>
 
-<span class="sd">    .. workflow::</span>
-<span class="sd">        :graph2use: orig</span>
-<span class="sd">        :simple_form: yes</span>
+<span class="sd">    Workflow Graph</span>
+<span class="sd">        .. workflow::</span>
+<span class="sd">            :graph2use: orig</span>
+<span class="sd">            :simple_form: yes</span>
 
-<span class="sd">        from collections import OrderedDict, namedtuple</span>
-<span class="sd">        from smriprep.workflows.base import init_single_subject_wf</span>
-<span class="sd">        BIDSLayout = namedtuple(&#39;BIDSLayout&#39;, [&#39;root&#39;])</span>
-<span class="sd">        wf = init_single_subject_wf(</span>
-<span class="sd">            debug=False,</span>
-<span class="sd">            freesurfer=True,</span>
-<span class="sd">            hires=True,</span>
-<span class="sd">            layout=BIDSLayout(&#39;.&#39;),</span>
-<span class="sd">            longitudinal=False,</span>
-<span class="sd">            low_mem=False,</span>
-<span class="sd">            name=&#39;single_subject_wf&#39;,</span>
-<span class="sd">            omp_nthreads=1,</span>
-<span class="sd">            output_dir=&#39;.&#39;,</span>
-<span class="sd">            output_spaces=OrderedDict([(&#39;MNI152NLin2009cAsym&#39;, {}),</span>
-<span class="sd">                                       (&#39;fsaverage5&#39;, {})]),</span>
-<span class="sd">            reportlets_dir=&#39;.&#39;,</span>
-<span class="sd">            skull_strip_fixed_seed=False,</span>
-<span class="sd">            skull_strip_template=(&#39;OASIS30ANTs&#39;, {}),</span>
-<span class="sd">            subject_id=&#39;test&#39;,</span>
-<span class="sd">        )</span>
-
+<span class="sd">            from collections import OrderedDict, namedtuple</span>
+<span class="sd">            from smriprep.workflows.base import init_single_subject_wf</span>
+<span class="sd">            BIDSLayout = namedtuple(&#39;BIDSLayout&#39;, [&#39;root&#39;])</span>
+<span class="sd">            wf = init_single_subject_wf(</span>
+<span class="sd">                debug=False,</span>
+<span class="sd">                freesurfer=True,</span>
+<span class="sd">                hires=True,</span>
+<span class="sd">                layout=BIDSLayout(&#39;.&#39;),</span>
+<span class="sd">                longitudinal=False,</span>
+<span class="sd">                low_mem=False,</span>
+<span class="sd">                name=&#39;single_subject_wf&#39;,</span>
+<span class="sd">                omp_nthreads=1,</span>
+<span class="sd">                output_dir=&#39;.&#39;,</span>
+<span class="sd">                output_spaces=OrderedDict([(&#39;MNI152NLin2009cAsym&#39;, {}),</span>
+<span class="sd">                                           (&#39;fsaverage5&#39;, {})]),</span>
+<span class="sd">                reportlets_dir=&#39;.&#39;,</span>
+<span class="sd">                skull_strip_fixed_seed=False,</span>
+<span class="sd">                skull_strip_template=(&#39;OASIS30ANTs&#39;, {}),</span>
+<span class="sd">                subject_id=&#39;test&#39;,</span>
+<span class="sd">            )</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -561,6 +562,7 @@
             <dd><a href="../../../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
             <dd><a href="base.html">0.4.0rc2</a></dd>
             <dd><a href="../../../../0.4.0rc3/index.html">0.4.0rc3</a></dd>
+            <dd><a href="../../../../0.4.0rc4/index.html">0.4.0rc4</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>

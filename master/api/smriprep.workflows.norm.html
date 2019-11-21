@@ -180,12 +180,26 @@
 <p>Spatial normalization workflows.</p>
 <dl class="function">
 <dt id="smriprep.workflows.norm.init_anat_norm_wf">
-<code class="sig-prename descclassname">smriprep.workflows.norm.</code><code class="sig-name descname">init_anat_norm_wf</code><span class="sig-paren">(</span><em class="sig-param">debug</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">templates</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/smriprep/workflows/norm.html#init_anat_norm_wf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.norm.init_anat_norm_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.norm.</code><code class="sig-name descname">init_anat_norm_wf</code><span class="sig-paren">(</span><em class="sig-param">debug</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">templates</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/54c44bf99b3ce41a5a7e6d3e864cf62373bb5163/smriprep/workflows/norm.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.norm.init_anat_norm_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build an individual spatial normalization workflow using <code class="docutils literal notranslate"><span class="pre">antsRegistration</span></code>.</p>
-<div class="figure align-default">
+<dl>
+<dt>Workflow Graph</dt><dd><div class="figure align-default">
 <img alt="../_images/smriprep-workflows-norm-1.png" src="../_images/smriprep-workflows-norm-1.png" />
 </div>
 <p>(<a class="reference external" href="../api/smriprep-workflows-norm-1.py">Source code</a>, <a class="reference external" href="../api/smriprep-workflows-norm-1.png">png</a>, <a class="reference external" href="../api/smriprep-workflows-norm-1.svg">svg</a>, <a class="reference external" href="../api/smriprep-workflows-norm-1.pdf">pdf</a>)</p>
+</dd>
+</dl>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This workflow defines an iterable input over the input parameter <code class="docutils literal notranslate"><span class="pre">templates</span></code>,
+so Nipype will produce one copy of the downstream workflows which connect
+<code class="docutils literal notranslate"><span class="pre">poutputnode.template</span></code> or <code class="docutils literal notranslate"><span class="pre">poutputnode.template_spec</span></code> to their inputs
+(<code class="docutils literal notranslate"><span class="pre">poutputnode</span></code> stands for <em>parametric output node</em>).
+Nipype refers to this expansion of the graph as <em>parameterized execution</em>.
+If a joint list of values is required (and thus cutting off parameterization),
+please use the equivalent outputs of <code class="docutils literal notranslate"><span class="pre">outputnode</span></code> (which <em>joins</em> all the
+parameterized execution paths).</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -219,9 +233,10 @@ input domain to enable standardization of lesioned brains.</p></li>
 <li><p><strong>std_dseg</strong> – The <code class="docutils literal notranslate"><span class="pre">moving_segmentation</span></code> in template space (matches <code class="docutils literal notranslate"><span class="pre">standardized</span></code>
 output).</p></li>
 <li><p><strong>std_tpms</strong> – The <code class="docutils literal notranslate"><span class="pre">moving_tpms</span></code> in template space (matches <code class="docutils literal notranslate"><span class="pre">standardized</span></code> output).</p></li>
-<li><p><strong>template</strong> – The input parameter <code class="docutils literal notranslate"><span class="pre">template</span></code> for further use in nodes depending
-on this
-workflow.</p></li>
+<li><p><strong>template</strong> – Template name extracted from the input parameter <code class="docutils literal notranslate"><span class="pre">template</span></code>, for further
+use in downstream nodes.</p></li>
+<li><p><strong>template_spec</strong> – Template specifications extracted from the input parameter <code class="docutils literal notranslate"><span class="pre">template</span></code>, for
+further use in downstream nodes.</p></li>
 </ul>
 </dd>
 </dl>
@@ -276,6 +291,7 @@ workflow.</p></li>
             <dd><a href="../../0.4.0rc1/api/smriprep.workflows.norm.html">0.4.0rc1</a></dd>
             <dd><a href="../../0.4.0rc2/api/smriprep.workflows.norm.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.0rc3/api/smriprep.workflows.norm.html">0.4.0rc3</a></dd>
+            <dd><a href="../../0.4.0rc4/api/smriprep.workflows.norm.html">0.4.0rc4</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
