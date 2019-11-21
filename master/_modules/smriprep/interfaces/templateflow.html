@@ -225,6 +225,41 @@
             <span class="o">**</span><span class="n">specs</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">runtime</span></div>
+
+
+<span class="k">class</span> <span class="nc">_TemplateDescInputSpec</span><span class="p">(</span><span class="n">BaseInterfaceInputSpec</span><span class="p">):</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Tuple</span><span class="p">(</span><span class="n">traits</span><span class="o">.</span><span class="n">Str</span><span class="p">,</span> <span class="n">traits</span><span class="o">.</span><span class="n">Dict</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;(id, description) pair&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_TemplateDescOutputSpec</span><span class="p">(</span><span class="n">TraitedSpec</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;template identifier&#39;</span><span class="p">)</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">traits</span><span class="o">.</span><span class="n">Dict</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;template arguments&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TemplateDesc"><a class="viewcode-back" href="../../../api/smriprep.interfaces.templateflow.html#smriprep.interfaces.templateflow.TemplateDesc">[docs]</a><span class="k">class</span> <span class="nc">TemplateDesc</span><span class="p">(</span><span class="n">SimpleInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Select template description and name pairs.</span>
+
+<span class="sd">    This interface is necessary to ensure the good functioning</span>
+<span class="sd">    with iterables and JoinNodes.</span>
+
+<span class="sd">    &gt;&gt;&gt; select = TemplateDesc(template=(&#39;MNI152NLin2009cAsym&#39;, {}))</span>
+<span class="sd">    &gt;&gt;&gt; result = select.run()</span>
+<span class="sd">    &gt;&gt;&gt; result.outputs.name</span>
+<span class="sd">    &#39;MNI152NLin2009cAsym&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; result.outputs.spec</span>
+<span class="sd">    {}</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">input_spec</span> <span class="o">=</span> <span class="n">_TemplateDescInputSpec</span>
+    <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_TemplateDescOutputSpec</span>
+
+    <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="s1">&#39;spec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span>
+        <span class="k">return</span> <span class="n">runtime</span></div>
 </pre></div>
 
            </div>

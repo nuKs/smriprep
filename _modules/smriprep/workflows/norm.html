@@ -151,12 +151,9 @@
   
 
 
-    
-    
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for an old version of smriprep.</p>
 <h1>Source code for smriprep.workflows.norm</h1><div class="highlight"><pre>
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
@@ -172,7 +169,7 @@
 <span class="kn">from</span> <span class="nn">niworkflows.interfaces.ants</span> <span class="k">import</span> <span class="n">ImageMath</span>
 <span class="kn">from</span> <span class="nn">niworkflows.interfaces.mni</span> <span class="k">import</span> <span class="n">RobustMNINormalization</span>
 <span class="kn">from</span> <span class="nn">niworkflows.interfaces.fixes</span> <span class="k">import</span> <span class="n">FixHeaderApplyTransforms</span> <span class="k">as</span> <span class="n">ApplyTransforms</span>
-<span class="kn">from</span> <span class="nn">..interfaces.templateflow</span> <span class="k">import</span> <span class="n">TemplateFlowSelect</span>
+<span class="kn">from</span> <span class="nn">..interfaces.templateflow</span> <span class="k">import</span> <span class="n">TemplateFlowSelect</span><span class="p">,</span> <span class="n">TemplateDesc</span>
 
 
 <div class="viewcode-block" id="init_anat_norm_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.norm.html#smriprep.workflows.norm.init_anat_norm_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_norm_wf</span><span class="p">(</span>
@@ -278,12 +275,14 @@
 
     <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span>
         <span class="s1">&#39;moving_image&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_segmentation&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_tpms&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;lesion_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;orig_t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">]),</span>
+        <span class="s1">&#39;lesion_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;orig_t1w&#39;</span><span class="p">]),</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
-    <span class="n">inputnode</span><span class="o">.</span><span class="n">iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="n">templates</span><span class="p">)]</span>
     <span class="n">out_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;standardized&#39;</span><span class="p">,</span> <span class="s1">&#39;anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;std2anat_xfm&#39;</span><span class="p">,</span>
-                  <span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;std_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;std_tpms&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">]</span>
+                  <span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;std_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;std_tpms&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;template_spec&#39;</span><span class="p">]</span>
     <span class="n">poutputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="n">out_fields</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;poutputnode&#39;</span><span class="p">)</span>
+
+    <span class="n">split_desc</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">TemplateDesc</span><span class="p">(),</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;split_desc&#39;</span><span class="p">)</span>
+    <span class="n">split_desc</span><span class="o">.</span><span class="n">iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="n">templates</span><span class="p">)]</span>
 
     <span class="n">tf_select</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">TemplateFlowSelect</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="n">debug</span><span class="p">),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;tf_select&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -311,16 +310,16 @@
                           <span class="n">iterfield</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;input_image&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;std_tpms&#39;</span><span class="p">)</span>
 
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
-        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">tf_select</span><span class="p">,</span> <span class="p">[((</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="n">_get_name</span><span class="p">),</span> <span class="s1">&#39;template&#39;</span><span class="p">),</span>
-                                <span class="p">((</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="n">_get_spec</span><span class="p">),</span> <span class="s1">&#39;template_spec&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">registration</span><span class="p">,</span> <span class="p">[((</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="n">_get_name</span><span class="p">),</span> <span class="s1">&#39;template&#39;</span><span class="p">),</span>
-                                   <span class="p">((</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="n">_get_spec</span><span class="p">),</span> <span class="s1">&#39;template_spec&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">trunc_mov</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;moving_image&#39;</span><span class="p">,</span> <span class="s1">&#39;op1&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">registration</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;moving_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_mask&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;lesion_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;lesion_mask&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">tpl_moving</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;moving_image&#39;</span><span class="p">,</span> <span class="s1">&#39;input_image&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">std_mask</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;moving_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;input_image&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">split_desc</span><span class="p">,</span> <span class="n">tf_select</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">),</span>
+                                 <span class="p">(</span><span class="s1">&#39;spec&#39;</span><span class="p">,</span> <span class="s1">&#39;template_spec&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">split_desc</span><span class="p">,</span> <span class="n">registration</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">),</span>
+                                    <span class="p">(</span><span class="s1">&#39;spec&#39;</span><span class="p">,</span> <span class="s1">&#39;template_spec&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">tf_select</span><span class="p">,</span> <span class="n">tpl_moving</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1w_file&#39;</span><span class="p">,</span> <span class="s1">&#39;reference_image&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">tf_select</span><span class="p">,</span> <span class="n">std_mask</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1w_file&#39;</span><span class="p">,</span> <span class="s1">&#39;reference_image&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">tf_select</span><span class="p">,</span> <span class="n">std_dseg</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1w_file&#39;</span><span class="p">,</span> <span class="s1">&#39;reference_image&#39;</span><span class="p">)]),</span>
@@ -340,25 +339,18 @@
         <span class="p">(</span><span class="n">std_mask</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;output_image&#39;</span><span class="p">,</span> <span class="s1">&#39;std_mask&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">std_dseg</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;output_image&#39;</span><span class="p">,</span> <span class="s1">&#39;std_dseg&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">std_tpms</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;output_image&#39;</span><span class="p">,</span> <span class="s1">&#39;std_tpms&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">split_desc</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">),</span>
+                                   <span class="p">(</span><span class="s1">&#39;spec&#39;</span><span class="p">,</span> <span class="s1">&#39;template_spec&#39;</span><span class="p">)]),</span>
     <span class="p">])</span>
 
     <span class="c1"># Provide synchronized output</span>
     <span class="n">outputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">JoinNode</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="n">out_fields</span><span class="p">),</span>
-                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">,</span> <span class="n">joinsource</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
+                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">,</span> <span class="n">joinsource</span><span class="o">=</span><span class="s1">&#39;split_desc&#39;</span><span class="p">)</span>
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
         <span class="p">(</span><span class="n">poutputnode</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="n">f</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">out_fields</span><span class="p">]),</span>
     <span class="p">])</span>
 
     <span class="k">return</span> <span class="n">workflow</span></div>
-
-
-<span class="k">def</span> <span class="nf">_get_name</span><span class="p">(</span><span class="n">in_tuple</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">in_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-
-<span class="k">def</span> <span class="nf">_get_spec</span><span class="p">(</span><span class="n">in_tuple</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">in_tuple</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
            </div>
@@ -389,7 +381,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.4.0rc3
+        v: master
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -397,11 +389,11 @@
             <dt>Tags</dt>
             <dd><a href="../../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
             <dd><a href="../../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
-            <dd><a href="../../../0.4.0rc3/_modules/smriprep/workflows/norm.html">0.4.0rc3</a></dd>
+            <dd><a href="../../../0.4.0rc3/index.html">0.4.0rc3</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../master/index.html">master</a></dd>
+            <dd><a href="../../../master/_modules/smriprep/workflows/norm.html">master</a></dd>
         </dl>
     </div>
 </div>
