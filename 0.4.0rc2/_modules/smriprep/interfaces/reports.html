@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.interfaces.reports &mdash; smriprep 0.4.0rc5 documentation</title>
+  <title>smriprep.interfaces.reports &mdash; smriprep 0.4.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.4.0rc5
+                0.4.0
               </div>
             
           
@@ -164,18 +164,18 @@
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
 <span class="sd">&quot;&quot;&quot;Interfaces to generate reportlets.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TraitedSpec</span><span class="p">,</span> <span class="n">BaseInterfaceInputSpec</span><span class="p">,</span>
     <span class="n">File</span><span class="p">,</span> <span class="n">Directory</span><span class="p">,</span> <span class="n">InputMultiObject</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">isdefined</span><span class="p">,</span>
     <span class="n">SimpleInterface</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="k">import</span> <span class="n">freesurfer</span> <span class="k">as</span> <span class="n">fs</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces.io</span> <span class="k">import</span> <span class="n">FSSourceInputSpec</span> <span class="k">as</span> <span class="n">_FSSourceInputSpec</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces.mixins</span> <span class="k">import</span> <span class="n">reporting</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="kn">import</span> <span class="n">freesurfer</span> <span class="k">as</span> <span class="n">fs</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.io</span> <span class="kn">import</span> <span class="n">FSSourceInputSpec</span> <span class="k">as</span> <span class="n">_FSSourceInputSpec</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.mixins</span> <span class="kn">import</span> <span class="n">reporting</span>
 
-<span class="kn">from</span> <span class="nn">niworkflows.interfaces.report_base</span> <span class="k">import</span> <span class="n">_SVGReportCapableInputSpec</span>
+<span class="kn">from</span> <span class="nn">niworkflows.interfaces.report_base</span> <span class="kn">import</span> <span class="n">_SVGReportCapableInputSpec</span>
 
 
 <span class="n">SUBJECT_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
@@ -297,8 +297,8 @@
     <span class="n">output_spec</span> <span class="o">=</span> <span class="n">_FSSurfaceReportOutputSpec</span>
 
     <span class="k">def</span> <span class="nf">_run_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runtime</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">niworkflows.viz.utils</span> <span class="k">import</span> <span class="n">plot_registration</span><span class="p">,</span> <span class="n">cuts_from_bbox</span><span class="p">,</span> <span class="n">compose_view</span>
-        <span class="kn">from</span> <span class="nn">nibabel</span> <span class="k">import</span> <span class="n">load</span>
+        <span class="kn">from</span> <span class="nn">niworkflows.viz.utils</span> <span class="kn">import</span> <span class="n">plot_registration</span><span class="p">,</span> <span class="n">cuts_from_bbox</span><span class="p">,</span> <span class="n">compose_view</span>
+        <span class="kn">from</span> <span class="nn">nibabel</span> <span class="kn">import</span> <span class="n">load</span>
 
         <span class="n">rootdir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">subjects_dir</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">subject_id</span>
         <span class="n">_anat_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">rootdir</span> <span class="o">/</span> <span class="s1">&#39;mri&#39;</span> <span class="o">/</span> <span class="s1">&#39;brain.mgz&#39;</span><span class="p">)</span>
@@ -359,6 +359,7 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
+            <dd><a href="../../../../0.4.0/index.html">0.4.0</a></dd>
             <dd><a href="../../../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
             <dd><a href="reports.html">0.4.0rc2</a></dd>
             <dd><a href="../../../../0.4.0rc3/index.html">0.4.0rc3</a></dd>

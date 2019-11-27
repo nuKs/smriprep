@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.norm &mdash; smriprep 0.4.0rc5 documentation</title>
+  <title>smriprep.workflows.norm &mdash; smriprep 0.4.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.4.0rc5
+                0.4.0
               </div>
             
           
@@ -161,18 +161,18 @@
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
 <span class="sd">&quot;&quot;&quot;Spatial normalization workflows.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">nipype.pipeline</span> <span class="k">import</span> <span class="n">engine</span> <span class="k">as</span> <span class="n">pe</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="k">import</span> <span class="n">utility</span> <span class="k">as</span> <span class="n">niu</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">nipype.pipeline</span> <span class="kn">import</span> <span class="n">engine</span> <span class="k">as</span> <span class="n">pe</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="kn">import</span> <span class="n">utility</span> <span class="k">as</span> <span class="n">niu</span>
 
-<span class="kn">from</span> <span class="nn">nipype.interfaces.ants.base</span> <span class="k">import</span> <span class="n">Info</span> <span class="k">as</span> <span class="n">ANTsInfo</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.ants.base</span> <span class="kn">import</span> <span class="n">Info</span> <span class="k">as</span> <span class="n">ANTsInfo</span>
 
-<span class="kn">from</span> <span class="nn">templateflow.api</span> <span class="k">import</span> <span class="n">get_metadata</span>
-<span class="kn">from</span> <span class="nn">niworkflows.engine.workflows</span> <span class="k">import</span> <span class="n">LiterateWorkflow</span> <span class="k">as</span> <span class="n">Workflow</span>
-<span class="kn">from</span> <span class="nn">niworkflows.interfaces.ants</span> <span class="k">import</span> <span class="n">ImageMath</span>
-<span class="kn">from</span> <span class="nn">niworkflows.interfaces.mni</span> <span class="k">import</span> <span class="n">RobustMNINormalization</span>
-<span class="kn">from</span> <span class="nn">niworkflows.interfaces.fixes</span> <span class="k">import</span> <span class="n">FixHeaderApplyTransforms</span> <span class="k">as</span> <span class="n">ApplyTransforms</span>
-<span class="kn">from</span> <span class="nn">..interfaces.templateflow</span> <span class="k">import</span> <span class="n">TemplateFlowSelect</span><span class="p">,</span> <span class="n">TemplateDesc</span>
+<span class="kn">from</span> <span class="nn">templateflow.api</span> <span class="kn">import</span> <span class="n">get_metadata</span>
+<span class="kn">from</span> <span class="nn">niworkflows.engine.workflows</span> <span class="kn">import</span> <span class="n">LiterateWorkflow</span> <span class="k">as</span> <span class="n">Workflow</span>
+<span class="kn">from</span> <span class="nn">niworkflows.interfaces.ants</span> <span class="kn">import</span> <span class="n">ImageMath</span>
+<span class="kn">from</span> <span class="nn">niworkflows.interfaces.mni</span> <span class="kn">import</span> <span class="n">RobustMNINormalization</span>
+<span class="kn">from</span> <span class="nn">niworkflows.interfaces.fixes</span> <span class="kn">import</span> <span class="n">FixHeaderApplyTransforms</span> <span class="k">as</span> <span class="n">ApplyTransforms</span>
+<span class="kn">from</span> <span class="nn">..interfaces.templateflow</span> <span class="kn">import</span> <span class="n">TemplateFlowSelect</span><span class="p">,</span> <span class="n">TemplateDesc</span>
 
 
 <div class="viewcode-block" id="init_anat_norm_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.norm.html#smriprep.workflows.norm.init_anat_norm_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_norm_wf</span><span class="p">(</span>
@@ -403,6 +403,7 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
+            <dd><a href="../../../../0.4.0/index.html">0.4.0</a></dd>
             <dd><a href="norm.html">0.4.0rc1</a></dd>
             <dd><a href="../../../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../../../0.4.0rc3/index.html">0.4.0rc3</a></dd>

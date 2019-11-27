@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.anatomical &mdash; smriprep 0.4.0rc5 documentation</title>
+  <title>smriprep.workflows.anatomical &mdash; smriprep 0.4.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.4.0rc5
+                0.4.0
               </div>
             
           
@@ -161,31 +161,31 @@
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
 <span class="sd">&quot;&quot;&quot;Anatomical reference preprocessing workflows.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="k">import</span> <span class="n">resource_filename</span> <span class="k">as</span> <span class="n">pkgr</span>
+<span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">resource_filename</span> <span class="k">as</span> <span class="n">pkgr</span>
 
-<span class="kn">from</span> <span class="nn">nipype.pipeline</span> <span class="k">import</span> <span class="n">engine</span> <span class="k">as</span> <span class="n">pe</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">nipype.pipeline</span> <span class="kn">import</span> <span class="n">engine</span> <span class="k">as</span> <span class="n">pe</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">utility</span> <span class="k">as</span> <span class="n">niu</span><span class="p">,</span>
     <span class="n">freesurfer</span> <span class="k">as</span> <span class="n">fs</span><span class="p">,</span>
     <span class="n">fsl</span><span class="p">,</span>
     <span class="n">image</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">nipype.interfaces.ants.base</span> <span class="k">import</span> <span class="n">Info</span> <span class="k">as</span> <span class="n">ANTsInfo</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces.ants</span> <span class="k">import</span> <span class="n">N4BiasFieldCorrection</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.ants.base</span> <span class="kn">import</span> <span class="n">Info</span> <span class="k">as</span> <span class="n">ANTsInfo</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.ants</span> <span class="kn">import</span> <span class="n">N4BiasFieldCorrection</span>
 
-<span class="kn">from</span> <span class="nn">niworkflows.engine.workflows</span> <span class="k">import</span> <span class="n">LiterateWorkflow</span> <span class="k">as</span> <span class="n">Workflow</span>
-<span class="kn">from</span> <span class="nn">niworkflows.interfaces.freesurfer</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">niworkflows.engine.workflows</span> <span class="kn">import</span> <span class="n">LiterateWorkflow</span> <span class="k">as</span> <span class="n">Workflow</span>
+<span class="kn">from</span> <span class="nn">niworkflows.interfaces.freesurfer</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">StructuralReference</span><span class="p">,</span>
     <span class="n">PatchedConcatenateLTA</span> <span class="k">as</span> <span class="n">ConcatenateLTA</span><span class="p">,</span>
     <span class="n">PatchedLTAConvert</span> <span class="k">as</span> <span class="n">LTAConvert</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">niworkflows.interfaces.images</span> <span class="k">import</span> <span class="n">TemplateDimensions</span><span class="p">,</span> <span class="n">Conform</span><span class="p">,</span> <span class="n">ValidateImage</span>
-<span class="kn">from</span> <span class="nn">niworkflows.utils.misc</span> <span class="k">import</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">,</span> <span class="n">add_suffix</span>
-<span class="kn">from</span> <span class="nn">niworkflows.anat.ants</span> <span class="k">import</span> <span class="n">init_brain_extraction_wf</span>
-<span class="kn">from</span> <span class="nn">.norm</span> <span class="k">import</span> <span class="n">init_anat_norm_wf</span>
-<span class="kn">from</span> <span class="nn">.outputs</span> <span class="k">import</span> <span class="n">init_anat_reports_wf</span><span class="p">,</span> <span class="n">init_anat_derivatives_wf</span>
-<span class="kn">from</span> <span class="nn">.surfaces</span> <span class="k">import</span> <span class="n">init_surface_recon_wf</span>
+<span class="kn">from</span> <span class="nn">niworkflows.interfaces.images</span> <span class="kn">import</span> <span class="n">TemplateDimensions</span><span class="p">,</span> <span class="n">Conform</span><span class="p">,</span> <span class="n">ValidateImage</span>
+<span class="kn">from</span> <span class="nn">niworkflows.utils.misc</span> <span class="kn">import</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">,</span> <span class="n">add_suffix</span>
+<span class="kn">from</span> <span class="nn">niworkflows.anat.ants</span> <span class="kn">import</span> <span class="n">init_brain_extraction_wf</span>
+<span class="kn">from</span> <span class="nn">.norm</span> <span class="kn">import</span> <span class="n">init_anat_norm_wf</span>
+<span class="kn">from</span> <span class="nn">.outputs</span> <span class="kn">import</span> <span class="n">init_anat_reports_wf</span><span class="p">,</span> <span class="n">init_anat_derivatives_wf</span>
+<span class="kn">from</span> <span class="nn">.surfaces</span> <span class="kn">import</span> <span class="n">init_surface_recon_wf</span>
 
 
 <div class="viewcode-block" id="init_anat_preproc_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.anatomical.html#smriprep.workflows.anatomical.init_anat_preproc_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_preproc_wf</span><span class="p">(</span>
@@ -720,6 +720,7 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
+            <dd><a href="../../../../0.4.0/index.html">0.4.0</a></dd>
             <dd><a href="anatomical.html">0.4.0rc1</a></dd>
             <dd><a href="../../../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../../../0.4.0rc3/index.html">0.4.0rc3</a></dd>

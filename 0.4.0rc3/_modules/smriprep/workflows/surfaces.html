@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.surfaces &mdash; smriprep 0.4.0rc5 documentation</title>
+  <title>smriprep.workflows.surfaces &mdash; smriprep 0.4.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.4.0rc5
+                0.4.0
               </div>
             
           
@@ -167,18 +167,18 @@
 <span class="sd">structural images.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">nipype.pipeline</span> <span class="k">import</span> <span class="n">engine</span> <span class="k">as</span> <span class="n">pe</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="k">import</span> <span class="n">Undefined</span>
-<span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">nipype.pipeline</span> <span class="kn">import</span> <span class="n">engine</span> <span class="k">as</span> <span class="n">pe</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces.base</span> <span class="kn">import</span> <span class="n">Undefined</span>
+<span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">io</span> <span class="k">as</span> <span class="n">nio</span><span class="p">,</span>
     <span class="n">utility</span> <span class="k">as</span> <span class="n">niu</span><span class="p">,</span>
     <span class="n">freesurfer</span> <span class="k">as</span> <span class="n">fs</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">..interfaces.freesurfer</span> <span class="k">import</span> <span class="n">ReconAll</span>
+<span class="kn">from</span> <span class="nn">..interfaces.freesurfer</span> <span class="kn">import</span> <span class="n">ReconAll</span>
 
-<span class="kn">from</span> <span class="nn">niworkflows.engine.workflows</span> <span class="k">import</span> <span class="n">LiterateWorkflow</span> <span class="k">as</span> <span class="n">Workflow</span>
-<span class="kn">from</span> <span class="nn">niworkflows.interfaces.freesurfer</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">niworkflows.engine.workflows</span> <span class="kn">import</span> <span class="n">LiterateWorkflow</span> <span class="k">as</span> <span class="n">Workflow</span>
+<span class="kn">from</span> <span class="nn">niworkflows.interfaces.freesurfer</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">FSDetectInputs</span><span class="p">,</span>
     <span class="n">FSInjectBrainExtracted</span><span class="p">,</span>
     <span class="n">MakeMidthickness</span><span class="p">,</span>
@@ -186,7 +186,7 @@
     <span class="n">PatchedRobustRegister</span> <span class="k">as</span> <span class="n">RobustRegister</span><span class="p">,</span>
     <span class="n">RefineBrainMask</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">niworkflows.interfaces.surf</span> <span class="k">import</span> <span class="n">NormalizeSurf</span>
+<span class="kn">from</span> <span class="nn">niworkflows.interfaces.surf</span> <span class="kn">import</span> <span class="n">NormalizeSurf</span>
 
 
 <div class="viewcode-block" id="init_surface_recon_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_surface_recon_wf">[docs]</a><span class="k">def</span> <span class="nf">init_surface_recon_wf</span><span class="p">(</span><span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">hires</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;surface_recon_wf&#39;</span><span class="p">):</span>
@@ -696,7 +696,7 @@
 
 
 <span class="k">def</span> <span class="nf">_check_cw256</span><span class="p">(</span><span class="n">in_files</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">nibabel.funcs</span> <span class="k">import</span> <span class="n">concat_images</span>
+    <span class="kn">from</span> <span class="nn">nibabel.funcs</span> <span class="kn">import</span> <span class="n">concat_images</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_files</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">in_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">in_files</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="n">s</span> <span class="o">&gt;</span> <span class="mi">256</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">concat_images</span><span class="p">(</span><span class="n">in_files</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">])):</span>
@@ -738,6 +738,7 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
+            <dd><a href="../../../../0.4.0/index.html">0.4.0</a></dd>
             <dd><a href="../../../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
             <dd><a href="../../../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="surfaces.html">0.4.0rc3</a></dd>

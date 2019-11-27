@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.cli.run &mdash; smriprep 0.4.0rc5 documentation</title>
+  <title>smriprep.cli.run &mdash; smriprep 0.4.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.4.0rc5
+                0.4.0
               </div>
             
           
@@ -175,7 +175,7 @@
 
 
 <div class="viewcode-block" id="check_deps"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.check_deps">[docs]</a><span class="k">def</span> <span class="nf">check_deps</span><span class="p">(</span><span class="n">workflow</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="k">import</span> <span class="n">which</span>
+    <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">which</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span>
         <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_cmd</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">workflow</span><span class="o">.</span><span class="n">_get_all_nodes</span><span class="p">()</span>
@@ -185,12 +185,12 @@
 
 <div class="viewcode-block" id="get_parser"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.get_parser">[docs]</a><span class="k">def</span> <span class="nf">get_parser</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Build parser object&quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
-    <span class="kn">from</span> <span class="nn">argparse</span> <span class="k">import</span> <span class="n">ArgumentParser</span>
-    <span class="kn">from</span> <span class="nn">argparse</span> <span class="k">import</span> <span class="n">RawTextHelpFormatter</span>
-    <span class="kn">from</span> <span class="nn">templateflow.api</span> <span class="k">import</span> <span class="n">templates</span>
-    <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">ParseTemplates</span><span class="p">,</span> <span class="n">output_space</span> <span class="k">as</span> <span class="n">_output_space</span>
-    <span class="kn">from</span> <span class="nn">..__about__</span> <span class="k">import</span> <span class="n">__version__</span>
+    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+    <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
+    <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">RawTextHelpFormatter</span>
+    <span class="kn">from</span> <span class="nn">templateflow.api</span> <span class="kn">import</span> <span class="n">templates</span>
+    <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">ParseTemplates</span><span class="p">,</span> <span class="n">output_space</span> <span class="k">as</span> <span class="n">_output_space</span>
+    <span class="kn">from</span> <span class="nn">..__about__</span> <span class="kn">import</span> <span class="n">__version__</span>
 
     <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;sMRIPrep: Structural MRI PREProcessing workflows&#39;</span><span class="p">,</span>
                             <span class="n">formatter_class</span><span class="o">=</span><span class="n">RawTextHelpFormatter</span><span class="p">)</span>
@@ -321,13 +321,13 @@
 <div class="viewcode-block" id="build_opts"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.build_opts">[docs]</a><span class="k">def</span> <span class="nf">build_opts</span><span class="p">(</span><span class="n">opts</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Entry point&quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
     <span class="kn">import</span> <span class="nn">logging</span>
     <span class="kn">import</span> <span class="nn">sys</span>
     <span class="kn">import</span> <span class="nn">gc</span>
     <span class="kn">import</span> <span class="nn">warnings</span>
-    <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">set_start_method</span><span class="p">,</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Manager</span>
-    <span class="kn">from</span> <span class="nn">nipype</span> <span class="k">import</span> <span class="n">logging</span> <span class="k">as</span> <span class="n">nlogging</span>
+    <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">set_start_method</span><span class="p">,</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Manager</span>
+    <span class="kn">from</span> <span class="nn">nipype</span> <span class="kn">import</span> <span class="n">logging</span> <span class="k">as</span> <span class="n">nlogging</span>
 
     <span class="n">set_start_method</span><span class="p">(</span><span class="s1">&#39;forkserver&#39;</span><span class="p">)</span>
 
@@ -411,8 +411,8 @@
         <span class="n">errno</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">run_reconall</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">templateflow</span> <span class="k">import</span> <span class="n">api</span>
-            <span class="kn">from</span> <span class="nn">niworkflows.utils.misc</span> <span class="k">import</span> <span class="n">_copy_any</span>
+            <span class="kn">from</span> <span class="nn">templateflow</span> <span class="kn">import</span> <span class="n">api</span>
+            <span class="kn">from</span> <span class="nn">niworkflows.utils.misc</span> <span class="kn">import</span> <span class="n">_copy_any</span>
             <span class="n">dseg_tsv</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">api</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fsaverage&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;dseg&#39;</span><span class="p">,</span> <span class="n">extension</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;.tsv&#39;</span><span class="p">]))</span>
             <span class="n">_copy_any</span><span class="p">(</span><span class="n">dseg_tsv</span><span class="p">,</span>
                       <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span> <span class="o">/</span> <span class="s1">&#39;smriprep&#39;</span> <span class="o">/</span> <span class="s1">&#39;desc-aseg_dseg.tsv&#39;</span><span class="p">))</span>
@@ -420,8 +420,8 @@
                       <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span> <span class="o">/</span> <span class="s1">&#39;smriprep&#39;</span> <span class="o">/</span> <span class="s1">&#39;desc-aparcaseg_dseg.tsv&#39;</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;sMRIPrep finished without errors&#39;</span><span class="p">)</span>
     <span class="k">finally</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">niworkflows.reports</span> <span class="k">import</span> <span class="n">generate_reports</span>
-        <span class="kn">from</span> <span class="nn">..utils.bids</span> <span class="k">import</span> <span class="n">write_derivative_description</span>
+        <span class="kn">from</span> <span class="nn">niworkflows.reports</span> <span class="kn">import</span> <span class="n">generate_reports</span>
+        <span class="kn">from</span> <span class="nn">..utils.bids</span> <span class="kn">import</span> <span class="n">write_derivative_description</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Writing reports for participants: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subject_list</span><span class="p">))</span>
         <span class="c1"># Generate reports phase</span>
@@ -442,19 +442,19 @@
 <span class="sd">    a hard-limited memory-scope.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">sys</span>
-    <span class="kn">from</span> <span class="nn">shutil</span> <span class="k">import</span> <span class="n">copyfile</span>
-    <span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">cpu_count</span>
-    <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+    <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
+    <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">cpu_count</span>
+    <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
     <span class="kn">import</span> <span class="nn">uuid</span>
-    <span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">strftime</span>
-    <span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">check_call</span><span class="p">,</span> <span class="n">CalledProcessError</span><span class="p">,</span> <span class="n">TimeoutExpired</span>
-    <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="k">import</span> <span class="n">resource_filename</span> <span class="k">as</span> <span class="n">pkgrf</span>
+    <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">strftime</span>
+    <span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">check_call</span><span class="p">,</span> <span class="n">CalledProcessError</span><span class="p">,</span> <span class="n">TimeoutExpired</span>
+    <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">resource_filename</span> <span class="k">as</span> <span class="n">pkgrf</span>
 
-    <span class="kn">from</span> <span class="nn">bids</span> <span class="k">import</span> <span class="n">BIDSLayout</span>
-    <span class="kn">from</span> <span class="nn">nipype</span> <span class="k">import</span> <span class="n">logging</span><span class="p">,</span> <span class="n">config</span> <span class="k">as</span> <span class="n">ncfg</span>
-    <span class="kn">from</span> <span class="nn">..__about__</span> <span class="k">import</span> <span class="n">__version__</span>
-    <span class="kn">from</span> <span class="nn">..workflows.base</span> <span class="k">import</span> <span class="n">init_smriprep_wf</span>
-    <span class="kn">from</span> <span class="nn">niworkflows.utils.bids</span> <span class="k">import</span> <span class="n">collect_participants</span>
+    <span class="kn">from</span> <span class="nn">bids</span> <span class="kn">import</span> <span class="n">BIDSLayout</span>
+    <span class="kn">from</span> <span class="nn">nipype</span> <span class="kn">import</span> <span class="n">logging</span><span class="p">,</span> <span class="n">config</span> <span class="k">as</span> <span class="n">ncfg</span>
+    <span class="kn">from</span> <span class="nn">..__about__</span> <span class="kn">import</span> <span class="n">__version__</span>
+    <span class="kn">from</span> <span class="nn">..workflows.base</span> <span class="kn">import</span> <span class="n">init_smriprep_wf</span>
+    <span class="kn">from</span> <span class="nn">niworkflows.utils.bids</span> <span class="kn">import</span> <span class="n">collect_participants</span>
 
     <span class="c1"># Set the default template to &#39;MNI152NLin2009c&#39;</span>
     <span class="n">output_spaces</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">output_spaces</span> <span class="ow">or</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;MNI152NLin2009cAsym&#39;</span><span class="p">,</span> <span class="p">{})])</span>
@@ -507,7 +507,7 @@
 
     <span class="c1"># Load base plugin_settings from file if --use-plugin</span>
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">use_plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">yaml</span> <span class="k">import</span> <span class="n">load</span> <span class="k">as</span> <span class="n">loadyml</span>
+        <span class="kn">from</span> <span class="nn">yaml</span> <span class="kn">import</span> <span class="n">load</span> <span class="k">as</span> <span class="n">loadyml</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">use_plugin</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">plugin_settings</span> <span class="o">=</span> <span class="n">loadyml</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
         <span class="n">plugin_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;plugin_args&#39;</span><span class="p">,</span> <span class="p">{})</span>
@@ -586,7 +586,7 @@
 
     <span class="c1"># Called with reports only</span>
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">reports_only</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">niworkflows.reports</span> <span class="k">import</span> <span class="n">generate_reports</span>
+        <span class="kn">from</span> <span class="nn">niworkflows.reports</span> <span class="kn">import</span> <span class="n">generate_reports</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Running --reports-only on participants </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subject_list</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">run_uuid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -695,6 +695,7 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
+            <dd><a href="../../../../0.4.0/index.html">0.4.0</a></dd>
             <dd><a href="../../../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
             <dd><a href="run.html">0.4.0rc2</a></dd>
             <dd><a href="../../../../0.4.0rc3/index.html">0.4.0rc3</a></dd>
