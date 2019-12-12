@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="What’s new" href="changes.html" /> 
+    <link rel="next" title="Installation" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,8 +85,10 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="changes.html">What’s new</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/smriprep.html">smriprep package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Library API (application program interface)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">What’s new?</a></li>
 </ul>
 
             
@@ -154,12 +156,9 @@
   
 
 
-    
-    
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="master/index.html"><b>Warning:</b> This document is for an old version of smriprep. The main version is master.</a></p>
 <div class="section" id="smriprep-structural-mri-preprocessing-pipeline">
 <h1>sMRIPrep: Structural MRI PREProcessing pipeline<a class="headerlink" href="#smriprep-structural-mri-preprocessing-pipeline" title="Permalink to this headline">¶</a></h1>
 <a class="reference external image-reference" href="https://hub.docker.com/r/poldracklab/smriprep/tags/"><img alt="Docker image available!" src="https://img.shields.io/badge/docker-poldracklab/smriprep-brightgreen.svg?logo=docker&amp;style=flat" /></a>
@@ -216,7 +215,62 @@ analysis.</p></li>
 <h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="changes.html">What’s new</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#container-technologies-docker-and-singularity">Container technologies: Docker and Singularity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#docker-recommended-for-pc-laptop-and-commercial-cloud">Docker (recommended for PC/laptop and commercial Cloud)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#singularity-recommended-for-hpc">Singularity (recommended for HPC)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#manually-prepared-environment-python-3-5">Manually Prepared Environment (Python 3.5+)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#external-dependencies">External Dependencies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#execution-and-the-bids-format">Execution and the BIDS format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#command-line-arguments">Command-Line Arguments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Positional Arguments">Positional Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Options for filtering BIDS queries">Options for filtering BIDS queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Options to handle performance">Options to handle performance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Workflow configuration">Workflow configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Specific options for ANTs registrations">Specific options for ANTs registrations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Specific options for FreeSurfer preprocessing">Specific options for FreeSurfer preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Surface preprocessing options">Surface preprocessing options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Other options">Other options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#the-command-line-interface-of-the-docker-wrapper">The command-line interface of the docker wrapper</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Positional Arguments">Positional Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Wrapper options">Wrapper options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html#Developer options">Developer options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#the-freesurfer-license">The FreeSurfer license</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Library API (application program interface)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/smriprep.cli.html">smriprep.cli package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/smriprep.cli.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/smriprep.interfaces.html">smriprep.interfaces package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/smriprep.interfaces.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/smriprep.utils.html">smriprep.utils package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/smriprep.utils.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/smriprep.workflows.html">smriprep.workflows package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/smriprep.workflows.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">What’s new?</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="changes.html#november-26-2019">0.4.0 (November 26, 2019)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changes.html#september-9-2019">0.3.2 (September 9, 2019)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changes.html#july-21-2019">0.3.1 (July 21, 2019)</a></li>
@@ -234,17 +288,6 @@ analysis.</p></li>
 <li class="toctree-l2"><a class="reference internal" href="changes.html#january-8-2019">0.0.2 (January 8, 2019)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/smriprep.html">smriprep package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/smriprep.html#api-for-developers">API for developers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/smriprep.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/smriprep.cli.html">smriprep.cli package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/smriprep.interfaces.html">smriprep.interfaces package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/smriprep.utils.html">smriprep.utils package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/smriprep.workflows.html">smriprep.workflows package</a></li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
 </div>
 </div>
@@ -258,7 +301,7 @@ analysis.</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="changes.html" class="btn btn-neutral float-right" title="What’s new" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -286,7 +329,7 @@ analysis.</p></li>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.4.0
+        v: master
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">

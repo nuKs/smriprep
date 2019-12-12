@@ -86,21 +86,26 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">What’s new</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="smriprep.html">smriprep package</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="smriprep.html#api-for-developers">API for developers</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="smriprep.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="smriprep.cli.html">smriprep.cli package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="smriprep.interfaces.html">smriprep.interfaces package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="smriprep.utils.html">smriprep.utils package</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="smriprep.workflows.html">smriprep.workflows package</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="smriprep.workflows.html#submodules">Submodules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Library API (application program interface)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="smriprep.cli.html">smriprep.cli package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smriprep.interfaces.html">smriprep.interfaces package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smriprep.utils.html">smriprep.utils package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="smriprep.workflows.html">smriprep.workflows package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="smriprep.workflows.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="smriprep.workflows.anatomical.html">smriprep.workflows.anatomical module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="smriprep.workflows.base.html">smriprep.workflows.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="smriprep.workflows.norm.html">smriprep.workflows.norm module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">smriprep.workflows.outputs module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="smriprep.workflows.surfaces.html">smriprep.workflows.surfaces module</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">What’s new?</a></li>
 </ul>
 
             
@@ -146,7 +151,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="smriprep.html">smriprep package</a> &raquo;</li>
+          <li><a href="../api.html">Library API (application program interface)</a> &raquo;</li>
         
           <li><a href="smriprep.workflows.html">smriprep.workflows package</a> &raquo;</li>
         
@@ -180,13 +185,13 @@
 <p>Writting outputs.</p>
 <dl class="function">
 <dt id="smriprep.workflows.outputs.init_anat_derivatives_wf">
-<code class="sig-prename descclassname">smriprep.workflows.outputs.</code><code class="sig-name descname">init_anat_derivatives_wf</code><span class="sig-paren">(</span><em class="sig-param">bids_root</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">name='anat_derivatives_wf'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/965e47f684ea463fbb26f5ddbe809003ea0222e1/smriprep/workflows/outputs.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.outputs.init_anat_derivatives_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.outputs.</code><code class="sig-name descname">init_anat_derivatives_wf</code><span class="sig-paren">(</span><em class="sig-param">bids_root</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">name='anat_derivatives_wf'</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.outputs.init_anat_derivatives_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set up a battery of datasinks to store derivatives in the right location.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="smriprep.workflows.outputs.init_anat_reports_wf">
-<code class="sig-prename descclassname">smriprep.workflows.outputs.</code><code class="sig-name descname">init_anat_reports_wf</code><span class="sig-paren">(</span><em class="sig-param">reportlets_dir</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">name='anat_reports_wf'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/965e47f684ea463fbb26f5ddbe809003ea0222e1/smriprep/workflows/outputs.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.outputs.init_anat_reports_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.outputs.</code><code class="sig-name descname">init_anat_reports_wf</code><span class="sig-paren">(</span><em class="sig-param">reportlets_dir</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">name='anat_reports_wf'</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.outputs.init_anat_reports_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set up a battery of datasinks to store reports in the right location.</p>
 </dd></dl>
 

@@ -86,21 +86,23 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../changes.html">What’s new</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="smriprep.html">smriprep package</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="smriprep.html#api-for-developers">API for developers</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="smriprep.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="smriprep.cli.html">smriprep.cli package</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="smriprep.cli.html#submodules">Submodules</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="smriprep.interfaces.html">smriprep.interfaces package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="smriprep.utils.html">smriprep.utils package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="smriprep.workflows.html">smriprep.workflows package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Library API (application program interface)</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="smriprep.cli.html">smriprep.cli package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="smriprep.cli.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">smriprep.cli.run module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="smriprep.cli.utils.html">smriprep.cli.utils module</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="smriprep.interfaces.html">smriprep.interfaces package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smriprep.utils.html">smriprep.utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smriprep.workflows.html">smriprep.workflows package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">What’s new?</a></li>
 </ul>
 
             
@@ -146,7 +148,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="smriprep.html">smriprep package</a> &raquo;</li>
+          <li><a href="../api.html">Library API (application program interface)</a> &raquo;</li>
         
           <li><a href="smriprep.cli.html">smriprep.cli package</a> &raquo;</li>
         
@@ -181,13 +183,13 @@
 <h2>sMRIPrep: Structural MRI PREProcessing workflow<a class="headerlink" href="#smriprep-structural-mri-preprocessing-workflow" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="smriprep.cli.run.build_opts">
-<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_opts</code><span class="sig-paren">(</span><em class="sig-param">opts</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/965e47f684ea463fbb26f5ddbe809003ea0222e1/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.build_opts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_opts</code><span class="sig-paren">(</span><em class="sig-param">opts</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.cli.run.build_opts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Entry point</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="smriprep.cli.run.build_workflow">
-<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_workflow</code><span class="sig-paren">(</span><em class="sig-param">opts</em>, <em class="sig-param">retval</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/965e47f684ea463fbb26f5ddbe809003ea0222e1/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.build_workflow" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_workflow</code><span class="sig-paren">(</span><em class="sig-param">opts</em>, <em class="sig-param">retval</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.cli.run.build_workflow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the Nipype Workflow that supports the whole execution
 graph, given the inputs.
 All the checks and the construction of the workflow are done
@@ -199,18 +201,18 @@ a hard-limited memory-scope.</p>
 
 <dl class="function">
 <dt id="smriprep.cli.run.check_deps">
-<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">check_deps</code><span class="sig-paren">(</span><em class="sig-param">workflow</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/965e47f684ea463fbb26f5ddbe809003ea0222e1/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.check_deps" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">check_deps</code><span class="sig-paren">(</span><em class="sig-param">workflow</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.cli.run.check_deps" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="smriprep.cli.run.get_parser">
-<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">get_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/965e47f684ea463fbb26f5ddbe809003ea0222e1/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.get_parser" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">get_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.cli.run.get_parser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build parser object</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="smriprep.cli.run.main">
-<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/965e47f684ea463fbb26f5ddbe809003ea0222e1/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.main" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.cli.run.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Entrypoint</p>
 </dd></dl>
 

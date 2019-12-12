@@ -254,10 +254,6 @@
 <span class="sd">            from smriprep.workflows.surfaces import init_surface_recon_wf</span>
 <span class="sd">            wf = init_surface_recon_wf(omp_nthreads=1, hires=True)</span>
 
-<span class="sd">    Subworkflows</span>
-<span class="sd">        * :py:func:`~smriprep.workflows.surfaces.init_autorecon_resume_wf`</span>
-<span class="sd">        * :py:func:`~smriprep.workflows.surfaces.init_gifti_surface_wf`</span>
-
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    omp_nthreads : int</span>
@@ -303,6 +299,11 @@
 <span class="sd">        FreeSurfer&#39;s aseg segmentation, in native T1w space</span>
 <span class="sd">    out_aparc</span>
 <span class="sd">        FreeSurfer&#39;s aparc+aseg segmentation, in native T1w space</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    * :py:func:`~smriprep.workflows.surfaces.init_autorecon_resume_wf`</span>
+<span class="sd">    * :py:func:`~smriprep.workflows.surfaces.init_gifti_surface_wf`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
@@ -499,8 +500,13 @@
     <span class="n">autorecon_surfs</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_always_run</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="c1"># -cortribbon is a prerequisite for -parcstats, -parcstats2, -parcstats3</span>
-    <span class="n">cortribbon</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">ReconAll</span><span class="p">(</span><span class="n">directive</span><span class="o">=</span><span class="n">Undefined</span><span class="p">,</span>
-                                  <span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cortribbon&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cortribbon&#39;</span><span class="p">)</span>
+    <span class="c1"># Claiming two threads because pial refinement can be split by hemisphere</span>
+    <span class="c1"># if -T2pial or -FLAIRpial is enabled.</span>
+    <span class="c1"># Parallelizing by hemisphere saves ~30 minutes over simply enabling</span>
+    <span class="c1"># OpenMP on an 8 core machine.</span>
+    <span class="n">cortribbon</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">ReconAll</span><span class="p">(</span><span class="n">directive</span><span class="o">=</span><span class="n">Undefined</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cortribbon&#39;</span><span class="p">],</span>
+                                  <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                         <span class="n">n_procs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cortribbon&#39;</span><span class="p">)</span>
     <span class="n">cortribbon</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_always_run</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="c1"># -parcstats* can be run per-hemisphere</span>
@@ -531,8 +537,8 @@
         <span class="k">return</span> <span class="n">vals</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
 
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
-        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">autorecon_surfs</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;use_T2&#39;</span><span class="p">,</span> <span class="s1">&#39;use_T2&#39;</span><span class="p">),</span>
-                                      <span class="p">(</span><span class="s1">&#39;use_FLAIR&#39;</span><span class="p">,</span> <span class="s1">&#39;use_FLAIR&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">cortribbon</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;use_T2&#39;</span><span class="p">,</span> <span class="s1">&#39;use_T2&#39;</span><span class="p">),</span>
+                                 <span class="p">(</span><span class="s1">&#39;use_FLAIR&#39;</span><span class="p">,</span> <span class="s1">&#39;use_FLAIR&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">autorecon2_vol</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">),</span>
                                      <span class="p">(</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">autorecon2_vol</span><span class="p">,</span> <span class="n">autorecon_surfs</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">),</span>

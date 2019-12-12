@@ -226,10 +226,6 @@
 <span class="sd">                skull_strip_template=(&#39;MNI152NLin2009cAsym&#39;, {}),</span>
 <span class="sd">            )</span>
 
-<span class="sd">    Subworkflows</span>
-<span class="sd">        * :py:func:`~niworkflows.anat.ants.init_brain_extraction_wf`</span>
-<span class="sd">        * :py:func:`~smriprep.workflows.surfaces.init_surface_recon_wf`</span>
-
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    bids_root : str</span>
@@ -319,6 +315,11 @@
 <span class="sd">        subject space to T1w</span>
 <span class="sd">    surfaces</span>
 <span class="sd">        GIFTI surfaces (gray/white boundary, midthickness, pial, inflated)</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    * :py:func:`~niworkflows.anat.ants.init_brain_extraction_wf`</span>
+<span class="sd">    * :py:func:`~smriprep.workflows.surfaces.init_surface_recon_wf`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
