@@ -180,20 +180,18 @@
     <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../master/api/smriprep.cli.run.html"><b>Warning:</b> This document is for an old version of smriprep. The main version is master.</a></p>
 <div class="section" id="module-smriprep.cli.run">
 <span id="smriprep-cli-run-module"></span><h1>smriprep.cli.run module<a class="headerlink" href="#module-smriprep.cli.run" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="smriprep-structural-mri-preprocessing-workflow">
-<h2>sMRIPrep: Structural MRI PREProcessing workflow<a class="headerlink" href="#smriprep-structural-mri-preprocessing-workflow" title="Permalink to this headline">¶</a></h2>
+<p>sMRIPrep: Structural MRI PREProcessing workflow.</p>
 <dl class="function">
 <dt id="smriprep.cli.run.build_opts">
-<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_opts</code><span class="sig-paren">(</span><em class="sig-param">opts</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/6a556bcf16a33ea21ed4fdcb8b7335332af10654/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.build_opts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Entry point</p>
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_opts</code><span class="sig-paren">(</span><em class="sig-param">opts</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/557b68947f112746760b25dc98d8cd56cbd4cf54/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.build_opts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trigger a new process that builds the workflow graph, based on the input options.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="smriprep.cli.run.build_workflow">
-<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_workflow</code><span class="sig-paren">(</span><em class="sig-param">opts</em>, <em class="sig-param">retval</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/6a556bcf16a33ea21ed4fdcb8b7335332af10654/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.build_workflow" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create the Nipype Workflow that supports the whole execution
-graph, given the inputs.
-All the checks and the construction of the workflow are done
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_workflow</code><span class="sig-paren">(</span><em class="sig-param">opts</em>, <em class="sig-param">retval</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/557b68947f112746760b25dc98d8cd56cbd4cf54/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.build_workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the Nipype Workflow that supports the whole execution graph, given the inputs.</p>
+<p>All the checks and the construction of the workflow are done
 inside this function that has pickleable inputs and output
 dictionary (<code class="docutils literal notranslate"><span class="pre">retval</span></code>) to allow isolation using a
 <code class="docutils literal notranslate"><span class="pre">multiprocessing.Process</span></code> that allows smriprep to enforce
@@ -202,22 +200,22 @@ a hard-limited memory-scope.</p>
 
 <dl class="function">
 <dt id="smriprep.cli.run.check_deps">
-<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">check_deps</code><span class="sig-paren">(</span><em class="sig-param">workflow</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/6a556bcf16a33ea21ed4fdcb8b7335332af10654/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.check_deps" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">check_deps</code><span class="sig-paren">(</span><em class="sig-param">workflow</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/557b68947f112746760b25dc98d8cd56cbd4cf54/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.check_deps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make sure all dependencies are installed.</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="smriprep.cli.run.get_parser">
-<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">get_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/6a556bcf16a33ea21ed4fdcb8b7335332af10654/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.get_parser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build parser object</p>
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">get_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/557b68947f112746760b25dc98d8cd56cbd4cf54/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.get_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build parser object.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="smriprep.cli.run.main">
-<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/6a556bcf16a33ea21ed4fdcb8b7335332af10654/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>Entrypoint</p>
+<code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/557b68947f112746760b25dc98d8cd56cbd4cf54/smriprep/cli/run.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.cli.run.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set an entrypoint.</p>
 </dd></dl>
 
-</div>
 </div>
 
 

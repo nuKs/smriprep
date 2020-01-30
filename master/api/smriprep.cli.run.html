@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="smriprep.cli.utils module" href="smriprep.cli.utils.html" />
+    <link rel="next" title="smriprep.interfaces package" href="smriprep.interfaces.html" />
     <link rel="prev" title="smriprep.cli package" href="smriprep.cli.html" /> 
 </head>
 
@@ -92,7 +92,6 @@
 <li class="toctree-l2 current"><a class="reference internal" href="smriprep.cli.html">smriprep.cli package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="smriprep.cli.html#submodules">Submodules</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">smriprep.cli.run module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="smriprep.cli.utils.html">smriprep.cli.utils module</a></li>
 </ul>
 </li>
 </ul>
@@ -179,20 +178,18 @@
 
 <div class="section" id="module-smriprep.cli.run">
 <span id="smriprep-cli-run-module"></span><h1>smriprep.cli.run module<a class="headerlink" href="#module-smriprep.cli.run" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="smriprep-structural-mri-preprocessing-workflow">
-<h2>sMRIPrep: Structural MRI PREProcessing workflow<a class="headerlink" href="#smriprep-structural-mri-preprocessing-workflow" title="Permalink to this headline">¶</a></h2>
+<p>sMRIPrep: Structural MRI PREProcessing workflow.</p>
 <dl class="function">
 <dt id="smriprep.cli.run.build_opts">
 <code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_opts</code><span class="sig-paren">(</span><em class="sig-param">opts</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.cli.run.build_opts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Entry point</p>
+<dd><p>Trigger a new process that builds the workflow graph, based on the input options.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="smriprep.cli.run.build_workflow">
 <code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">build_workflow</code><span class="sig-paren">(</span><em class="sig-param">opts</em>, <em class="sig-param">retval</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.cli.run.build_workflow" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create the Nipype Workflow that supports the whole execution
-graph, given the inputs.
-All the checks and the construction of the workflow are done
+<dd><p>Create the Nipype Workflow that supports the whole execution graph, given the inputs.</p>
+<p>All the checks and the construction of the workflow are done
 inside this function that has pickleable inputs and output
 dictionary (<code class="docutils literal notranslate"><span class="pre">retval</span></code>) to allow isolation using a
 <code class="docutils literal notranslate"><span class="pre">multiprocessing.Process</span></code> that allows smriprep to enforce
@@ -202,21 +199,21 @@ a hard-limited memory-scope.</p>
 <dl class="function">
 <dt id="smriprep.cli.run.check_deps">
 <code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">check_deps</code><span class="sig-paren">(</span><em class="sig-param">workflow</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.cli.run.check_deps" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Make sure all dependencies are installed.</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="smriprep.cli.run.get_parser">
 <code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">get_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.cli.run.get_parser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build parser object</p>
+<dd><p>Build parser object.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="smriprep.cli.run.main">
 <code class="sig-prename descclassname">smriprep.cli.run.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.cli.run.main" title="Permalink to this definition">¶</a></dt>
-<dd><p>Entrypoint</p>
+<dd><p>Set an entrypoint.</p>
 </dd></dl>
 
-</div>
 </div>
 
 
@@ -227,7 +224,7 @@ a hard-limited memory-scope.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="smriprep.cli.utils.html" class="btn btn-neutral float-right" title="smriprep.cli.utils module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="smriprep.interfaces.html" class="btn btn-neutral float-right" title="smriprep.interfaces package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="smriprep.cli.html" class="btn btn-neutral float-left" title="smriprep.cli package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

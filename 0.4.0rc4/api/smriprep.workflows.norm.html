@@ -183,7 +183,7 @@
 <p>Spatial normalization workflows.</p>
 <dl class="function">
 <dt id="smriprep.workflows.norm.init_anat_norm_wf">
-<code class="sig-prename descclassname">smriprep.workflows.norm.</code><code class="sig-name descname">init_anat_norm_wf</code><span class="sig-paren">(</span><em class="sig-param">debug</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">templates</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/6a556bcf16a33ea21ed4fdcb8b7335332af10654/smriprep/workflows/norm.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.norm.init_anat_norm_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.norm.</code><code class="sig-name descname">init_anat_norm_wf</code><span class="sig-paren">(</span><em class="sig-param">debug</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">templates</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/557b68947f112746760b25dc98d8cd56cbd4cf54/smriprep/workflows/norm.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.norm.init_anat_norm_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build an individual spatial normalization workflow using <code class="docutils literal notranslate"><span class="pre">antsRegistration</span></code>.</p>
 <dl>
 <dt>Workflow Graph</dt><dd><div class="figure align-default">
@@ -206,12 +206,12 @@ parameterized execution paths).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>debug</strong> (<em>bool</em>) – Apply sloppy arguments to speed up processing. Use with caution,
+<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Apply sloppy arguments to speed up processing. Use with caution,
 registration processes will be very inaccurate.</p></li>
-<li><p><strong>omp_nthreads</strong> (<em>int</em>) – Maximum number of threads an individual process may use.</p></li>
-<li><p><strong>templates</strong> (<em>list of tuples</em>) – List of tuples containing TemplateFlow identifiers (e.g. <code class="docutils literal notranslate"><span class="pre">MNI152NLin6Asym</span></code>)
-and corresponding specs, which specify target templates
-for spatial normalization.</p></li>
+<li><p><strong>omp_nthreads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Maximum number of threads an individual process may use.</p></li>
+<li><p><strong>templates</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – List of standard space fullnames (e.g., <code class="docutils literal notranslate"><span class="pre">MNI152NLin6Asym</span></code>
+or <code class="docutils literal notranslate"><span class="pre">MNIPediatricAsym:cohort-4</span></code>) which are targets for spatial
+normalization.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Inputs</dt>

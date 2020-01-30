@@ -258,10 +258,16 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t2w</span><span class="p">:</span>
             <span class="n">t2w_seg</span> <span class="o">=</span> <span class="s1">&#39;(+ </span><span class="si">{:d}</span><span class="s1"> T2-weighted)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t2w</span><span class="p">))</span>
 
+        <span class="n">output_spaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">output_spaces</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isdefined</span><span class="p">(</span><span class="n">output_spaces</span><span class="p">):</span>
+            <span class="n">output_spaces</span> <span class="o">=</span> <span class="s2">&quot;&amp;lt;none given&amp;gt;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_spaces</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_spaces</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">SUBJECT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">subject_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">subject_id</span><span class="p">,</span>
                                        <span class="n">n_t1s</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">t1w</span><span class="p">),</span>
                                        <span class="n">t2w</span><span class="o">=</span><span class="n">t2w_seg</span><span class="p">,</span>
-                                       <span class="n">output_spaces</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">output_spaces</span><span class="p">),</span>
+                                       <span class="n">output_spaces</span><span class="o">=</span><span class="n">output_spaces</span><span class="p">,</span>
                                        <span class="n">freesurfer_status</span><span class="o">=</span><span class="n">freesurfer_status</span><span class="p">)</span></div>
 
 

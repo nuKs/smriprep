@@ -1,4 +1,5 @@
-from collections import OrderedDict, namedtuple
+from collections import namedtuple
+from niworkflows.utils.spaces import SpatialReferences, Space
 from smriprep.workflows.base import init_single_subject_wf
 BIDSLayout = namedtuple('BIDSLayout', ['root'])
 wf = init_single_subject_wf(
@@ -11,10 +12,9 @@ wf = init_single_subject_wf(
     name='single_subject_wf',
     omp_nthreads=1,
     output_dir='.',
-    output_spaces=OrderedDict([('MNI152NLin2009cAsym', {}),
-                               ('fsaverage5', {})]),
     reportlets_dir='.',
     skull_strip_fixed_seed=False,
-    skull_strip_template=('OASIS30ANTs', {}),
+    skull_strip_template=Space.from_string('OASIS30ANTs')[0],
+    spaces=SpatialReferences(['MNI152NLin2009cAsym', 'fsaverage5']),
     subject_id='test',
 )

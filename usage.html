@@ -209,16 +209,13 @@ Example:</p>
                 <span class="p">[</span><span class="o">--</span><span class="n">nprocs</span> <span class="n">NPROCS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">omp</span><span class="o">-</span><span class="n">nthreads</span> <span class="n">OMP_NTHREADS</span><span class="p">]</span>
                 <span class="p">[</span><span class="o">--</span><span class="n">mem</span><span class="o">-</span><span class="n">gb</span> <span class="n">MEM_GB</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">low</span><span class="o">-</span><span class="n">mem</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">plugin</span> <span class="n">USE_PLUGIN</span><span class="p">]</span>
                 <span class="p">[</span><span class="o">--</span><span class="n">boilerplate</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">spaces</span> <span class="n">OUTPUT_SPACES</span> <span class="p">[</span><span class="n">OUTPUT_SPACES</span> <span class="o">...</span><span class="p">]]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">longitudinal</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">template</span> <span class="p">{</span><span class="n">MNI152Lin</span><span class="p">,</span><span class="n">MNI152NLin2009cAsym</span><span class="p">,</span><span class="n">MNI152NLin6Asym</span><span class="p">,</span><span class="n">MNI152NLin6Sym</span><span class="p">,</span><span class="n">MNIInfant</span><span class="p">,</span><span class="n">MNIPediatricAsym</span><span class="p">,</span><span class="n">NKI</span><span class="p">,</span><span class="n">OASIS30ANTs</span><span class="p">,</span><span class="n">PNC</span><span class="p">}]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">skull</span><span class="o">-</span><span class="n">strip</span><span class="o">-</span><span class="n">template</span> <span class="n">SKULL_STRIP_TEMPLATE</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">spaces</span> <span class="p">[</span><span class="n">OUTPUT_SPACES</span> <span class="p">[</span><span class="n">OUTPUT_SPACES</span> <span class="o">...</span><span class="p">]]]</span>
+                <span class="p">[</span><span class="o">--</span><span class="n">longitudinal</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">skull</span><span class="o">-</span><span class="n">strip</span><span class="o">-</span><span class="n">template</span> <span class="n">SKULL_STRIP_TEMPLATE</span><span class="p">]</span>
                 <span class="p">[</span><span class="o">--</span><span class="n">skull</span><span class="o">-</span><span class="n">strip</span><span class="o">-</span><span class="n">fixed</span><span class="o">-</span><span class="n">seed</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">fs</span><span class="o">-</span><span class="n">license</span><span class="o">-</span><span class="n">file</span> <span class="n">PATH</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">fs</span><span class="o">-</span><span class="n">subjects</span><span class="o">-</span><span class="nb">dir</span> <span class="n">PATH</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">submm</span><span class="o">-</span><span class="n">recon</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">fs</span><span class="o">-</span><span class="n">output</span><span class="o">-</span><span class="n">spaces</span> <span class="p">{</span><span class="n">fsnative</span><span class="p">,</span><span class="n">fsaverage</span><span class="p">,</span><span class="n">fsaverage6</span><span class="p">,</span><span class="n">fsaverage5</span><span class="p">}</span> <span class="p">[{</span><span class="n">fsnative</span><span class="p">,</span><span class="n">fsaverage</span><span class="p">,</span><span class="n">fsaverage6</span><span class="p">,</span><span class="n">fsaverage5</span><span class="p">}</span> <span class="o">...</span><span class="p">]</span>
-                <span class="o">|</span> <span class="o">--</span><span class="n">fs</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">reconall</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span> <span class="n">WORK_DIR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">resource</span><span class="o">-</span><span class="n">monitor</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">reports</span><span class="o">-</span><span class="n">only</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run</span><span class="o">-</span><span class="n">uuid</span> <span class="n">RUN_UUID</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">write</span><span class="o">-</span><span class="n">graph</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">stop</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">first</span><span class="o">-</span><span class="n">crash</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">notrack</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">sloppy</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">--</span><span class="n">fs</span><span class="o">-</span><span class="n">subjects</span><span class="o">-</span><span class="nb">dir</span> <span class="n">PATH</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">submm</span><span class="o">-</span><span class="n">recon</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">fs</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">reconall</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">w</span> <span class="n">WORK_DIR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">resource</span><span class="o">-</span><span class="n">monitor</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">reports</span><span class="o">-</span><span class="n">only</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">--</span><span class="n">run</span><span class="o">-</span><span class="n">uuid</span> <span class="n">RUN_UUID</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">write</span><span class="o">-</span><span class="n">graph</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">stop</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">first</span><span class="o">-</span><span class="n">crash</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">--</span><span class="n">notrack</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">sloppy</span><span class="p">]</span>
                 <span class="n">bids_dir</span> <span class="n">output_dir</span> <span class="p">{</span><span class="n">participant</span><span class="p">}</span>
 </pre></div>
 </div>
@@ -283,14 +280,10 @@ Example:</p>
 <h3>Workflow configuration<a class="headerlink" href="#Workflow configuration" title="Permalink to this headline">¶</a></h3>
 <dl class="option-list">
 <dt><kbd>--output-spaces</kbd></dt>
-<dd><p>paths or keywords prescribing standard spaces to which normalize the input T1w image (valid keywords are: “MNI152Lin”, “MNI152NLin2009cAsym”, “MNI152NLin6Asym”, “MNI152NLin6Sym”, “MNIInfant”, “MNIPediatricAsym”, “NKI”, “OASIS30ANTs”, “PNC”, “fsLR”, “fsaverage”).</p>
+<dd><p>paths or keywords prescribing output spaces - standard spaces will be extracted for spatial normalization.</p>
 </dd>
 <dt><kbd>--longitudinal</kbd></dt>
 <dd><p>treat dataset as longitudinal - may increase runtime</p>
-</dd>
-<dt><kbd>--template, --spatial-normalization-target</kbd></dt>
-<dd><p>Possible choices: MNI152Lin, MNI152NLin2009cAsym, MNI152NLin6Asym, MNI152NLin6Sym, MNIInfant, MNIPediatricAsym, NKI, OASIS30ANTs, PNC</p>
-<p>DEPRECATED: spatial normalization target (one TemplateFlow Identifier)</p>
 </dd>
 </dl>
 </div>
@@ -322,20 +315,8 @@ Example:</p>
 <dt><kbd>--no-submm-recon</kbd></dt>
 <dd><p>disable sub-millimeter (hires) reconstruction</p>
 </dd>
-<dt><kbd>--fs-output-spaces</kbd></dt>
-<dd><p>Possible choices: fsnative, fsaverage, fsaverage6, fsaverage5</p>
-<dl class="simple">
-<dt>DEPRECATED - configure Freesurfer’s output spaces:</dt><dd><ul class="simple">
-<li><p>fsnative: individual subject surface</p></li>
-<li><p>fsaverage*: FreeSurfer average meshes</p></li>
-</ul>
-</dd>
-</dl>
-<p>this argument can be single value or a space delimited list,
-for example: –fs-output-spaces fsnative fsaverage fsaverage5.</p>
-</dd>
-<dt><kbd>--fs-no-reconall, --no-freesurfer</kbd></dt>
-<dd><p>disable FreeSurfer surface preprocessing. Note : <cite>–no-freesurfer</cite> is deprecated and will be removed in 1.2. Use <cite>–fs-no-reconall</cite> instead.</p>
+<dt><kbd>--fs-no-reconall</kbd></dt>
+<dd><p>disable FreeSurfer surface preprocessing.</p>
 </dd>
 </dl>
 </div>

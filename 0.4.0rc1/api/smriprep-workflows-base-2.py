@@ -1,8 +1,9 @@
 import os
-from collections import OrderedDict, namedtuple
+from collections import namedtuple
 BIDSLayout = namedtuple('BIDSLayout', ['root'])
 os.environ['FREESURFER_HOME'] = os.getcwd()
 from smriprep.workflows.base import init_smriprep_wf
+from niworkflows.utils.spaces import SpatialReferences, Space
 wf = init_smriprep_wf(
     debug=False,
     freesurfer=True,
@@ -13,11 +14,10 @@ wf = init_smriprep_wf(
     low_mem=False,
     omp_nthreads=1,
     output_dir='.',
-    output_spaces=OrderedDict([('MNI152NLin2009cAsym', {}),
-                               ('fsaverage5', {})]),
     run_uuid='testrun',
     skull_strip_fixed_seed=False,
-    skull_strip_template=('OASIS30ANTs', {}),
+    skull_strip_template=Space.from_string('OASIS30ANTs')[0],
+    spaces=SpatialReferences(['MNI152NLin2009cAsym', 'fsaverage5']),
     subject_list=['smripreptest'],
     work_dir='.',
 )

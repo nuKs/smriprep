@@ -192,7 +192,7 @@
 <span class="sd">            wf = init_anat_norm_wf(</span>
 <span class="sd">                debug=False,</span>
 <span class="sd">                omp_nthreads=1,</span>
-<span class="sd">                templates=[(&#39;MNI152NLin2009cAsym&#39;, {}), (&#39;MNI152NLin6Asym&#39;, {})],</span>
+<span class="sd">                templates=[&#39;MNI152NLin2009cAsym&#39;, &#39;MNI152NLin6Asym&#39;],</span>
 <span class="sd">            )</span>
 
 <span class="sd">    .. important::</span>
@@ -207,15 +207,15 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    debug : bool</span>
+<span class="sd">    debug : :obj:`bool`</span>
 <span class="sd">        Apply sloppy arguments to speed up processing. Use with caution,</span>
 <span class="sd">        registration processes will be very inaccurate.</span>
-<span class="sd">    omp_nthreads : int</span>
+<span class="sd">    omp_nthreads : :obj:`int`</span>
 <span class="sd">        Maximum number of threads an individual process may use.</span>
-<span class="sd">    templates : list of tuples</span>
-<span class="sd">        List of tuples containing TemplateFlow identifiers (e.g. ``MNI152NLin6Asym``)</span>
-<span class="sd">        and corresponding specs, which specify target templates</span>
-<span class="sd">        for spatial normalization.</span>
+<span class="sd">    templates : :obj:`list` of :obj:`str`</span>
+<span class="sd">        List of standard space fullnames (e.g., ``MNI152NLin6Asym``</span>
+<span class="sd">        or ``MNIPediatricAsym:cohort-4``) which are targets for spatial</span>
+<span class="sd">        normalization.</span>
 
 <span class="sd">    Inputs</span>
 <span class="sd">    ------</span>
@@ -260,34 +260,37 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ntpls</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span>
     <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="s1">&#39;anat_norm_wf&#39;</span><span class="p">)</span>
-    <span class="n">workflow</span><span class="o">.</span><span class="n">__desc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+
+    <span class="k">if</span> <span class="n">templates</span><span class="p">:</span>
+        <span class="n">workflow</span><span class="o">.</span><span class="n">__desc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">Volume-based spatial normalization to </span><span class="si">{targets}</span><span class="s2"> (</span><span class="si">{targets_id}</span><span class="s2">) was performed through</span>
 <span class="s2">nonlinear registration with `antsRegistration` (ANTs </span><span class="si">{ants_ver}</span><span class="s2">),</span>
 <span class="s2">using brain-extracted versions of both T1w reference and the T1w template.</span>
 <span class="s2">The following template</span><span class="si">{tpls}</span><span class="s2"> selected for spatial normalization:</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">ants_ver</span><span class="o">=</span><span class="n">ANTsInfo</span><span class="o">.</span><span class="n">version</span><span class="p">()</span> <span class="ow">or</span> <span class="s1">&#39;(version unknown)&#39;</span><span class="p">,</span>
-        <span class="n">targets</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> standard space</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">defaultdict</span><span class="p">(</span>
-            <span class="s1">&#39;several&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;two&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;three&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;four&#39;</span><span class="p">})[</span><span class="n">ntpls</span><span class="p">],</span>
-            <span class="s1">&#39;s&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">ntpls</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)),</span>
-        <span class="n">targets_id</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">)),</span>
-        <span class="n">tpls</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39; was&#39;</span><span class="p">,</span> <span class="s1">&#39;s were&#39;</span><span class="p">)[</span><span class="n">ntpls</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="p">)</span>
+            <span class="n">ants_ver</span><span class="o">=</span><span class="n">ANTsInfo</span><span class="o">.</span><span class="n">version</span><span class="p">()</span> <span class="ow">or</span> <span class="s1">&#39;(version unknown)&#39;</span><span class="p">,</span>
+            <span class="n">targets</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> standard space</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">defaultdict</span><span class="p">(</span>
+                <span class="s1">&#39;several&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;two&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;three&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;four&#39;</span><span class="p">})[</span><span class="n">ntpls</span><span class="p">],</span>
+                <span class="s1">&#39;s&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">ntpls</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="n">targets_id</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">templates</span><span class="p">),</span>
+            <span class="n">tpls</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39; was&#39;</span><span class="p">,</span> <span class="s1">&#39;s were&#39;</span><span class="p">)[</span><span class="n">ntpls</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
 
-    <span class="c1"># Append template citations to description</span>
-    <span class="k">for</span> <span class="n">template</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">:</span>
-        <span class="n">template_meta</span> <span class="o">=</span> <span class="n">get_metadata</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
-        <span class="n">template_refs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;@</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">template</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+        <span class="c1"># Append template citations to description</span>
+        <span class="k">for</span> <span class="n">template</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">:</span>
+            <span class="n">template_meta</span> <span class="o">=</span> <span class="n">get_metadata</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">template_refs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;@</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">template</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
 
-        <span class="k">if</span> <span class="n">template_meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;RRID&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
-            <span class="n">template_refs</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;RRID:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">template_meta</span><span class="p">[</span><span class="s1">&#39;RRID&#39;</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">template_meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;RRID&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">template_refs</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;RRID:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">template_meta</span><span class="p">[</span><span class="s1">&#39;RRID&#39;</span><span class="p">]]</span>
 
-        <span class="n">workflow</span><span class="o">.</span><span class="n">__desc__</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+            <span class="n">workflow</span><span class="o">.</span><span class="n">__desc__</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">*</span><span class="si">{template_name}</span><span class="s2">* [</span><span class="si">{template_refs}</span><span class="s2">; TemplateFlow ID: </span><span class="si">{template}</span><span class="s2">]&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span>
-            <span class="n">template_name</span><span class="o">=</span><span class="n">template_meta</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">],</span>
-            <span class="n">template_refs</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">template_refs</span><span class="p">))</span>
-        <span class="n">workflow</span><span class="o">.</span><span class="n">__desc__</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="n">template</span> <span class="o">==</span> <span class="n">templates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="n">template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span>
+                <span class="n">template_name</span><span class="o">=</span><span class="n">template_meta</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">],</span>
+                <span class="n">template_refs</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">template_refs</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">workflow</span><span class="o">.</span><span class="n">__desc__</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="n">template</span> <span class="o">==</span> <span class="n">templates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
 
     <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span>
         <span class="s1">&#39;moving_image&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_segmentation&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_tpms&#39;</span><span class="p">,</span>

@@ -189,9 +189,20 @@
 
 
 <div class="viewcode-block" id="init_anat_preproc_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.anatomical.html#smriprep.workflows.anatomical.init_anat_preproc_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_preproc_wf</span><span class="p">(</span>
-        <span class="n">bids_root</span><span class="p">,</span> <span class="n">freesurfer</span><span class="p">,</span> <span class="n">hires</span><span class="p">,</span> <span class="n">longitudinal</span><span class="p">,</span> <span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span>
-        <span class="n">output_spaces</span><span class="p">,</span> <span class="n">num_t1w</span><span class="p">,</span> <span class="n">reportlets_dir</span><span class="p">,</span> <span class="n">skull_strip_template</span><span class="p">,</span>
-        <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_preproc_wf&#39;</span><span class="p">,</span> <span class="n">skull_strip_fixed_seed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">bids_root</span><span class="p">,</span>
+        <span class="n">freesurfer</span><span class="p">,</span>
+        <span class="n">hires</span><span class="p">,</span>
+        <span class="n">longitudinal</span><span class="p">,</span>
+        <span class="n">num_t1w</span><span class="p">,</span>
+        <span class="n">omp_nthreads</span><span class="p">,</span>
+        <span class="n">output_dir</span><span class="p">,</span>
+        <span class="n">reportlets_dir</span><span class="p">,</span>
+        <span class="n">skull_strip_template</span><span class="p">,</span>
+        <span class="n">spaces</span><span class="p">,</span>
+        <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_preproc_wf&#39;</span><span class="p">,</span>
+        <span class="n">skull_strip_fixed_seed</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Stage the anatomical preprocessing steps of *sMRIPrep*.</span>
 
@@ -210,7 +221,7 @@
 <span class="sd">            :graph2use: orig</span>
 <span class="sd">            :simple_form: yes</span>
 
-<span class="sd">            from collections import OrderedDict</span>
+<span class="sd">            from niworkflows.utils.spaces import SpatialReferences, Space</span>
 <span class="sd">            from smriprep.workflows.anatomical import init_anat_preproc_wf</span>
 <span class="sd">            wf = init_anat_preproc_wf(</span>
 <span class="sd">                bids_root=&#39;.&#39;,</span>
@@ -220,49 +231,43 @@
 <span class="sd">                num_t1w=1,</span>
 <span class="sd">                omp_nthreads=1,</span>
 <span class="sd">                output_dir=&#39;.&#39;,</span>
-<span class="sd">                output_spaces=OrderedDict([</span>
-<span class="sd">                    (&#39;MNI152NLin2009cAsym&#39;, {}), (&#39;fsaverage5&#39;, {})]),</span>
 <span class="sd">                reportlets_dir=&#39;.&#39;,</span>
-<span class="sd">                skull_strip_template=(&#39;MNI152NLin2009cAsym&#39;, {}),</span>
+<span class="sd">                skull_strip_template=Space.from_string(&#39;OASIS30ANTs&#39;)[0],</span>
+<span class="sd">                spaces=SpatialReferences([&#39;MNI152NLin2009cAsym&#39;, &#39;fsaverage5&#39;]),</span>
 <span class="sd">            )</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    bids_root : str</span>
+<span class="sd">    bids_root : :obj:`str`</span>
 <span class="sd">        Path of the input BIDS dataset root</span>
-<span class="sd">    debug : bool</span>
-<span class="sd">        Enable debugging outputs</span>
-<span class="sd">    freesurfer : bool</span>
+<span class="sd">    freesurfer : :obj:`bool`</span>
 <span class="sd">        Enable FreeSurfer surface reconstruction (increases runtime by 6h,</span>
 <span class="sd">        at the very least)</span>
-<span class="sd">    output_spaces : list</span>
-<span class="sd">        List of spatial normalization targets. Some parts of pipeline will</span>
-<span class="sd">        only be instantiated for some output spaces. Valid spaces:</span>
-
-<span class="sd">          - Any template identifier from TemplateFlow</span>
-<span class="sd">          - Path to a template folder organized following TemplateFlow&#39;s</span>
-<span class="sd">            conventions</span>
-
-<span class="sd">    hires : bool</span>
+<span class="sd">    hires : :obj:`bool`</span>
 <span class="sd">        Enable sub-millimeter preprocessing in FreeSurfer</span>
-<span class="sd">    longitudinal : bool</span>
+<span class="sd">    longitudinal : :obj:`bool`</span>
 <span class="sd">        Create unbiased structural template, regardless of number of inputs</span>
 <span class="sd">        (may increase runtime)</span>
-<span class="sd">    name : str, optional</span>
-<span class="sd">        Workflow name (default: anat_preproc_wf)</span>
-<span class="sd">    omp_nthreads : int</span>
+<span class="sd">    num_t1w : :obj:`int`</span>
+<span class="sd">        Number of T1w that were averaged for the anatomical reference.</span>
+<span class="sd">    omp_nthreads : :obj:`int`</span>
 <span class="sd">        Maximum number of threads an individual process may use</span>
-<span class="sd">    output_dir : str</span>
+<span class="sd">    output_dir : :obj:`str`</span>
 <span class="sd">        Directory in which to save derivatives</span>
-<span class="sd">    reportlets_dir : str</span>
+<span class="sd">    reportlets_dir : :obj:`str`</span>
 <span class="sd">        Directory in which to save reportlets</span>
-<span class="sd">    skull_strip_fixed_seed : bool</span>
+<span class="sd">    skull_strip_template : :py:class:`~niworkflows.utils.spaces.Space`</span>
+<span class="sd">        Space specification to use in atlas-based brain extraction.</span>
+<span class="sd">    spaces : :py:class:`~niworkflows.utils.spaces.SpatialReferences`</span>
+<span class="sd">        Object containing standard and nonstandard space specifications.</span>
+<span class="sd">    debug : :obj:`bool`</span>
+<span class="sd">        Enable debugging outputs</span>
+<span class="sd">    name : :obj:`str`, optional</span>
+<span class="sd">        Workflow name (default: anat_preproc_wf)</span>
+<span class="sd">    skull_strip_fixed_seed : :obj:`bool`</span>
 <span class="sd">        Do not use a random seed for skull-stripping - will ensure</span>
 <span class="sd">        run-to-run replicability when used with --omp-nthreads 1</span>
 <span class="sd">        (default: ``False``).</span>
-<span class="sd">    skull_strip_template : tuple</span>
-<span class="sd">        Name of ANTs skull-stripping template and specifications.</span>
-
 
 <span class="sd">    Inputs</span>
 <span class="sd">    ------</span>
@@ -274,7 +279,6 @@
 <span class="sd">        List of FLAIR images</span>
 <span class="sd">    subjects_dir</span>
 <span class="sd">        FreeSurfer SUBJECTS_DIR</span>
-
 
 <span class="sd">    Outputs</span>
 <span class="sd">    -------</span>
@@ -316,7 +320,7 @@
 <span class="sd">    surfaces</span>
 <span class="sd">        GIFTI surfaces (gray/white boundary, midthickness, pial, inflated)</span>
 
-<span class="sd">    See also</span>
+<span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    * :py:func:`~niworkflows.anat.ants.init_brain_extraction_wf`</span>
 <span class="sd">    * :py:func:`~smriprep.workflows.surfaces.init_surface_recon_wf`</span>
@@ -352,7 +356,7 @@
         <span class="n">ants_ver</span><span class="o">=</span><span class="n">ANTsInfo</span><span class="o">.</span><span class="n">version</span><span class="p">()</span> <span class="ow">or</span> <span class="s1">&#39;(version unknown)&#39;</span><span class="p">,</span>
         <span class="n">fsl_ver</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FAST</span><span class="p">()</span><span class="o">.</span><span class="n">version</span> <span class="ow">or</span> <span class="s1">&#39;(version unknown)&#39;</span><span class="p">,</span>
         <span class="n">num_t1w</span><span class="o">=</span><span class="n">num_t1w</span><span class="p">,</span>
-        <span class="n">skullstrip_tpl</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">skullstrip_tpl</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="o">.</span><span class="n">fullname</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
@@ -362,8 +366,7 @@
         <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;t1w_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_brain&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_tpms&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;std_t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;std2anat_xfm&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;joint_template&#39;</span><span class="p">,</span> <span class="s1">&#39;joint_anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;joint_std2anat_xfm&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;std_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;std_tpms&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;t1w_realign_xfm&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;std_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;std_tpms&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_realign_xfm&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w2fsnative_xfm&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;surfaces&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_aseg&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_aparc&#39;</span><span class="p">]),</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">)</span>
@@ -380,8 +383,8 @@
 
     <span class="c1"># 2. Brain-extraction and INU (bias field) correction.</span>
     <span class="n">brain_extraction_wf</span> <span class="o">=</span> <span class="n">init_brain_extraction_wf</span><span class="p">(</span>
-        <span class="n">in_template</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="n">template_spec</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">in_template</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">template_spec</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span>
         <span class="n">atropos_use_random_seed</span><span class="o">=</span><span class="ow">not</span> <span class="n">skull_strip_fixed_seed</span><span class="p">,</span>
         <span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">,</span>
         <span class="n">normalization_quality</span><span class="o">=</span><span class="s1">&#39;precise&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span> <span class="k">else</span> <span class="s1">&#39;testing&#39;</span><span class="p">)</span>
@@ -397,12 +400,10 @@
     <span class="p">])</span>
 
     <span class="c1"># 4. Spatial normalization</span>
-    <span class="n">vol_spaces</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">output_spaces</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-                  <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">)]</span>
     <span class="n">anat_norm_wf</span> <span class="o">=</span> <span class="n">init_anat_norm_wf</span><span class="p">(</span>
         <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">,</span>
         <span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">,</span>
-        <span class="n">templates</span><span class="o">=</span><span class="p">[(</span><span class="n">v</span><span class="p">,</span> <span class="n">output_spaces</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vol_spaces</span><span class="p">],</span>
+        <span class="n">templates</span><span class="o">=</span><span class="n">spaces</span><span class="o">.</span><span class="n">get_std_spaces</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,)),</span>
     <span class="p">)</span>
 
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
@@ -557,14 +558,14 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    longitudinal : bool</span>
+<span class="sd">    longitudinal : :obj:`bool`</span>
 <span class="sd">        Create unbiased structural average, regardless of number of inputs</span>
 <span class="sd">        (may increase runtime)</span>
-<span class="sd">    omp_nthreads : int</span>
+<span class="sd">    omp_nthreads : :obj:`int`</span>
 <span class="sd">        Maximum number of threads an individual process may use</span>
-<span class="sd">    num_t1w : int</span>
+<span class="sd">    num_t1w : :obj:`int`</span>
 <span class="sd">        Number of T1w images</span>
-<span class="sd">    name : str, optional</span>
+<span class="sd">    name : :obj:`str`, optional</span>
 <span class="sd">        Workflow name (default: anat_template_wf)</span>
 
 <span class="sd">    Inputs</span>

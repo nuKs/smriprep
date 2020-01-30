@@ -159,22 +159,19 @@
     <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for an old version of smriprep.</p>
 <h1>Source code for smriprep.cli.run</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
-<span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">sMRIPrep: Structural MRI PREProcessing workflow</span>
-<span class="sd">===============================================</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;sMRIPrep: Structural MRI PREProcessing workflow.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Entrypoint&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Set an entrypoint.&quot;&quot;&quot;</span>
     <span class="n">opts</span> <span class="o">=</span> <span class="n">get_parser</span><span class="p">()</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">build_opts</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="check_deps"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.check_deps">[docs]</a><span class="k">def</span> <span class="nf">check_deps</span><span class="p">(</span><span class="n">workflow</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make sure all dependencies are installed.&quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">nipype.utils.filemanip</span> <span class="kn">import</span> <span class="n">which</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span>
         <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_cmd</span><span class="p">)</span>
@@ -184,12 +181,11 @@
 
 
 <div class="viewcode-block" id="get_parser"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.get_parser">[docs]</a><span class="k">def</span> <span class="nf">get_parser</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Build parser object&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Build parser object.&quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
     <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
     <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">RawTextHelpFormatter</span>
-    <span class="kn">from</span> <span class="nn">templateflow.api</span> <span class="kn">import</span> <span class="n">templates</span>
-    <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">ParseTemplates</span><span class="p">,</span> <span class="n">output_space</span> <span class="k">as</span> <span class="n">_output_space</span>
+    <span class="kn">from</span> <span class="nn">niworkflows.utils.spaces</span> <span class="kn">import</span> <span class="n">Space</span><span class="p">,</span> <span class="n">SpatialReferences</span><span class="p">,</span> <span class="n">OutputSpacesAction</span>
     <span class="kn">from</span> <span class="nn">..__about__</span> <span class="kn">import</span> <span class="n">__version__</span>
 
     <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;sMRIPrep: Structural MRI PREProcessing workflows&#39;</span><span class="p">,</span>
@@ -236,21 +232,17 @@
 
     <span class="n">g_conf</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s1">&#39;Workflow configuration&#39;</span><span class="p">)</span>
     <span class="n">g_conf</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--output-spaces&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">ParseTemplates</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;paths or keywords prescribing standard spaces to which normalize the input T1w image&#39;</span>
-             <span class="s1">&#39; (valid keywords are: </span><span class="si">%s</span><span class="s1">).&#39;</span> <span class="o">%</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">()))</span>
+        <span class="s1">&#39;--output-spaces&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">OutputSpacesAction</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">SpatialReferences</span><span class="p">(),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;paths or keywords prescribing output spaces - &#39;</span>
+             <span class="s1">&#39;standard spaces will be extracted for spatial normalization.&#39;</span><span class="p">)</span>
     <span class="n">g_conf</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--longitudinal&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;treat dataset as longitudinal - may increase runtime&#39;</span><span class="p">)</span>
-    <span class="n">g_conf</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--template&#39;</span><span class="p">,</span> <span class="s1">&#39;--spatial-normalization-target&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="n">tpl</span> <span class="k">for</span> <span class="n">tpl</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">tpl</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">)],</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;DEPRECATED: spatial normalization target (one TemplateFlow Identifier)&#39;</span><span class="p">)</span>
 
     <span class="c1">#  ANTs options</span>
     <span class="n">g_ants</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s1">&#39;Specific options for ANTs registrations&#39;</span><span class="p">)</span>
     <span class="n">g_ants</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--skull-strip-template&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;OASIS30ANTs&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_output_space</span><span class="p">,</span>
+        <span class="s1">&#39;--skull-strip-template&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;OASIS30ANTs&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Space</span><span class="o">.</span><span class="n">from_string</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;select a template for skull-stripping with antsBrainExtraction&#39;</span><span class="p">)</span>
     <span class="n">g_ants</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--skull-strip-fixed-seed&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;do not use a random seed for skull-stripping - will ensure &#39;</span>
@@ -273,20 +265,9 @@
                          <span class="n">help</span><span class="o">=</span><span class="s1">&#39;disable sub-millimeter (hires) reconstruction&#39;</span><span class="p">)</span>
     <span class="n">g_surfs_xor</span> <span class="o">=</span> <span class="n">g_surfs</span><span class="o">.</span><span class="n">add_mutually_exclusive_group</span><span class="p">()</span>
 
-    <span class="n">g_surfs_xor</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--fs-output-spaces&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
-        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;fsnative&#39;</span><span class="p">,</span> <span class="s1">&#39;fsaverage&#39;</span><span class="p">,</span> <span class="s1">&#39;fsaverage6&#39;</span><span class="p">,</span> <span class="s1">&#39;fsaverage5&#39;</span><span class="p">],</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;DEPRECATED - configure Freesurfer&#39;s output spaces:</span>
-<span class="s2">  - fsnative: individual subject surface</span>
-<span class="s2">  - fsaverage*: FreeSurfer average meshes</span>
-<span class="s2">this argument can be single value or a space delimited list,</span>
-<span class="s2">for example: --fs-output-spaces fsnative fsaverage fsaverage5.&quot;&quot;&quot;</span>
-    <span class="p">)</span>
-    <span class="n">g_surfs_xor</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--fs-no-reconall&#39;</span><span class="p">,</span> <span class="s1">&#39;--no-freesurfer&#39;</span><span class="p">,</span>
+    <span class="n">g_surfs_xor</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--fs-no-reconall&#39;</span><span class="p">,</span>
                              <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_false&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;run_reconall&#39;</span><span class="p">,</span>
-                             <span class="n">help</span><span class="o">=</span><span class="s1">&#39;disable FreeSurfer surface preprocessing.&#39;</span>
-                             <span class="s1">&#39; Note : `--no-freesurfer` is deprecated and will be removed in 1.2.&#39;</span>
-                             <span class="s1">&#39; Use `--fs-no-reconall` instead.&#39;</span><span class="p">)</span>
+                             <span class="n">help</span><span class="o">=</span><span class="s1">&#39;disable FreeSurfer surface preprocessing.&#39;</span><span class="p">)</span>
 
     <span class="n">g_other</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s1">&#39;Other options&#39;</span><span class="p">)</span>
     <span class="n">g_other</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-w&#39;</span><span class="p">,</span> <span class="s1">&#39;--work-dir&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;work&#39;</span><span class="p">),</span>
@@ -319,7 +300,7 @@
 
 
 <div class="viewcode-block" id="build_opts"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.build_opts">[docs]</a><span class="k">def</span> <span class="nf">build_opts</span><span class="p">(</span><span class="n">opts</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Entry point&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Trigger a new process that builds the workflow graph, based on the input options.&quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">os</span>
     <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
     <span class="kn">import</span> <span class="nn">logging</span>
@@ -433,18 +414,17 @@
 
 <div class="viewcode-block" id="build_workflow"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.build_workflow">[docs]</a><span class="k">def</span> <span class="nf">build_workflow</span><span class="p">(</span><span class="n">opts</span><span class="p">,</span> <span class="n">retval</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create the Nipype Workflow that supports the whole execution</span>
-<span class="sd">    graph, given the inputs.</span>
+<span class="sd">    Create the Nipype Workflow that supports the whole execution graph, given the inputs.</span>
+
 <span class="sd">    All the checks and the construction of the workflow are done</span>
 <span class="sd">    inside this function that has pickleable inputs and output</span>
 <span class="sd">    dictionary (``retval``) to allow isolation using a</span>
 <span class="sd">    ``multiprocessing.Process`` that allows smriprep to enforce</span>
 <span class="sd">    a hard-limited memory-scope.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">sys</span>
     <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
     <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">cpu_count</span>
-    <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
     <span class="kn">import</span> <span class="nn">uuid</span>
     <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">strftime</span>
     <span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">check_call</span><span class="p">,</span> <span class="n">CalledProcessError</span><span class="p">,</span> <span class="n">TimeoutExpired</span>
@@ -452,40 +432,9 @@
 
     <span class="kn">from</span> <span class="nn">bids</span> <span class="kn">import</span> <span class="n">BIDSLayout</span>
     <span class="kn">from</span> <span class="nn">nipype</span> <span class="kn">import</span> <span class="n">logging</span><span class="p">,</span> <span class="n">config</span> <span class="k">as</span> <span class="n">ncfg</span>
+    <span class="kn">from</span> <span class="nn">niworkflows.utils.bids</span> <span class="kn">import</span> <span class="n">collect_participants</span>
     <span class="kn">from</span> <span class="nn">..__about__</span> <span class="kn">import</span> <span class="n">__version__</span>
     <span class="kn">from</span> <span class="nn">..workflows.base</span> <span class="kn">import</span> <span class="n">init_smriprep_wf</span>
-    <span class="kn">from</span> <span class="nn">niworkflows.utils.bids</span> <span class="kn">import</span> <span class="n">collect_participants</span>
-
-    <span class="c1"># Set the default template to &#39;MNI152NLin2009c&#39;</span>
-    <span class="n">output_spaces</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">output_spaces</span> <span class="ow">or</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">&#39;MNI152NLin2009cAsym&#39;</span><span class="p">,</span> <span class="p">{})])</span>
-
-    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">template</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
-<span class="s2">The ``--template`` option has been deprecated in version 1.1.2. Your selected template </span><span class="se">\</span>
-<span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot; will be inserted at the front of the ``--output-spaces`` argument list. Please update </span><span class="se">\</span>
-<span class="s2">your scripts to use ``--output-spaces``.&quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">opts</span><span class="o">.</span><span class="n">template</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
-        <span class="n">deprecated_tpl_arg</span> <span class="o">=</span> <span class="p">[(</span><span class="n">opts</span><span class="o">.</span><span class="n">template</span><span class="p">,</span> <span class="p">{})]</span>
-        <span class="c1"># If output_spaces is not set, just replate the default - append otherwise</span>
-        <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">output_spaces</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">deprecated_tpl_arg</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">output_spaces</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
-        <span class="n">output_spaces</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="n">deprecated_tpl_arg</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">fs_output_spaces</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
-<span class="s2">The ``--fs-output-spaces`` option has been deprecated in version 1.1.2. Your selected output </span><span class="se">\</span>
-<span class="s2">surfaces &quot;</span><span class="si">%s</span><span class="s2">&quot; will be appended to the ``--output-spaces`` argument list. Please update </span><span class="se">\</span>
-<span class="s2">your scripts to use ``--output-spaces``.&quot;&quot;&quot;</span> <span class="o">%</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">fs_output_spaces</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">fs_space</span> <span class="ow">in</span> <span class="n">opts</span><span class="o">.</span><span class="n">fs_output_spaces</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">fs_space</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_spaces</span><span class="p">:</span>
-                <span class="n">output_spaces</span><span class="p">[</span><span class="n">fs_space</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="n">FS_SPACES</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s1">&#39;fsnative&#39;</span><span class="p">,</span> <span class="s1">&#39;fsaverage&#39;</span><span class="p">,</span> <span class="s1">&#39;fsaverage6&#39;</span><span class="p">,</span> <span class="s1">&#39;fsaverage5&#39;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">run_reconall</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">(</span><span class="n">FS_SPACES</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">output_spaces</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
-<span class="s2">Although ``--fs-no-reconall`` was not set, no FreeSurfer output space (valid values are: </span><span class="se">\</span>
-<span class="si">%s</span><span class="s2">) was selected. Adding default &quot;fsaverage5&quot; to the </span><span class="se">\</span>
-<span class="s2">list of output spaces.&quot;&quot;&quot;</span> <span class="o">%</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FS_SPACES</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
-        <span class="n">output_spaces</span><span class="p">[</span><span class="s1">&#39;fsaverage5&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;nipype.workflow&#39;</span><span class="p">)</span>
 
@@ -494,6 +443,8 @@
 <span class="s2">      * BIDS dataset path: </span><span class="si">{bids_dir}</span><span class="s2">.</span>
 <span class="s2">      * Participant list: </span><span class="si">{subject_list}</span><span class="s2">.</span>
 <span class="s2">      * Run identifier: </span><span class="si">{uuid}</span><span class="s2">.</span>
+
+<span class="s2">    </span><span class="si">{spaces}</span><span class="s2"></span>
 <span class="s2">    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span>
 
     <span class="c1"># Set up some instrumental utilities</span>
@@ -596,14 +547,15 @@
             <span class="n">config</span><span class="o">=</span><span class="n">pkgrf</span><span class="p">(</span><span class="s1">&#39;smriprep&#39;</span><span class="p">,</span> <span class="s1">&#39;data/reports/config.json&#39;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">retval</span>
 
-    <span class="c1"># Build main workflow</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="n">INIT_MSG</span><span class="p">(</span>
         <span class="n">version</span><span class="o">=</span><span class="n">__version__</span><span class="p">,</span>
         <span class="n">bids_dir</span><span class="o">=</span><span class="n">bids_dir</span><span class="p">,</span>
         <span class="n">subject_list</span><span class="o">=</span><span class="n">subject_list</span><span class="p">,</span>
-        <span class="n">uuid</span><span class="o">=</span><span class="n">run_uuid</span><span class="p">)</span>
+        <span class="n">uuid</span><span class="o">=</span><span class="n">run_uuid</span><span class="p">,</span>
+        <span class="n">spaces</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">output_spaces</span><span class="p">)</span>
     <span class="p">)</span>
 
+    <span class="c1"># Build main workflow</span>
     <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;workflow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">init_smriprep_wf</span><span class="p">(</span>
         <span class="n">debug</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">sloppy</span><span class="p">,</span>
         <span class="n">freesurfer</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">run_reconall</span><span class="p">,</span>
@@ -614,10 +566,10 @@
         <span class="n">low_mem</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">low_mem</span><span class="p">,</span>
         <span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">,</span>
         <span class="n">output_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">output_dir</span><span class="p">),</span>
-        <span class="n">output_spaces</span><span class="o">=</span><span class="n">output_spaces</span><span class="p">,</span>
         <span class="n">run_uuid</span><span class="o">=</span><span class="n">run_uuid</span><span class="p">,</span>
         <span class="n">skull_strip_fixed_seed</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">skull_strip_fixed_seed</span><span class="p">,</span>
-        <span class="n">skull_strip_template</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">skull_strip_template</span><span class="p">,</span>
+        <span class="n">skull_strip_template</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">skull_strip_template</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">spaces</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">output_spaces</span><span class="p">,</span>
         <span class="n">subject_list</span><span class="o">=</span><span class="n">subject_list</span><span class="p">,</span>
         <span class="n">work_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">work_dir</span><span class="p">),</span>
     <span class="p">)</span>
