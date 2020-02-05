@@ -1,10 +1,10 @@
 digraph structs {
 node [shape=record];
-anat_norm_wfsplit_desc [label="{IN}|{ split_desc | templateflow |  }|{OUT|<outname> name|<outspec> spec}"];
-anat_norm_wftf_select [label="{IN|<intemplate> template|<intemplatespec> template_spec}|{ tf_select | templateflow |  }|{OUT|<outt1wfile> t1w_file}"];
-anat_norm_wfinputnode [label="{IN}|{ inputnode | utility |  }|{OUT|<outlesionmask> lesion_mask|<outmovingimage> moving_image|<outmovingmask> moving_mask|<outmovingsegmentation> moving_segmentation|<outmovingtpms> moving_tpms}"];
+anat_norm_wfinputnode [label="{IN}|{ inputnode | utility |  }|{OUT|<outlesionmask> lesion_mask|<outmovingimage> moving_image|<outmovingmask> moving_mask|<outmovingsegmentation> moving_segmentation|<outmovingtpms> moving_tpms|<outtemplate> template}"];
 anat_norm_wftrunc_mov [label="{IN|<inop1> op1}|{ trunc_mov | ants |  }|{OUT|<outoutputimage> output_image}"];
+anat_norm_wfsplit_desc [label="{IN|<intemplate> template}|{ split_desc | templateflow |  }|{OUT|<outname> name|<outspec> spec}"];
 anat_norm_wfregistration [label="{IN|<inlesionmask> lesion_mask|<inmovingimage> moving_image|<inmovingmask> moving_mask|<intemplate> template|<intemplatespec> template_spec}|{ registration | mni |  }|{OUT|<outcompositetransform> composite_transform|<outinversecompositetransform> inverse_composite_transform}"];
+anat_norm_wftf_select [label="{IN|<intemplate> template|<intemplatespec> template_spec}|{ tf_select | templateflow |  }|{OUT|<outt1wfile> t1w_file}"];
 anat_norm_wfstd_tpms [label="{IN|<ininputimage> input_image|<inreferenceimage> reference_image|<intransforms> transforms}|{ std_tpms | fixes |  }|{OUT|<outoutputimage> output_image}"];
 anat_norm_wfstd_dseg [label="{IN|<ininputimage> input_image|<inreferenceimage> reference_image|<intransforms> transforms}|{ std_dseg | fixes |  }|{OUT|<outoutputimage> output_image}"];
 anat_norm_wfstd_mask [label="{IN|<ininputimage> input_image|<inreferenceimage> reference_image|<intransforms> transforms}|{ std_mask | fixes |  }|{OUT|<outoutputimage> output_image}"];
@@ -18,6 +18,8 @@ anat_norm_wfinputnode:outmovingmask:e -> anat_norm_wfregistration:inmovingmask:w
 anat_norm_wfinputnode:outmovingmask:e -> anat_norm_wfstd_mask:ininputimage:w;
 anat_norm_wfinputnode:outmovingsegmentation:e -> anat_norm_wfstd_dseg:ininputimage:w;
 anat_norm_wfinputnode:outmovingtpms:e -> anat_norm_wfstd_tpms:ininputimage:w;
+anat_norm_wfinputnode:outtemplate:e -> anat_norm_wfpoutputnode:intemplate:w;
+anat_norm_wfinputnode:outtemplate:e -> anat_norm_wfsplit_desc:intemplate:w;
 anat_norm_wfpoutputnode:outanat2stdxfm:e -> anat_norm_wfoutputnode:inanat2stdxfm:w;
 anat_norm_wfpoutputnode:outstandardized:e -> anat_norm_wfoutputnode:instandardized:w;
 anat_norm_wfpoutputnode:outstd2anatxfm:e -> anat_norm_wfoutputnode:instd2anatxfm:w;
@@ -32,7 +34,6 @@ anat_norm_wfregistration:outcompositetransform:e -> anat_norm_wfstd_mask:intrans
 anat_norm_wfregistration:outcompositetransform:e -> anat_norm_wfstd_tpms:intransforms:w;
 anat_norm_wfregistration:outcompositetransform:e -> anat_norm_wftpl_moving:intransforms:w;
 anat_norm_wfregistration:outinversecompositetransform:e -> anat_norm_wfpoutputnode:instd2anatxfm:w;
-anat_norm_wfsplit_desc:outname:e -> anat_norm_wfpoutputnode:intemplate:w;
 anat_norm_wfsplit_desc:outname:e -> anat_norm_wfregistration:intemplate:w;
 anat_norm_wfsplit_desc:outname:e -> anat_norm_wftf_select:intemplate:w;
 anat_norm_wfsplit_desc:outspec:e -> anat_norm_wfpoutputnode:intemplatespec:w;

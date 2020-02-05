@@ -293,15 +293,29 @@
             <span class="n">workflow</span><span class="o">.</span><span class="n">__desc__</span> <span class="o">+=</span> <span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="n">template</span> <span class="o">==</span> <span class="n">templates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
 
     <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span>
-        <span class="s1">&#39;moving_image&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_segmentation&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_tpms&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;lesion_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;orig_t1w&#39;</span><span class="p">]),</span>
-        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
-    <span class="n">out_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;standardized&#39;</span><span class="p">,</span> <span class="s1">&#39;anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;std2anat_xfm&#39;</span><span class="p">,</span>
-                  <span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;std_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;std_tpms&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;template_spec&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;lesion_mask&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;moving_image&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;moving_mask&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;moving_segmentation&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;moving_tpms&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;orig_t1w&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+    <span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
+    <span class="n">inputnode</span><span class="o">.</span><span class="n">iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="n">templates</span><span class="p">)]</span>
+
+    <span class="n">out_fields</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;anat2std_xfm&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;standardized&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;std2anat_xfm&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;std_dseg&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;std_mask&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;std_tpms&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;template_spec&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
     <span class="n">poutputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="n">out_fields</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;poutputnode&#39;</span><span class="p">)</span>
 
     <span class="n">split_desc</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">TemplateDesc</span><span class="p">(),</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;split_desc&#39;</span><span class="p">)</span>
-    <span class="n">split_desc</span><span class="o">.</span><span class="n">iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="n">templates</span><span class="p">)]</span>
 
     <span class="n">tf_select</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">TemplateFlowSelect</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="n">debug</span><span class="p">),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;tf_select&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -329,6 +343,8 @@
                           <span class="n">iterfield</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;input_image&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;std_tpms&#39;</span><span class="p">)</span>
 
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
+        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">split_desc</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">trunc_mov</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;moving_image&#39;</span><span class="p">,</span> <span class="s1">&#39;op1&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">registration</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;moving_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;moving_mask&#39;</span><span class="p">),</span>
@@ -358,13 +374,12 @@
         <span class="p">(</span><span class="n">std_mask</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;output_image&#39;</span><span class="p">,</span> <span class="s1">&#39;std_mask&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">std_dseg</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;output_image&#39;</span><span class="p">,</span> <span class="s1">&#39;std_dseg&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">std_tpms</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;output_image&#39;</span><span class="p">,</span> <span class="s1">&#39;std_tpms&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">split_desc</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">),</span>
-                                   <span class="p">(</span><span class="s1">&#39;spec&#39;</span><span class="p">,</span> <span class="s1">&#39;template_spec&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">split_desc</span><span class="p">,</span> <span class="n">poutputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;spec&#39;</span><span class="p">,</span> <span class="s1">&#39;template_spec&#39;</span><span class="p">)]),</span>
     <span class="p">])</span>
 
     <span class="c1"># Provide synchronized output</span>
     <span class="n">outputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">JoinNode</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="n">out_fields</span><span class="p">),</span>
-                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">,</span> <span class="n">joinsource</span><span class="o">=</span><span class="s1">&#39;split_desc&#39;</span><span class="p">)</span>
+                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">,</span> <span class="n">joinsource</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
         <span class="p">(</span><span class="n">poutputnode</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="n">f</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">out_fields</span><span class="p">]),</span>
     <span class="p">])</span>
