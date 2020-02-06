@@ -185,7 +185,7 @@
     <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
     <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
     <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">RawTextHelpFormatter</span>
-    <span class="kn">from</span> <span class="nn">niworkflows.utils.spaces</span> <span class="kn">import</span> <span class="n">Space</span><span class="p">,</span> <span class="n">SpatialReferences</span><span class="p">,</span> <span class="n">OutputSpacesAction</span>
+    <span class="kn">from</span> <span class="nn">niworkflows.utils.spaces</span> <span class="kn">import</span> <span class="n">Reference</span><span class="p">,</span> <span class="n">SpatialReferences</span><span class="p">,</span> <span class="n">OutputReferencesAction</span>
     <span class="kn">from</span> <span class="nn">..__about__</span> <span class="kn">import</span> <span class="n">__version__</span>
 
     <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;sMRIPrep: Structural MRI PREProcessing workflows&#39;</span><span class="p">,</span>
@@ -232,7 +232,7 @@
 
     <span class="n">g_conf</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s1">&#39;Workflow configuration&#39;</span><span class="p">)</span>
     <span class="n">g_conf</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--output-spaces&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">OutputSpacesAction</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">SpatialReferences</span><span class="p">(),</span>
+        <span class="s1">&#39;--output-spaces&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">OutputReferencesAction</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">SpatialReferences</span><span class="p">(),</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;paths or keywords prescribing output spaces - &#39;</span>
              <span class="s1">&#39;standard spaces will be extracted for spatial normalization.&#39;</span><span class="p">)</span>
     <span class="n">g_conf</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -242,7 +242,7 @@
     <span class="c1">#  ANTs options</span>
     <span class="n">g_ants</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s1">&#39;Specific options for ANTs registrations&#39;</span><span class="p">)</span>
     <span class="n">g_ants</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s1">&#39;--skull-strip-template&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;OASIS30ANTs&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Space</span><span class="o">.</span><span class="n">from_string</span><span class="p">,</span>
+        <span class="s1">&#39;--skull-strip-template&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;OASIS30ANTs&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Reference</span><span class="o">.</span><span class="n">from_string</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;select a template for skull-stripping with antsBrainExtraction&#39;</span><span class="p">)</span>
     <span class="n">g_ants</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--skull-strip-fixed-seed&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;do not use a random seed for skull-stripping - will ensure &#39;</span>
