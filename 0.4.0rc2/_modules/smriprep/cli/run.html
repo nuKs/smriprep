@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -176,8 +176,8 @@
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span>
         <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_cmd</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">workflow</span><span class="o">.</span><span class="n">_get_all_nodes</span><span class="p">()</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span> <span class="s1">&#39;_cmd&#39;</span><span class="p">)</span> <span class="ow">and</span>
-            <span class="n">which</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_cmd</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">))</span></div>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span> <span class="s1">&#39;_cmd&#39;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">which</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_cmd</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="get_parser"><a class="viewcode-back" href="../../../api/smriprep.cli.run.html#smriprep.cli.run.get_parser">[docs]</a><span class="k">def</span> <span class="nf">get_parser</span><span class="p">():</span>

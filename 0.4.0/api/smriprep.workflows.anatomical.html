@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -183,7 +183,7 @@
 <p>Anatomical reference preprocessing workflows.</p>
 <dl class="function">
 <dt id="smriprep.workflows.anatomical.init_anat_preproc_wf">
-<code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_preproc_wf</code><span class="sig-paren">(</span><em class="sig-param">bids_root</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">reportlets_dir</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">spaces</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">name='anat_preproc_wf'</em>, <em class="sig-param">skull_strip_fixed_seed=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/48aa8ea4b91d3d5c0f54b39e1636a59f9a134ef7/smriprep/workflows/anatomical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_preproc_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_preproc_wf</code><span class="sig-paren">(</span><em class="sig-param">bids_root</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">reportlets_dir</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">spaces</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">name='anat_preproc_wf'</em>, <em class="sig-param">skull_strip_fixed_seed=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/f0fd2a7a80e4a50d088affef6f6289bb16bcb1fb/smriprep/workflows/anatomical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_preproc_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stage the anatomical preprocessing steps of <em>sMRIPrep</em>.</p>
 <p>This includes:</p>
 <blockquote>
@@ -269,7 +269,7 @@ subject space to T1w</p></li>
 
 <dl class="function">
 <dt id="smriprep.workflows.anatomical.init_anat_template_wf">
-<code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_template_wf</code><span class="sig-paren">(</span><em class="sig-param">longitudinal</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">name='anat_template_wf'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/48aa8ea4b91d3d5c0f54b39e1636a59f9a134ef7/smriprep/workflows/anatomical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_template_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_template_wf</code><span class="sig-paren">(</span><em class="sig-param">longitudinal</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">name='anat_template_wf'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/f0fd2a7a80e4a50d088affef6f6289bb16bcb1fb/smriprep/workflows/anatomical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_template_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a canonically-oriented, structural average from all input T1w images.</p>
 <dl>
 <dt>Workflow Graph</dt><dd><div class="figure align-default">
