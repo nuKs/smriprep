@@ -211,6 +211,11 @@
     <span class="n">g_bids</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--participant-label&#39;</span><span class="p">,</span> <span class="s1">&#39;--participant_label&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;a space delimited list of participant identifiers or a single &#39;</span>
                              <span class="s1">&#39;identifier (the sub- prefix can be removed)&#39;</span><span class="p">)</span>
+    <span class="n">g_bids</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--bids-filter-file&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;PATH&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;a JSON file describing custom BIDS input filters using pybids &#39;</span>
+             <span class="s1">&#39;{&lt;suffix&gt;:{&lt;entity&gt;:&lt;filter&gt;,...},...} &#39;</span>
+             <span class="s1">&#39;(https://github.com/bids-standard/pybids/blob/master/bids/layout/config/bids.json)&#39;</span><span class="p">)</span>
 
     <span class="n">g_perfm</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s1">&#39;Options to handle performance&#39;</span><span class="p">)</span>
     <span class="n">g_perfm</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--nprocs&#39;</span><span class="p">,</span> <span class="s1">&#39;--ncpus&#39;</span><span class="p">,</span> <span class="s1">&#39;--nthreads&#39;</span><span class="p">,</span> <span class="s1">&#39;--n_cpus&#39;</span><span class="p">,</span> <span class="s1">&#39;-n-cpus&#39;</span><span class="p">,</span>
@@ -430,6 +435,7 @@
     <span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">check_call</span><span class="p">,</span> <span class="n">CalledProcessError</span><span class="p">,</span> <span class="n">TimeoutExpired</span>
     <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">resource_filename</span> <span class="k">as</span> <span class="n">pkgrf</span>
 
+    <span class="kn">import</span> <span class="nn">json</span>
     <span class="kn">from</span> <span class="nn">bids</span> <span class="kn">import</span> <span class="n">BIDSLayout</span>
     <span class="kn">from</span> <span class="nn">nipype</span> <span class="kn">import</span> <span class="n">logging</span><span class="p">,</span> <span class="n">config</span> <span class="k">as</span> <span class="n">ncfg</span>
     <span class="kn">from</span> <span class="nn">niworkflows.utils.bids</span> <span class="kn">import</span> <span class="n">collect_participants</span>
@@ -455,6 +461,8 @@
     <span class="n">layout</span> <span class="o">=</span> <span class="n">BIDSLayout</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">bids_dir</span><span class="p">),</span> <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">subject_list</span> <span class="o">=</span> <span class="n">collect_participants</span><span class="p">(</span>
         <span class="n">layout</span><span class="p">,</span> <span class="n">participant_label</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">participant_label</span><span class="p">)</span>
+
+    <span class="n">bids_filters</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">bids_filter_file</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span> <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">bids_filter_file</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="c1"># Load base plugin_settings from file if --use-plugin</span>
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">use_plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -572,6 +580,7 @@
         <span class="n">spaces</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">output_spaces</span><span class="p">,</span>
         <span class="n">subject_list</span><span class="o">=</span><span class="n">subject_list</span><span class="p">,</span>
         <span class="n">work_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">work_dir</span><span class="p">),</span>
+        <span class="n">bids_filters</span><span class="o">=</span><span class="n">bids_filters</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;return_code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 

@@ -20,4 +20,5 @@ wf = init_smriprep_wf(
     spaces=SpatialReferences(spaces=['MNI152NLin2009cAsym', 'fsaverage5']),
     subject_list=['smripreptest'],
     work_dir='.',
+    bids_filters=None,
 )

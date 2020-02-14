@@ -17,4 +17,5 @@ wf = init_single_subject_wf(
     skull_strip_template=Reference('OASIS30ANTs'),
     spaces=SpatialReferences(spaces=['MNI152NLin2009cAsym', 'fsaverage5']),
     subject_id='test',
+    bids_filters=None,
 )
