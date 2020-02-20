@@ -14,6 +14,7 @@ wf = init_single_subject_wf(
     output_dir='.',
     reportlets_dir='.',
     skull_strip_fixed_seed=False,
+    skull_strip_mode='force',
     skull_strip_template=Reference('OASIS30ANTs'),
     spaces=SpatialReferences(spaces=['MNI152NLin2009cAsym', 'fsaverage5']),
     subject_id='test',

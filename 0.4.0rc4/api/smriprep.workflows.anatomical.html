@@ -183,7 +183,7 @@
 <p>Anatomical reference preprocessing workflows.</p>
 <dl class="function">
 <dt id="smriprep.workflows.anatomical.init_anat_preproc_wf">
-<code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_preproc_wf</code><span class="sig-paren">(</span><em class="sig-param">bids_root</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">reportlets_dir</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">spaces</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">name='anat_preproc_wf'</em>, <em class="sig-param">skull_strip_fixed_seed=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/8fbbb9bf0eca4d0efbc99892fe136446753f3451/smriprep/workflows/anatomical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_preproc_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_preproc_wf</code><span class="sig-paren">(</span><em class="sig-param">bids_root</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">t1w</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">reportlets_dir</em>, <em class="sig-param">skull_strip_mode</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">spaces</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">name='anat_preproc_wf'</em>, <em class="sig-param">skull_strip_fixed_seed=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/170118e8ff24e83cb9238571bf086f49e24b3cac/smriprep/workflows/anatomical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_preproc_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stage the anatomical preprocessing steps of <em>sMRIPrep</em>.</p>
 <p>This includes:</p>
 <blockquote>
@@ -211,7 +211,7 @@ at the very least)</p></li>
 <li><p><strong>hires</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Enable sub-millimeter preprocessing in FreeSurfer</p></li>
 <li><p><strong>longitudinal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Create unbiased structural template, regardless of number of inputs
 (may increase runtime)</p></li>
-<li><p><strong>num_t1w</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Number of T1w that were averaged for the anatomical reference.</p></li>
+<li><p><strong>t1w</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a>) – List of T1-weighted structural images.</p></li>
 <li><p><strong>omp_nthreads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Maximum number of threads an individual process may use</p></li>
 <li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Directory in which to save derivatives</p></li>
 <li><p><strong>reportlets_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Directory in which to save reportlets</p></li>
@@ -219,6 +219,9 @@ at the very least)</p></li>
 <li><p><strong>spaces</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">SpatialReferences</span></code>) – Object containing standard and nonstandard space specifications.</p></li>
 <li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Enable debugging outputs</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>, optional) – Workflow name (default: anat_preproc_wf)</p></li>
+<li><p><strong>skull_strip_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Determiner for T1-weighted skull stripping (<cite>force</cite> ensures skull stripping,
+<cite>skip</cite> ignores skull stripping, and <cite>auto</cite> automatically ignores skull stripping
+if pre-stripped brains are detected).</p></li>
 <li><p><strong>skull_strip_fixed_seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Do not use a random seed for skull-stripping - will ensure
 run-to-run replicability when used with –omp-nthreads 1
 (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
@@ -269,7 +272,7 @@ subject space to T1w</p></li>
 
 <dl class="function">
 <dt id="smriprep.workflows.anatomical.init_anat_template_wf">
-<code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_template_wf</code><span class="sig-paren">(</span><em class="sig-param">longitudinal</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">name='anat_template_wf'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/8fbbb9bf0eca4d0efbc99892fe136446753f3451/smriprep/workflows/anatomical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_template_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_template_wf</code><span class="sig-paren">(</span><em class="sig-param">longitudinal</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">num_t1w</em>, <em class="sig-param">name='anat_template_wf'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/170118e8ff24e83cb9238571bf086f49e24b3cac/smriprep/workflows/anatomical.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_template_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a canonically-oriented, structural average from all input T1w images.</p>
 <dl>
 <dt>Workflow Graph</dt><dd><div class="figure align-default">
@@ -361,6 +364,7 @@ subject space to T1w</p></li>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../maint_0.5.x/api/smriprep.workflows.anatomical.html">maint/0.5.x</a></dd>
             <dd><a href="../../master/api/smriprep.workflows.anatomical.html">master</a></dd>
             <dd><a href="../../rel_0.4.1/api/smriprep.workflows.anatomical.html">rel/0.4.1</a></dd>
         </dl>

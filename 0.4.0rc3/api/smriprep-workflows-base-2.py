@@ -16,6 +16,7 @@ wf = init_smriprep_wf(
     output_dir='.',
     run_uuid='testrun',
     skull_strip_fixed_seed=False,
+    skull_strip_mode='force',
     skull_strip_template=Reference('OASIS30ANTs'),
     spaces=SpatialReferences(spaces=['MNI152NLin2009cAsym', 'fsaverage5']),
     subject_list=['smripreptest'],

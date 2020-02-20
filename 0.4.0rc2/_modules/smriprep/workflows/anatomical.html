@@ -182,7 +182,7 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">niworkflows.interfaces.images</span> <span class="kn">import</span> <span class="n">TemplateDimensions</span><span class="p">,</span> <span class="n">Conform</span><span class="p">,</span> <span class="n">ValidateImage</span>
 <span class="kn">from</span> <span class="nn">niworkflows.utils.misc</span> <span class="kn">import</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">,</span> <span class="n">add_suffix</span>
-<span class="kn">from</span> <span class="nn">niworkflows.anat.ants</span> <span class="kn">import</span> <span class="n">init_brain_extraction_wf</span>
+<span class="kn">from</span> <span class="nn">niworkflows.anat.ants</span> <span class="kn">import</span> <span class="n">init_brain_extraction_wf</span><span class="p">,</span> <span class="n">init_n4_only_wf</span>
 <span class="kn">from</span> <span class="nn">.norm</span> <span class="kn">import</span> <span class="n">init_anat_norm_wf</span>
 <span class="kn">from</span> <span class="nn">.outputs</span> <span class="kn">import</span> <span class="n">init_anat_reports_wf</span><span class="p">,</span> <span class="n">init_anat_derivatives_wf</span>
 <span class="kn">from</span> <span class="nn">.surfaces</span> <span class="kn">import</span> <span class="n">init_surface_recon_wf</span>
@@ -193,15 +193,16 @@
         <span class="n">freesurfer</span><span class="p">,</span>
         <span class="n">hires</span><span class="p">,</span>
         <span class="n">longitudinal</span><span class="p">,</span>
-        <span class="n">num_t1w</span><span class="p">,</span>
+        <span class="n">t1w</span><span class="p">,</span>
         <span class="n">omp_nthreads</span><span class="p">,</span>
         <span class="n">output_dir</span><span class="p">,</span>
         <span class="n">reportlets_dir</span><span class="p">,</span>
+        <span class="n">skull_strip_mode</span><span class="p">,</span>
         <span class="n">skull_strip_template</span><span class="p">,</span>
         <span class="n">spaces</span><span class="p">,</span>
         <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_preproc_wf&#39;</span><span class="p">,</span>
-        <span class="n">skull_strip_fixed_seed</span><span class="o">=</span><span class="kc">False</span>
+        <span class="n">skull_strip_fixed_seed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Stage the anatomical preprocessing steps of *sMRIPrep*.</span>
@@ -228,13 +229,15 @@
 <span class="sd">                freesurfer=True,</span>
 <span class="sd">                hires=True,</span>
 <span class="sd">                longitudinal=False,</span>
-<span class="sd">                num_t1w=1,</span>
+<span class="sd">                t1w=[&#39;t1w.nii.gz&#39;],</span>
 <span class="sd">                omp_nthreads=1,</span>
 <span class="sd">                output_dir=&#39;.&#39;,</span>
 <span class="sd">                reportlets_dir=&#39;.&#39;,</span>
+<span class="sd">                skull_strip_mode=&#39;force&#39;,</span>
 <span class="sd">                skull_strip_template=Reference(&#39;OASIS30ANTs&#39;),</span>
 <span class="sd">                spaces=SpatialReferences(spaces=[&#39;MNI152NLin2009cAsym&#39;, &#39;fsaverage5&#39;]),</span>
 <span class="sd">            )</span>
+
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -248,8 +251,8 @@
 <span class="sd">    longitudinal : :obj:`bool`</span>
 <span class="sd">        Create unbiased structural template, regardless of number of inputs</span>
 <span class="sd">        (may increase runtime)</span>
-<span class="sd">    num_t1w : :obj:`int`</span>
-<span class="sd">        Number of T1w that were averaged for the anatomical reference.</span>
+<span class="sd">    t1w : :obj:`list`</span>
+<span class="sd">        List of T1-weighted structural images.</span>
 <span class="sd">    omp_nthreads : :obj:`int`</span>
 <span class="sd">        Maximum number of threads an individual process may use</span>
 <span class="sd">    output_dir : :obj:`str`</span>
@@ -264,6 +267,10 @@
 <span class="sd">        Enable debugging outputs</span>
 <span class="sd">    name : :obj:`str`, optional</span>
 <span class="sd">        Workflow name (default: anat_preproc_wf)</span>
+<span class="sd">    skull_strip_mode : :obj:`str`</span>
+<span class="sd">        Determiner for T1-weighted skull stripping (`force` ensures skull stripping,</span>
+<span class="sd">        `skip` ignores skull stripping, and `auto` automatically ignores skull stripping</span>
+<span class="sd">        if pre-stripped brains are detected).</span>
 <span class="sd">    skull_strip_fixed_seed : :obj:`bool`</span>
 <span class="sd">        Do not use a random seed for skull-stripping - will ensure</span>
 <span class="sd">        run-to-run replicability when used with --omp-nthreads 1</span>
@@ -327,6 +334,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">num_t1w</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">t1w</span><span class="p">)</span>
     <span class="n">desc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Anatomical data preprocessing</span>
 
 <span class="s2">: &quot;&quot;&quot;</span>
@@ -382,12 +390,37 @@
                             <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># 2. Brain-extraction and INU (bias field) correction.</span>
-    <span class="n">brain_extraction_wf</span> <span class="o">=</span> <span class="n">init_brain_extraction_wf</span><span class="p">(</span>
-        <span class="n">in_template</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="o">.</span><span class="n">space</span><span class="p">,</span>
-        <span class="n">template_spec</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span>
-        <span class="n">atropos_use_random_seed</span><span class="o">=</span><span class="ow">not</span> <span class="n">skull_strip_fixed_seed</span><span class="p">,</span>
-        <span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">,</span>
-        <span class="n">normalization_quality</span><span class="o">=</span><span class="s1">&#39;precise&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span> <span class="k">else</span> <span class="s1">&#39;testing&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">skull_strip_mode</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
+
+        <span class="k">def</span> <span class="nf">_is_skull_stripped</span><span class="p">(</span><span class="n">imgs</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Check if T1w images are skull-stripped by interrogating</span>
+<span class="sd">            extreme planes for all (near) zeros.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">def</span> <span class="nf">_check_img</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+                <span class="n">sidevals</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> \
+                    <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">data</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> \
+                    <span class="n">data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">sidevals</span> <span class="o">&lt;</span> <span class="mi">10</span>
+
+            <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">_check_img</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">imgs</span><span class="p">)</span>
+
+        <span class="n">skull_strip_mode</span> <span class="o">=</span> <span class="n">_is_skull_stripped</span><span class="p">(</span><span class="n">t1w</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">skull_strip_mode</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;skip&#39;</span><span class="p">):</span>
+        <span class="n">brain_extraction_wf</span> <span class="o">=</span> <span class="n">init_n4_only_wf</span><span class="p">(</span>
+            <span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">,</span>
+            <span class="n">atropos_use_random_seed</span><span class="o">=</span><span class="ow">not</span> <span class="n">skull_strip_fixed_seed</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">brain_extraction_wf</span> <span class="o">=</span> <span class="n">init_brain_extraction_wf</span><span class="p">(</span>
+            <span class="n">in_template</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="o">.</span><span class="n">space</span><span class="p">,</span>
+            <span class="n">template_spec</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span>
+            <span class="n">atropos_use_random_seed</span><span class="o">=</span><span class="ow">not</span> <span class="n">skull_strip_fixed_seed</span><span class="p">,</span>
+            <span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">,</span>
+            <span class="n">normalization_quality</span><span class="o">=</span><span class="s1">&#39;precise&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span> <span class="k">else</span> <span class="s1">&#39;testing&#39;</span><span class="p">)</span>
 
     <span class="c1"># 3. Brain tissue segmentation</span>
     <span class="n">t1w_dseg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">fsl</span><span class="o">.</span><span class="n">FAST</span><span class="p">(</span><span class="n">segments</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">no_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">probability_maps</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
@@ -736,6 +769,7 @@
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../../../maint_0.5.x/index.html">maint/0.5.x</a></dd>
             <dd><a href="../../../../master/index.html">master</a></dd>
             <dd><a href="../../../../rel_0.4.1/index.html">rel/0.4.1</a></dd>
         </dl>
