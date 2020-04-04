@@ -283,6 +283,9 @@
     <span class="n">g_other</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-w&#39;</span><span class="p">,</span> <span class="s1">&#39;--work-dir&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;work&#39;</span><span class="p">),</span>
                          <span class="n">help</span><span class="o">=</span><span class="s1">&#39;path where intermediate results should be stored&#39;</span><span class="p">)</span>
     <span class="n">g_other</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--fast-track&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;fast-track the workflow by searching for existing derivatives.&#39;</span><span class="p">)</span>
+    <span class="n">g_other</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--resource-monitor&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;enable Nipype</span><span class="se">\&#39;</span><span class="s1">s resource monitoring to keep track of memory and CPU usage&#39;</span><span class="p">)</span>
     <span class="n">g_other</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
@@ -571,6 +574,7 @@
     <span class="c1"># Build main workflow</span>
     <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;workflow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">init_smriprep_wf</span><span class="p">(</span>
         <span class="n">debug</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">sloppy</span><span class="p">,</span>
+        <span class="n">fast_track</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">fast_track</span><span class="p">,</span>
         <span class="n">freesurfer</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">run_reconall</span><span class="p">,</span>
         <span class="n">fs_subjects_dir</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">fs_subjects_dir</span><span class="p">,</span>
         <span class="n">hires</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">hires</span><span class="p">,</span>
@@ -679,7 +683,6 @@
             <dt>Branches</dt>
             <dd><a href="../../../../maint_0.5.x/index.html">maint/0.5.x</a></dd>
             <dd><a href="../../../../master/index.html">master</a></dd>
-            <dd><a href="../../../../rel_0.4.1/index.html">rel/0.4.1</a></dd>
         </dl>
     </div>
 </div>

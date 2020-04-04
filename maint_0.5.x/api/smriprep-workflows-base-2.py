@@ -6,6 +6,7 @@ from smriprep.workflows.base import init_smriprep_wf
 from niworkflows.utils.spaces import SpatialReferences, Reference
 wf = init_smriprep_wf(
     debug=False,
+    fast_track=False,
     freesurfer=True,
     fs_subjects_dir=None,
     hires=True,

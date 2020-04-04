@@ -188,7 +188,7 @@
 <p>Anatomical reference preprocessing workflows.</p>
 <dl class="function">
 <dt id="smriprep.workflows.anatomical.init_anat_preproc_wf">
-<code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_preproc_wf</code><span class="sig-paren">(</span><em class="sig-param">bids_root</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">t1w</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">reportlets_dir</em>, <em class="sig-param">skull_strip_mode</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">spaces</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">name='anat_preproc_wf'</em>, <em class="sig-param">skull_strip_fixed_seed=False</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_preproc_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.anatomical.</code><code class="sig-name descname">init_anat_preproc_wf</code><span class="sig-paren">(</span><em class="sig-param">bids_root</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">hires</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">t1w</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">reportlets_dir</em>, <em class="sig-param">skull_strip_mode</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">spaces</em>, <em class="sig-param">debug=False</em>, <em class="sig-param">existing_derivatives=None</em>, <em class="sig-param">name='anat_preproc_wf'</em>, <em class="sig-param">skull_strip_fixed_seed=False</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.workflows.anatomical.init_anat_preproc_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stage the anatomical preprocessing steps of <em>sMRIPrep</em>.</p>
 <p>This includes:</p>
 <blockquote>
@@ -211,6 +211,8 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>bids_root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Path of the input BIDS dataset root</p></li>
+<li><p><strong>existing_derivatives</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></a> or None) – Dictionary mapping output specification attribute names and
+paths to corresponding derivatives.</p></li>
 <li><p><strong>freesurfer</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Enable FreeSurfer surface reconstruction (increases runtime by 6h,
 at the very least)</p></li>
 <li><p><strong>hires</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Enable sub-millimeter preprocessing in FreeSurfer</p></li>
@@ -249,7 +251,7 @@ and preprocessed T1w images, defining the anatomical space.</p></li>
 <li><p><strong>t1w_dseg</strong> – Brain tissue segmentation of the preprocessed structural image, including
 gray-matter (GM), white-matter (WM) and cerebrospinal fluid (CSF).</p></li>
 <li><p><strong>t1w_tpms</strong> – List of tissue probability maps corresponding to <code class="docutils literal notranslate"><span class="pre">t1w_dseg</span></code>.</p></li>
-<li><p><strong>std_t1w</strong> – T1w reference resampled in one or more standard spaces.</p></li>
+<li><p><strong>std_preproc</strong> – T1w reference resampled in one or more standard spaces.</p></li>
 <li><p><strong>std_mask</strong> – Mask of skull-stripped template, in MNI space</p></li>
 <li><p><strong>std_dseg</strong> – Segmentation, resampled into MNI space</p></li>
 <li><p><strong>std_tpms</strong> – List of tissue probability maps in MNI space</p></li>
@@ -372,7 +374,6 @@ subject space to T1w</p></li>
             <dt>Branches</dt>
             <dd><a href="../../maint_0.5.x/api/smriprep.workflows.anatomical.html">maint/0.5.x</a></dd>
             <dd><a href="../../master/api/smriprep.workflows.anatomical.html">master</a></dd>
-            <dd><a href="../../rel_0.4.1/api/smriprep.workflows.anatomical.html">rel/0.4.1</a></dd>
         </dl>
     </div>
 </div>

@@ -163,6 +163,7 @@
 <span class="sd">&quot;&quot;&quot;Anatomical reference preprocessing workflows.&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">resource_filename</span> <span class="k">as</span> <span class="n">pkgr</span>
 
+<span class="kn">from</span> <span class="nn">nipype</span> <span class="kn">import</span> <span class="n">logging</span>
 <span class="kn">from</span> <span class="nn">nipype.pipeline</span> <span class="kn">import</span> <span class="n">engine</span> <span class="k">as</span> <span class="n">pe</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">utility</span> <span class="k">as</span> <span class="n">niu</span><span class="p">,</span>
@@ -181,11 +182,15 @@
     <span class="n">PatchedLTAConvert</span> <span class="k">as</span> <span class="n">LTAConvert</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">niworkflows.interfaces.images</span> <span class="kn">import</span> <span class="n">TemplateDimensions</span><span class="p">,</span> <span class="n">Conform</span><span class="p">,</span> <span class="n">ValidateImage</span>
+<span class="kn">from</span> <span class="nn">niworkflows.interfaces.utility</span> <span class="kn">import</span> <span class="n">KeySelect</span>
 <span class="kn">from</span> <span class="nn">niworkflows.utils.misc</span> <span class="kn">import</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">,</span> <span class="n">add_suffix</span>
 <span class="kn">from</span> <span class="nn">niworkflows.anat.ants</span> <span class="kn">import</span> <span class="n">init_brain_extraction_wf</span><span class="p">,</span> <span class="n">init_n4_only_wf</span>
+<span class="kn">from</span> <span class="nn">..utils.bids</span> <span class="kn">import</span> <span class="n">get_outputnode_spec</span>
 <span class="kn">from</span> <span class="nn">.norm</span> <span class="kn">import</span> <span class="n">init_anat_norm_wf</span>
 <span class="kn">from</span> <span class="nn">.outputs</span> <span class="kn">import</span> <span class="n">init_anat_reports_wf</span><span class="p">,</span> <span class="n">init_anat_derivatives_wf</span>
 <span class="kn">from</span> <span class="nn">.surfaces</span> <span class="kn">import</span> <span class="n">init_surface_recon_wf</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;nipype.workflow&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="init_anat_preproc_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.anatomical.html#smriprep.workflows.anatomical.init_anat_preproc_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_preproc_wf</span><span class="p">(</span>
@@ -201,6 +206,7 @@
         <span class="n">skull_strip_template</span><span class="p">,</span>
         <span class="n">spaces</span><span class="p">,</span>
         <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">existing_derivatives</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_preproc_wf&#39;</span><span class="p">,</span>
         <span class="n">skull_strip_fixed_seed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
@@ -243,6 +249,9 @@
 <span class="sd">    ----------</span>
 <span class="sd">    bids_root : :obj:`str`</span>
 <span class="sd">        Path of the input BIDS dataset root</span>
+<span class="sd">    existing_derivatives : :obj:`dict` or None</span>
+<span class="sd">        Dictionary mapping output specification attribute names and</span>
+<span class="sd">        paths to corresponding derivatives.</span>
 <span class="sd">    freesurfer : :obj:`bool`</span>
 <span class="sd">        Enable FreeSurfer surface reconstruction (increases runtime by 6h,</span>
 <span class="sd">        at the very least)</span>
@@ -301,7 +310,7 @@
 <span class="sd">        gray-matter (GM), white-matter (WM) and cerebrospinal fluid (CSF).</span>
 <span class="sd">    t1w_tpms</span>
 <span class="sd">        List of tissue probability maps corresponding to ``t1w_dseg``.</span>
-<span class="sd">    std_t1w</span>
+<span class="sd">    std_preproc</span>
 <span class="sd">        T1w reference resampled in one or more standard spaces.</span>
 <span class="sd">    std_mask</span>
 <span class="sd">        Mask of skull-stripped template, in MNI space</span>
@@ -340,7 +349,70 @@
 <span class="s2">: &quot;&quot;&quot;</span>
     <span class="n">desc</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">A total of </span><span class="si">{num_t1w}</span><span class="s2"> T1-weighted (T1w) images were found within the input</span>
-<span class="s2">BIDS dataset.</span>
+<span class="s2">BIDS dataset.&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_t1w</span><span class="o">=</span><span class="n">num_t1w</span><span class="p">)</span>
+
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+        <span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;t2w&#39;</span><span class="p">,</span> <span class="s1">&#39;roi&#39;</span><span class="p">,</span> <span class="s1">&#39;flair&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">]),</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
+
+    <span class="n">outputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span>
+        <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">get_outputnode_spec</span><span class="p">()),</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Connect reportlets workflows</span>
+    <span class="n">anat_reports_wf</span> <span class="o">=</span> <span class="n">init_anat_reports_wf</span><span class="p">(</span>
+        <span class="n">freesurfer</span><span class="o">=</span><span class="n">freesurfer</span><span class="p">,</span>
+        <span class="n">reportlets_dir</span><span class="o">=</span><span class="n">reportlets_dir</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
+        <span class="p">(</span><span class="n">outputnode</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;t1w_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_preproc&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;t1w_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_mask&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;t1w_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_dseg&#39;</span><span class="p">)]),</span>
+    <span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">existing_derivatives</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;Anatomical workflow will reuse prior derivatives found in the &quot;</span>
+                   <span class="s2">&quot;output folder (</span><span class="si">%s</span><span class="s2">).&quot;</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
+        <span class="n">desc</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Anatomical preprocessing was reused from previously existing derivative objects.</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="n">workflow</span><span class="o">.</span><span class="n">__desc__</span> <span class="o">=</span> <span class="n">desc</span>
+
+        <span class="n">templates</span> <span class="o">=</span> <span class="n">existing_derivatives</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">)</span>
+        <span class="n">templatesource</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span>
+            <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;template&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;templatesource&#39;</span><span class="p">)</span>
+        <span class="n">templatesource</span><span class="o">.</span><span class="n">iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="n">templates</span><span class="p">)]</span>
+        <span class="n">outputnode</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">templates</span>
+
+        <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">existing_derivatives</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">outputnode</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="n">anat_reports_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">source_file</span> <span class="o">=</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">existing_derivatives</span><span class="p">[</span><span class="s1">&#39;t1w_preproc&#39;</span><span class="p">]])</span>
+        <span class="n">anat_reports_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">seg_rpt</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;magenta&#39;</span><span class="p">]</span>
+
+        <span class="n">stdselect</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">KeySelect</span><span class="p">(</span>
+            <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;std_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;std_mask&#39;</span><span class="p">],</span> <span class="n">keys</span><span class="o">=</span><span class="n">templates</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;stdselect&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
+            <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">),</span>
+                                     <span class="p">(</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">)]),</span>
+            <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.subjects_dir&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.subject_id&#39;</span><span class="p">)]),</span>
+            <span class="p">(</span><span class="n">templatesource</span><span class="p">,</span> <span class="n">stdselect</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">)]),</span>
+            <span class="p">(</span><span class="n">outputnode</span><span class="p">,</span> <span class="n">stdselect</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;std_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;std_preproc&#39;</span><span class="p">),</span>
+                                     <span class="p">(</span><span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;std_mask&#39;</span><span class="p">)]),</span>
+            <span class="p">(</span><span class="n">stdselect</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.template&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;std_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_t1w&#39;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_mask&#39;</span><span class="p">),</span>
+            <span class="p">]),</span>
+        <span class="p">])</span>
+        <span class="k">return</span> <span class="n">workflow</span>
+
+    <span class="c1"># The workflow is not cached.</span>
+    <span class="n">desc</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">All of them were corrected for intensity non-uniformity (INU)</span>
 <span class="s2">&quot;&quot;&quot;</span> <span class="k">if</span> <span class="n">num_t1w</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">The T1-weighted (T1w) image was corrected for intensity non-uniformity (INU)</span>
@@ -367,18 +439,6 @@
         <span class="n">skullstrip_tpl</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="o">.</span><span class="n">fullname</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
-        <span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;t2w&#39;</span><span class="p">,</span> <span class="s1">&#39;roi&#39;</span><span class="p">,</span> <span class="s1">&#39;flair&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">]),</span>
-        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
-    <span class="n">outputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span>
-        <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;t1w_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_brain&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_tpms&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;std_t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;std2anat_xfm&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;joint_template&#39;</span><span class="p">,</span> <span class="s1">&#39;joint_anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;joint_std2anat_xfm&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;std_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;std_tpms&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_realign_xfm&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w2fsnative_xfm&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;surfaces&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_aseg&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_aparc&#39;</span><span class="p">]),</span>
-        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">)</span>
-
     <span class="n">buffernode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span>
         <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;t1w_brain&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_mask&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;buffernode&#39;</span><span class="p">)</span>
 
@@ -395,9 +455,7 @@
         <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
 
         <span class="k">def</span> <span class="nf">_is_skull_stripped</span><span class="p">(</span><span class="n">imgs</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;Check if T1w images are skull-stripped by interrogating</span>
-<span class="sd">            extreme planes for all (near) zeros.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="sd">&quot;&quot;&quot;Check if T1w images are skull-stripped.&quot;&quot;&quot;</span>
             <span class="k">def</span> <span class="nf">_check_img</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
                 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
                 <span class="n">sidevals</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> \
@@ -464,23 +522,31 @@
         <span class="p">(</span><span class="n">t1w_dseg</span><span class="p">,</span> <span class="n">anat_norm_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;probability_maps&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.moving_tpms&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">anat_norm_wf</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;poutputnode.standardized&#39;</span><span class="p">,</span> <span class="s1">&#39;std_t1w&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;poutputnode.template&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;poutputnode.anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;anat2std_xfm&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;poutputnode.std2anat_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;std2anat_xfm&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;poutputnode.standardized&#39;</span><span class="p">,</span> <span class="s1">&#39;std_preproc&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;poutputnode.std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;std_mask&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;poutputnode.std_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;std_dseg&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;poutputnode.std_tpms&#39;</span><span class="p">,</span> <span class="s1">&#39;std_tpms&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;outputnode.template&#39;</span><span class="p">,</span> <span class="s1">&#39;joint_template&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;outputnode.anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;joint_anat2std_xfm&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;outputnode.std2anat_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;joint_std2anat_xfm&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;outputnode.template&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;outputnode.anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;anat2std_xfm&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;outputnode.std2anat_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;std2anat_xfm&#39;</span><span class="p">),</span>
         <span class="p">]),</span>
     <span class="p">])</span>
 
-    <span class="c1"># Write outputs ############################################3</span>
-    <span class="n">anat_reports_wf</span> <span class="o">=</span> <span class="n">init_anat_reports_wf</span><span class="p">(</span>
-        <span class="n">reportlets_dir</span><span class="o">=</span><span class="n">reportlets_dir</span><span class="p">,</span> <span class="n">freesurfer</span><span class="o">=</span><span class="n">freesurfer</span><span class="p">)</span>
+    <span class="c1"># Connect reportlets</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
+        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">((</span><span class="s1">&#39;t1w&#39;</span><span class="p">,</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">),</span> <span class="s1">&#39;inputnode.source_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">outputnode</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;std_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_t1w&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_mask&#39;</span><span class="p">),</span>
+        <span class="p">]),</span>
+        <span class="p">(</span><span class="n">anat_template_wf</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;outputnode.out_report&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_conform_report&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">anat_norm_wf</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;poutputnode.template&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.template&#39;</span><span class="p">)]),</span>
+    <span class="p">])</span>
 
+    <span class="c1"># Write outputs ############################################3</span>
     <span class="n">anat_derivatives_wf</span> <span class="o">=</span> <span class="n">init_anat_derivatives_wf</span><span class="p">(</span>
         <span class="n">bids_root</span><span class="o">=</span><span class="n">bids_root</span><span class="p">,</span>
         <span class="n">freesurfer</span><span class="o">=</span><span class="n">freesurfer</span><span class="p">,</span>
@@ -489,29 +555,16 @@
     <span class="p">)</span>
 
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
-        <span class="c1"># Connect reportlets</span>
-        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">((</span><span class="s1">&#39;t1w&#39;</span><span class="p">,</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">),</span> <span class="s1">&#39;inputnode.source_file&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">anat_template_wf</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;outputnode.out_report&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_conform_report&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">outputnode</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;t1w_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_preproc&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;t1w_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_dseg&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;t1w_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_mask&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;std_t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_t1w&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_mask&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">anat_norm_wf</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;poutputnode.template&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.template&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;poutputnode.template_spec&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.template_spec&#39;</span><span class="p">)]),</span>
         <span class="c1"># Connect derivatives</span>
         <span class="p">(</span><span class="n">anat_template_wf</span><span class="p">,</span> <span class="n">anat_derivatives_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.t1w_valid_list&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.source_files&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">anat_norm_wf</span><span class="p">,</span> <span class="n">anat_derivatives_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;poutputnode.template&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.template&#39;</span><span class="p">)]),</span>
+            <span class="p">(</span><span class="s1">&#39;poutputnode.template&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.template&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;poutputnode.anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.anat2std_xfm&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;poutputnode.std2anat_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std2anat_xfm&#39;</span><span class="p">)</span>
+        <span class="p">]),</span>
         <span class="p">(</span><span class="n">outputnode</span><span class="p">,</span> <span class="n">anat_derivatives_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;std_t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_t1w&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.anat2std_xfm&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;std2anat_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std2anat_xfm&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;std_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_t1w&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;t1w_ref_xfms&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_ref_xfms&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;t1w_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_preproc&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;t1w_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_mask&#39;</span><span class="p">),</span>
@@ -520,9 +573,6 @@
             <span class="p">(</span><span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_mask&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;std_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_dseg&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;std_tpms&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_tpms&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;t1w2fsnative_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w2fsnative_xfm&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.fsnative2t1w_xfm&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;surfaces&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.surfaces&#39;</span><span class="p">),</span>
         <span class="p">]),</span>
     <span class="p">])</span>
 
@@ -570,6 +620,11 @@
         <span class="p">(</span><span class="n">surface_recon_wf</span><span class="p">,</span> <span class="n">anat_derivatives_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.out_aseg&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_fs_aseg&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.out_aparc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_fs_aparc&#39;</span><span class="p">),</span>
+        <span class="p">]),</span>
+        <span class="p">(</span><span class="n">outputnode</span><span class="p">,</span> <span class="n">anat_derivatives_wf</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;t1w2fsnative_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w2fsnative_xfm&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.fsnative2t1w_xfm&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;surfaces&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.surfaces&#39;</span><span class="p">),</span>
         <span class="p">]),</span>
     <span class="p">])</span>
 
@@ -772,7 +827,6 @@
             <dt>Branches</dt>
             <dd><a href="../../../../maint_0.5.x/index.html">maint/0.5.x</a></dd>
             <dd><a href="../../../../master/index.html">master</a></dd>
-            <dd><a href="../../../../rel_0.4.1/index.html">rel/0.4.1</a></dd>
         </dl>
     </div>
 </div>

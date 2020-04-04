@@ -238,8 +238,24 @@ with iterables and JoinNodes.</p>
 <span class="go">&#39;.../tpl-MNI152NLin2009cAsym_res-01_desc-brain_mask.nii.gz&#39;</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;MNIPediatricAsym&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_spec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cohort&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">t1w_file</span>  
+<span class="go">&#39;.../tpl-MNIPediatricAsym_cohort-5_res-1_T1w.nii.gz&#39;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;MNIPediatricAsym:cohort-5&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_spec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">t1w_file</span>  
+<span class="go">&#39;.../tpl-MNIPediatricAsym_cohort-5_res-2_T1w.nii.gz&#39;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;MNIPediatricAsym:cohort-2&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_spec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cohort&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">t1w_file</span>  
@@ -323,7 +339,6 @@ with iterables and JoinNodes.</p>
             <dt>Branches</dt>
             <dd><a href="../../maint_0.5.x/api/smriprep.interfaces.templateflow.html">maint/0.5.x</a></dd>
             <dd><a href="../../master/api/smriprep.interfaces.templateflow.html">master</a></dd>
-            <dd><a href="../../rel_0.4.1/api/smriprep.interfaces.templateflow.html">rel/0.4.1</a></dd>
         </dl>
     </div>
 </div>

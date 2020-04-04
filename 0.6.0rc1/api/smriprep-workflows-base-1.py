@@ -5,6 +5,7 @@ BIDSLayout = namedtuple('BIDSLayout', ['root'])
 wf = init_single_subject_wf(
     debug=False,
     freesurfer=True,
+    fast_track=False,
     hires=True,
     layout=BIDSLayout('.'),
     longitudinal=False,

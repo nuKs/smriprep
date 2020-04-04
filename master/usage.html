@@ -215,8 +215,9 @@ Example:</p>
                 <span class="p">[</span><span class="o">--</span><span class="n">skull</span><span class="o">-</span><span class="n">strip</span><span class="o">-</span><span class="n">mode</span> <span class="p">{</span><span class="n">auto</span><span class="p">,</span><span class="n">skip</span><span class="p">,</span><span class="n">force</span><span class="p">}]</span>
                 <span class="p">[</span><span class="o">--</span><span class="n">fs</span><span class="o">-</span><span class="n">license</span><span class="o">-</span><span class="n">file</span> <span class="n">PATH</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">fs</span><span class="o">-</span><span class="n">subjects</span><span class="o">-</span><span class="nb">dir</span> <span class="n">PATH</span><span class="p">]</span>
                 <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">submm</span><span class="o">-</span><span class="n">recon</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">fs</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">reconall</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span> <span class="n">WORK_DIR</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">resource</span><span class="o">-</span><span class="n">monitor</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">reports</span><span class="o">-</span><span class="n">only</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">run</span><span class="o">-</span><span class="n">uuid</span> <span class="n">RUN_UUID</span><span class="p">]</span>
-                <span class="p">[</span><span class="o">--</span><span class="n">write</span><span class="o">-</span><span class="n">graph</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">stop</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">first</span><span class="o">-</span><span class="n">crash</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">notrack</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">sloppy</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">--</span><span class="n">fast</span><span class="o">-</span><span class="n">track</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">resource</span><span class="o">-</span><span class="n">monitor</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">reports</span><span class="o">-</span><span class="n">only</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">--</span><span class="n">run</span><span class="o">-</span><span class="n">uuid</span> <span class="n">RUN_UUID</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">write</span><span class="o">-</span><span class="n">graph</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">stop</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">first</span><span class="o">-</span><span class="n">crash</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">--</span><span class="n">notrack</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">sloppy</span><span class="p">]</span>
                 <span class="n">bids_dir</span> <span class="n">output_dir</span> <span class="p">{</span><span class="n">participant</span><span class="p">}</span>
 </pre></div>
 </div>
@@ -333,6 +334,9 @@ Example:</p>
 <dl class="option-list">
 <dt><kbd>-w, --work-dir</kbd></dt>
 <dd><p>path where intermediate results should be stored</p>
+</dd>
+<dt><kbd>--fast-track</kbd></dt>
+<dd><p>fast-track the workflow by searching for existing derivatives.</p>
 </dd>
 <dt><kbd>--resource-monitor</kbd></dt>
 <dd><p>enable Nipype’s resource monitoring to keep track of memory and CPU usage</p>
@@ -559,7 +563,6 @@ RUNNING: docker run --rm -it -v /path/to/data/dir:/data:ro \
             <dt>Branches</dt>
             <dd><a href="../maint_0.5.x/usage.html">maint/0.5.x</a></dd>
             <dd><a href="usage.html">master</a></dd>
-            <dd><a href="../rel_0.4.1/usage.html">rel/0.4.1</a></dd>
         </dl>
     </div>
 </div>
