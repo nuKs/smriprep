@@ -505,7 +505,7 @@
         <span class="p">(</span><span class="n">anat_validate</span><span class="p">,</span> <span class="n">brain_extraction_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.in_files&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">brain_extraction_wf</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;outputnode.bias_corrected&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_preproc&#39;</span><span class="p">)]),</span>
+            <span class="p">((</span><span class="s1">&#39;outputnode.bias_corrected&#39;</span><span class="p">,</span> <span class="n">_pop</span><span class="p">),</span> <span class="s1">&#39;t1w_preproc&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">anat_template_wf</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.t1w_realign_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_ref_xfms&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">buffernode</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1w_brain&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_brain&#39;</span><span class="p">),</span>
