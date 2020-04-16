@@ -12,3 +12,4 @@ Submodules
 .. toctree::
 
    smriprep.utils.bids
+   smriprep.utils.misc
