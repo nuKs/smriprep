@@ -390,7 +390,6 @@
 
         <span class="n">anat_reports_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">source_file</span> <span class="o">=</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">(</span>
             <span class="p">[</span><span class="n">existing_derivatives</span><span class="p">[</span><span class="s1">&#39;t1w_preproc&#39;</span><span class="p">]])</span>
-        <span class="n">anat_reports_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">seg_rpt</span><span class="o">.</span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;magenta&#39;</span><span class="p">]</span>
 
         <span class="n">stdselect</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">KeySelect</span><span class="p">(</span>
             <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;std_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;std_mask&#39;</span><span class="p">],</span> <span class="n">keys</span><span class="o">=</span><span class="n">templates</span><span class="p">),</span>
