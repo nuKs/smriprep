@@ -480,22 +480,6 @@
             <span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">,</span>
             <span class="n">normalization_quality</span><span class="o">=</span><span class="s1">&#39;precise&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span> <span class="k">else</span> <span class="s1">&#39;testing&#39;</span><span class="p">)</span>
 
-    <span class="c1"># 3. Brain tissue segmentation - FAST produces: 0 (bg), 1 (wm), 2 (csf), 3 (gm)</span>
-    <span class="n">t1w_dseg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">fsl</span><span class="o">.</span><span class="n">FAST</span><span class="p">(</span><span class="n">segments</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">no_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">probability_maps</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;t1w_dseg&#39;</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-
-    <span class="c1"># Change LookUp Table - BIDS wants: 0 (bg), 1 (gm), 2 (wm), 3 (csf)</span>
-    <span class="n">lut_t1w_dseg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">_apply_bids_lut</span><span class="p">),</span>
-                           <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lut_t1w_dseg&#39;</span><span class="p">)</span>
-    <span class="n">lut_t1w_dseg</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">lut</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Maps: 0 -&gt; 0, 3 -&gt; 1, 1 -&gt; 2, 2 -&gt; 3.</span>
-
-    <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
-        <span class="p">(</span><span class="n">buffernode</span><span class="p">,</span> <span class="n">t1w_dseg</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1w_brain&#39;</span><span class="p">,</span> <span class="s1">&#39;in_files&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">t1w_dseg</span><span class="p">,</span> <span class="n">lut_t1w_dseg</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;tissue_class_map&#39;</span><span class="p">,</span> <span class="s1">&#39;in_dseg&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">t1w_dseg</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;probability_maps&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_tpms&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">lut_t1w_dseg</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_dseg&#39;</span><span class="p">)]),</span>
-    <span class="p">])</span>
-
     <span class="c1"># 4. Spatial normalization</span>
     <span class="n">anat_norm_wf</span> <span class="o">=</span> <span class="n">init_anat_norm_wf</span><span class="p">(</span>
         <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">,</span>
@@ -523,10 +507,6 @@
         <span class="p">(</span><span class="n">brain_extraction_wf</span><span class="p">,</span> <span class="n">anat_norm_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">((</span><span class="s1">&#39;outputnode.bias_corrected&#39;</span><span class="p">,</span> <span class="n">_pop</span><span class="p">),</span> <span class="s1">&#39;inputnode.moving_image&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">buffernode</span><span class="p">,</span> <span class="n">anat_norm_wf</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1w_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.moving_mask&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">lut_t1w_dseg</span><span class="p">,</span> <span class="n">anat_norm_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.moving_segmentation&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">t1w_dseg</span><span class="p">,</span> <span class="n">anat_norm_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;probability_maps&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.moving_tpms&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">anat_norm_wf</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;poutputnode.standardized&#39;</span><span class="p">,</span> <span class="s1">&#39;std_preproc&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;poutputnode.std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;std_mask&#39;</span><span class="p">),</span>
@@ -536,6 +516,16 @@
             <span class="p">(</span><span class="s1">&#39;outputnode.anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;anat2std_xfm&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.std2anat_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;std2anat_xfm&#39;</span><span class="p">),</span>
         <span class="p">]),</span>
+    <span class="p">])</span>
+
+    <span class="c1"># Change LookUp Table - BIDS wants: 0 (bg), 1 (gm), 2 (wm), 3 (csf)</span>
+    <span class="n">lut_t1w_dseg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">_apply_bids_lut</span><span class="p">),</span>
+                           <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lut_t1w_dseg&#39;</span><span class="p">)</span>
+
+    <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
+        <span class="p">(</span><span class="n">lut_t1w_dseg</span><span class="p">,</span> <span class="n">anat_norm_wf</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.moving_segmentation&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">lut_t1w_dseg</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_dseg&#39;</span><span class="p">)]),</span>
     <span class="p">])</span>
 
     <span class="c1"># Connect reportlets</span>
@@ -583,12 +573,27 @@
     <span class="p">])</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">freesurfer</span><span class="p">:</span>  <span class="c1"># Flag --fs-no-reconall is set - return</span>
+        <span class="c1"># Brain tissue segmentation - FAST produces: 0 (bg), 1 (wm), 2 (csf), 3 (gm)</span>
+        <span class="n">t1w_dseg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">fsl</span><span class="o">.</span><span class="n">FAST</span><span class="p">(</span><span class="n">segments</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">no_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">probability_maps</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                           <span class="n">name</span><span class="o">=</span><span class="s1">&#39;t1w_dseg&#39;</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">lut_t1w_dseg</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">lut</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Maps: 0 -&gt; 0, 3 -&gt; 1, 1 -&gt; 2, 2 -&gt; 3.</span>
+
         <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
             <span class="p">(</span><span class="n">brain_extraction_wf</span><span class="p">,</span> <span class="n">buffernode</span><span class="p">,</span> <span class="p">[</span>
                 <span class="p">((</span><span class="s1">&#39;outputnode.out_file&#39;</span><span class="p">,</span> <span class="n">_pop</span><span class="p">),</span> <span class="s1">&#39;t1w_brain&#39;</span><span class="p">),</span>
                 <span class="p">(</span><span class="s1">&#39;outputnode.out_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_mask&#39;</span><span class="p">)]),</span>
+            <span class="p">(</span><span class="n">buffernode</span><span class="p">,</span> <span class="n">t1w_dseg</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1w_brain&#39;</span><span class="p">,</span> <span class="s1">&#39;in_files&#39;</span><span class="p">)]),</span>
+            <span class="p">(</span><span class="n">t1w_dseg</span><span class="p">,</span> <span class="n">lut_t1w_dseg</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;tissue_class_map&#39;</span><span class="p">,</span> <span class="s1">&#39;in_dseg&#39;</span><span class="p">)]),</span>
+            <span class="p">(</span><span class="n">t1w_dseg</span><span class="p">,</span> <span class="n">anat_norm_wf</span><span class="p">,</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s1">&#39;probability_maps&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.moving_tpms&#39;</span><span class="p">)]),</span>
+            <span class="p">(</span><span class="n">t1w_dseg</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;probability_maps&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_tpms&#39;</span><span class="p">)]),</span>
         <span class="p">])</span>
         <span class="k">return</span> <span class="n">workflow</span>
+
+    <span class="c1"># Map FS&#39; aseg labels onto three-tissue segmentation</span>
+    <span class="n">lut_t1w_dseg</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">lut</span> <span class="o">=</span> <span class="n">_aseg_to_three</span><span class="p">()</span>
+    <span class="n">split_seg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">_split_segments</span><span class="p">),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;split_seg&#39;</span><span class="p">)</span>
 
     <span class="c1"># 5. Surface reconstruction (--fs-no-reconall not set)</span>
     <span class="n">surface_recon_wf</span> <span class="o">=</span> <span class="n">init_surface_recon_wf</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;surface_recon_wf&#39;</span><span class="p">,</span>
@@ -609,6 +614,12 @@
             <span class="p">((</span><span class="s1">&#39;outputnode.bias_corrected&#39;</span><span class="p">,</span> <span class="n">_pop</span><span class="p">),</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">surface_recon_wf</span><span class="p">,</span> <span class="n">applyrefined</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.out_brainmask&#39;</span><span class="p">,</span> <span class="s1">&#39;mask_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">surface_recon_wf</span><span class="p">,</span> <span class="n">lut_t1w_dseg</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;outputnode.out_aseg&#39;</span><span class="p">,</span> <span class="s1">&#39;in_dseg&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">lut_t1w_dseg</span><span class="p">,</span> <span class="n">split_seg</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">split_seg</span><span class="p">,</span> <span class="n">anat_norm_wf</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.moving_tpms&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">split_seg</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;t1w_tpms&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">surface_recon_wf</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">),</span>
@@ -780,6 +791,69 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inlist</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
         <span class="k">return</span> <span class="n">inlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">inlist</span>
+
+
+<span class="k">def</span> <span class="nf">_aseg_to_three</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Map FreeSurfer&#39;s segmentation onto a brain (3-)tissue segmentation.</span>
+
+<span class="sd">    This function generates an index of 255+0 labels and maps them into zero (bg),</span>
+<span class="sd">    1 (GM), 2 (WM), or 3 (CSF). The new values are set according to BIDS-Derivatives.</span>
+<span class="sd">    Then the index is populated (e.g., label 3 in the original segmentation maps to label</span>
+<span class="sd">    1 in the output).</span>
+<span class="sd">    The `aseg lookup table</span>
+<span class="sd">    &lt;https://github.com/freesurfer/freesurfer/blob/2beb96c6099d96508246c14a24136863124566a3/distribution/ASegStatsLUT.txt&gt;`__</span>
+<span class="sd">    is available in the FreeSurfer source.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="c1"># Base struct</span>
+    <span class="n">aseg_lut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">256</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+    <span class="c1"># GM</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">17</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">26</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">42</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">47</span><span class="p">:</span><span class="mi">73</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># CSF</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">14</span><span class="p">:</span><span class="mi">16</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">24</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">43</span><span class="p">:</span><span class="mi">45</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">72</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># WM</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">28</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">41</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">46</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">60</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">77</span><span class="p">:</span><span class="mi">80</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">aseg_lut</span><span class="p">[</span><span class="mi">250</span><span class="p">:</span><span class="mi">256</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">aseg_lut</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_split_segments</span><span class="p">(</span><span class="n">in_file</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
+
+    <span class="n">segimg</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">(</span><span class="n">segimg</span><span class="o">.</span><span class="n">dataobj</span><span class="p">)</span>
+    <span class="n">hdr</span> <span class="o">=</span> <span class="n">segimg</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">hdr</span><span class="o">.</span><span class="n">set_data_dtype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
+
+    <span class="n">out_files</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">((</span><span class="s2">&quot;CSF&quot;</span><span class="p">,</span> <span class="s2">&quot;WM&quot;</span><span class="p">,</span> <span class="s2">&quot;GM&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">out_fname</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;aseg_label-</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">_mask.nii.gz&quot;</span><span class="p">)</span>
+        <span class="n">segimg</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="n">i</span><span class="p">,</span> <span class="n">segimg</span><span class="o">.</span><span class="n">affine</span><span class="p">,</span> <span class="n">hdr</span><span class="p">)</span><span class="o">.</span><span class="n">to_filename</span><span class="p">(</span><span class="n">out_fname</span><span class="p">)</span>
+        <span class="n">out_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_fname</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out_files</span>
 </pre></div>
 
            </div>
