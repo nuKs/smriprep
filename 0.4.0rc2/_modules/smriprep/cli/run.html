@@ -322,6 +322,7 @@
     <span class="kn">import</span> <span class="nn">warnings</span>
     <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">set_start_method</span><span class="p">,</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Manager</span>
     <span class="kn">from</span> <span class="nn">nipype</span> <span class="kn">import</span> <span class="n">logging</span> <span class="k">as</span> <span class="n">nlogging</span>
+    <span class="kn">from</span> <span class="nn">niworkflows.utils.misc</span> <span class="kn">import</span> <span class="n">check_valid_fs_license</span>
 
     <span class="n">set_start_method</span><span class="p">(</span><span class="s1">&#39;forkserver&#39;</span><span class="p">)</span>
 
@@ -334,19 +335,17 @@
 
     <span class="n">warnings</span><span class="o">.</span><span class="n">showwarning</span> <span class="o">=</span> <span class="n">_warn_redirect</span>
 
-    <span class="c1"># FreeSurfer license</span>
-    <span class="n">default_license</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;FREESURFER_HOME&#39;</span><span class="p">))</span> <span class="o">/</span> <span class="s1">&#39;license.txt&#39;</span><span class="p">)</span>
     <span class="c1"># Precedence: --fs-license-file, $FS_LICENSE, default_license</span>
-    <span class="n">license_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">fs_license_file</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;FS_LICENSE&#39;</span><span class="p">,</span> <span class="n">default_license</span><span class="p">))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">license_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="n">license_file</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">fs_license_file</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;FS_LICENSE&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_valid_fs_license</span><span class="p">(</span><span class="n">lic</span><span class="o">=</span><span class="n">license_file</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
             <span class="s1">&#39;ERROR: a valid license file is required for FreeSurfer to run. &#39;</span>
             <span class="s1">&#39;sMRIPrep looked for an existing license file at several paths, in this &#39;</span>
             <span class="s1">&#39;order: 1) command line argument ``--fs-license-file``; 2) ``$FS_LICENSE`` &#39;</span>
             <span class="s1">&#39;environment variable; and 3) the ``$FREESURFER_HOME/license.txt`` path. &#39;</span>
             <span class="s1">&#39;Get it (for free) by registering at https://&#39;</span>
-            <span class="s1">&#39;surfer.nmr.mgh.harvard.edu/registration.html&#39;</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FS_LICENSE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">license_file</span><span class="p">)</span>
+            <span class="s1">&#39;surfer.nmr.mgh.harvard.edu/registration.html&#39;</span>
+        <span class="p">)</span>
 
     <span class="c1"># Retrieve logging level</span>
     <span class="n">log_level</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">25</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose_count</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">))</span>
