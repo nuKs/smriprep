@@ -300,7 +300,6 @@
         <span class="k">if</span> <span class="n">fs_subjects_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fsdir</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">subjects_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fs_subjects_dir</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
 
-    <span class="n">reportlets_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="s1">&#39;reportlets&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">subject_id</span> <span class="ow">in</span> <span class="n">subject_list</span><span class="p">:</span>
         <span class="n">single_subject_wf</span> <span class="o">=</span> <span class="n">init_single_subject_wf</span><span class="p">(</span>
             <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">,</span>
@@ -313,7 +312,6 @@
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;single_subject_</span><span class="si">%s</span><span class="s2">_wf&quot;</span> <span class="o">%</span> <span class="n">subject_id</span><span class="p">,</span>
             <span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">,</span>
             <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
-            <span class="n">reportlets_dir</span><span class="o">=</span><span class="n">reportlets_dir</span><span class="p">,</span>
             <span class="n">skull_strip_fixed_seed</span><span class="o">=</span><span class="n">skull_strip_fixed_seed</span><span class="p">,</span>
             <span class="n">skull_strip_mode</span><span class="o">=</span><span class="n">skull_strip_mode</span><span class="p">,</span>
             <span class="n">skull_strip_template</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="p">,</span>
@@ -347,7 +345,6 @@
     <span class="n">name</span><span class="p">,</span>
     <span class="n">omp_nthreads</span><span class="p">,</span>
     <span class="n">output_dir</span><span class="p">,</span>
-    <span class="n">reportlets_dir</span><span class="p">,</span>
     <span class="n">skull_strip_fixed_seed</span><span class="p">,</span>
     <span class="n">skull_strip_mode</span><span class="p">,</span>
     <span class="n">skull_strip_template</span><span class="p">,</span>
@@ -387,7 +384,6 @@
 <span class="sd">                name=&#39;single_subject_wf&#39;,</span>
 <span class="sd">                omp_nthreads=1,</span>
 <span class="sd">                output_dir=&#39;.&#39;,</span>
-<span class="sd">                reportlets_dir=&#39;.&#39;,</span>
 <span class="sd">                skull_strip_fixed_seed=False,</span>
 <span class="sd">                skull_strip_mode=&#39;force&#39;,</span>
 <span class="sd">                skull_strip_template=Reference(&#39;OASIS30ANTs&#39;),</span>
@@ -419,8 +415,6 @@
 <span class="sd">        Maximum number of threads an individual process may use</span>
 <span class="sd">    output_dir : :obj:`str`</span>
 <span class="sd">        Directory in which to save derivatives</span>
-<span class="sd">    reportlets_dir : :obj:`str`</span>
-<span class="sd">        Directory in which to save reportlets</span>
 <span class="sd">    skull_strip_fixed_seed : :obj:`bool`</span>
 <span class="sd">        Do not use a random seed for skull-stripping - will ensure</span>
 <span class="sd">        run-to-run replicability when used with --omp-nthreads 1</span>
@@ -502,13 +496,13 @@
                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;about&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">ds_report_summary</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
-        <span class="n">DerivativesDataSink</span><span class="p">(</span><span class="n">base_directory</span><span class="o">=</span><span class="n">reportlets_dir</span><span class="p">,</span>
-                            <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="n">keep_dtype</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">DerivativesDataSink</span><span class="p">(</span><span class="n">base_directory</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
+                            <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="s2">&quot;figures&quot;</span><span class="p">),</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ds_report_summary&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">ds_report_about</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
-        <span class="n">DerivativesDataSink</span><span class="p">(</span><span class="n">base_directory</span><span class="o">=</span><span class="n">reportlets_dir</span><span class="p">,</span>
-                            <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;about&#39;</span><span class="p">,</span> <span class="n">keep_dtype</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">DerivativesDataSink</span><span class="p">(</span><span class="n">base_directory</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
+                            <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;about&#39;</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="s2">&quot;figures&quot;</span><span class="p">),</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ds_report_about&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Preprocessing of T1w (includes registration to MNI)</span>
@@ -523,7 +517,6 @@
         <span class="n">t1w</span><span class="o">=</span><span class="n">subject_data</span><span class="p">[</span><span class="s1">&#39;t1w&#39;</span><span class="p">],</span>
         <span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">,</span>
         <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
-        <span class="n">reportlets_dir</span><span class="o">=</span><span class="n">reportlets_dir</span><span class="p">,</span>
         <span class="n">skull_strip_fixed_seed</span><span class="o">=</span><span class="n">skull_strip_fixed_seed</span><span class="p">,</span>
         <span class="n">skull_strip_mode</span><span class="o">=</span><span class="n">skull_strip_mode</span><span class="p">,</span>
         <span class="n">skull_strip_template</span><span class="o">=</span><span class="n">skull_strip_template</span><span class="p">,</span>

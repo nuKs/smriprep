@@ -8,7 +8,6 @@ wf = init_anat_preproc_wf(
     t1w=['t1w.nii.gz'],
     omp_nthreads=1,
     output_dir='.',
-    reportlets_dir='.',
     skull_strip_mode='force',
     skull_strip_template=Reference('OASIS30ANTs'),
     spaces=SpatialReferences(spaces=['MNI152NLin2009cAsym', 'fsaverage5']),
