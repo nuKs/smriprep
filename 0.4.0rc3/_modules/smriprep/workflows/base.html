@@ -496,12 +496,12 @@
                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;about&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">ds_report_summary</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
-        <span class="n">DerivativesDataSink</span><span class="p">(</span><span class="n">base_directory</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
+        <span class="n">DerivativesDataSink</span><span class="p">(</span><span class="n">base_directory</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">dismiss_entities</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;session&quot;</span><span class="p">,),</span>
                             <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="s2">&quot;figures&quot;</span><span class="p">),</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ds_report_summary&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">ds_report_about</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
-        <span class="n">DerivativesDataSink</span><span class="p">(</span><span class="n">base_directory</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
+        <span class="n">DerivativesDataSink</span><span class="p">(</span><span class="n">base_directory</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">dismiss_entities</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;session&quot;</span><span class="p">,),</span>
                             <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;about&#39;</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="s2">&quot;figures&quot;</span><span class="p">),</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ds_report_about&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
