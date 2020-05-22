@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>What’s new? &mdash; smriprep 0.6.0rc5 documentation</title>
+  <title>What’s new? &mdash; smriprep 0.6.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.6.0rc5
+                0.6.0
               </div>
             
           
@@ -89,7 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Library API (application program interface)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">What’s new?</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#may-21-2020">0.6.0 (May 21, 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#may-22-2020">0.6.0 (May 22, 2020)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#february-14-2020">0.5.2 (February 14, 2020)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#february-7-2020">0.5.1 (February 7, 2020)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#february-6-2020">0.5.0 (February 6, 2020)</a></li>
@@ -184,8 +184,8 @@
 
 <div class="section" id="what-s-new">
 <h1>What’s new?<a class="headerlink" href="#what-s-new" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="may-21-2020">
-<h2>0.6.0 (May 21, 2020)<a class="headerlink" href="#may-21-2020" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="may-22-2020">
+<h2>0.6.0 (May 22, 2020)<a class="headerlink" href="#may-22-2020" title="Permalink to this headline">¶</a></h2>
 <p>Minor release in preparation for fMRIPrep 20.1.x series.
 Features the new implementation of derivatives writers in NiWorkflows,
 and additional flexibility to use previously computed results (in particular,
@@ -193,8 +193,8 @@ skull-stripped brains, and the new <em>fast-track</em> that allows skipping the
 anatomical workflow in full, if all the expected derivatives are provided).
 Most of the the bug-fixes correspond to amendments over these newly added
 features.</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
+<li><p>FIX: Convert LTA to ITK with nitransforms (#188)</p></li>
 <li><p>FIX: Dismiss <code class="docutils literal notranslate"><span class="pre">session</span></code> entity on most of anatomical derivatives (#193)</p></li>
 <li><p>FIX: Revise tissue probability maps connections and order (#190)</p></li>
 <li><p>FIX: Make TPMs label ordering in <code class="docutils literal notranslate"><span class="pre">io_spec.json</span></code> consistent with workflow (#179)</p></li>
@@ -209,7 +209,6 @@ features.</p>
 <li><p>MAINT: Pin troublesome sphinx (#175)</p></li>
 <li><p>MAINT: Update dependencies to be inline with fMRIPrep-20.1.x (#173)</p></li>
 </ul>
-</div></blockquote>
 </div>
 <div class="section" id="february-14-2020">
 <h2>0.5.2 (February 14, 2020)<a class="headerlink" href="#february-14-2020" title="Permalink to this headline">¶</a></h2>
@@ -452,6 +451,7 @@ in <a class="reference external" href="https://github.com/poldracklab/fmriprep/i
             <dd><a href="../0.5.0/changes.html">0.5.0</a></dd>
             <dd><a href="../0.5.1/changes.html">0.5.1</a></dd>
             <dd><a href="../0.5.2/changes.html">0.5.2</a></dd>
+            <dd><a href="../0.6.0/changes.html">0.6.0</a></dd>
             <dd><a href="../0.6.0rc1/changes.html">0.6.0rc1</a></dd>
             <dd><a href="../0.6.0rc2/changes.html">0.6.0rc2</a></dd>
             <dd><a href="../0.6.0rc3/changes.html">0.6.0rc3</a></dd>
