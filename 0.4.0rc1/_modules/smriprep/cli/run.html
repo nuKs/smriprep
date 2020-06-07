@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.cli.run &mdash; smriprep 0.5.3 documentation</title>
+  <title>smriprep.cli.run &mdash; smriprep 0.6.1 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.5.3
+                0.6.1
               </div>
             
           
@@ -252,6 +252,11 @@
     <span class="n">g_ants</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--skull-strip-fixed-seed&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;do not use a random seed for skull-stripping - will ensure &#39;</span>
                              <span class="s1">&#39;run-to-run replicability when used with --omp-nthreads 1&#39;</span><span class="p">)</span>
+    <span class="n">g_ants</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--skull-strip-mode&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;skip&#39;</span><span class="p">,</span> <span class="s1">&#39;force&#39;</span><span class="p">),</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;determiner for T1-weighted skull stripping (force ensures skull &#39;</span>
+                             <span class="s1">&#39;stripping, skip ignores skull stripping, and auto automatically &#39;</span>
+                             <span class="s1">&#39;ignores skull stripping if pre-stripped brains are detected).&#39;</span><span class="p">)</span>
 
     <span class="c1"># FreeSurfer options</span>
     <span class="n">g_fs</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s1">&#39;Specific options for FreeSurfer preprocessing&#39;</span><span class="p">)</span>
@@ -277,6 +282,9 @@
     <span class="n">g_other</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s1">&#39;Other options&#39;</span><span class="p">)</span>
     <span class="n">g_other</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-w&#39;</span><span class="p">,</span> <span class="s1">&#39;--work-dir&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;work&#39;</span><span class="p">),</span>
                          <span class="n">help</span><span class="o">=</span><span class="s1">&#39;path where intermediate results should be stored&#39;</span><span class="p">)</span>
+    <span class="n">g_other</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s1">&#39;--fast-track&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;fast-track the workflow by searching for existing derivatives.&#39;</span><span class="p">)</span>
     <span class="n">g_other</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s1">&#39;--resource-monitor&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;enable Nipype</span><span class="se">\&#39;</span><span class="s1">s resource monitoring to keep track of memory and CPU usage&#39;</span><span class="p">)</span>
@@ -314,6 +322,7 @@
     <span class="kn">import</span> <span class="nn">warnings</span>
     <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">set_start_method</span><span class="p">,</span> <span class="n">Process</span><span class="p">,</span> <span class="n">Manager</span>
     <span class="kn">from</span> <span class="nn">nipype</span> <span class="kn">import</span> <span class="n">logging</span> <span class="k">as</span> <span class="n">nlogging</span>
+    <span class="kn">from</span> <span class="nn">niworkflows.utils.misc</span> <span class="kn">import</span> <span class="n">check_valid_fs_license</span>
 
     <span class="n">set_start_method</span><span class="p">(</span><span class="s1">&#39;forkserver&#39;</span><span class="p">)</span>
 
@@ -326,19 +335,19 @@
 
     <span class="n">warnings</span><span class="o">.</span><span class="n">showwarning</span> <span class="o">=</span> <span class="n">_warn_redirect</span>
 
-    <span class="c1"># FreeSurfer license</span>
-    <span class="n">default_license</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;FREESURFER_HOME&#39;</span><span class="p">))</span> <span class="o">/</span> <span class="s1">&#39;license.txt&#39;</span><span class="p">)</span>
     <span class="c1"># Precedence: --fs-license-file, $FS_LICENSE, default_license</span>
-    <span class="n">license_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">fs_license_file</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;FS_LICENSE&#39;</span><span class="p">,</span> <span class="n">default_license</span><span class="p">))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">license_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">fs_license_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;FS_LICENSE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">fs_license_file</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_valid_fs_license</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
             <span class="s1">&#39;ERROR: a valid license file is required for FreeSurfer to run. &#39;</span>
             <span class="s1">&#39;sMRIPrep looked for an existing license file at several paths, in this &#39;</span>
             <span class="s1">&#39;order: 1) command line argument ``--fs-license-file``; 2) ``$FS_LICENSE`` &#39;</span>
             <span class="s1">&#39;environment variable; and 3) the ``$FREESURFER_HOME/license.txt`` path. &#39;</span>
             <span class="s1">&#39;Get it (for free) by registering at https://&#39;</span>
-            <span class="s1">&#39;surfer.nmr.mgh.harvard.edu/registration.html&#39;</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;FS_LICENSE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">license_file</span><span class="p">)</span>
+            <span class="s1">&#39;surfer.nmr.mgh.harvard.edu/registration.html&#39;</span>
+        <span class="p">)</span>
 
     <span class="c1"># Retrieve logging level</span>
     <span class="n">log_level</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">25</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">opts</span><span class="o">.</span><span class="n">verbose_count</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">))</span>
@@ -364,7 +373,6 @@
         <span class="n">plugin_settings</span> <span class="o">=</span> <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;plugin_settings&#39;</span><span class="p">]</span>
         <span class="n">bids_dir</span> <span class="o">=</span> <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;bids_dir&#39;</span><span class="p">]</span>
         <span class="n">output_dir</span> <span class="o">=</span> <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;output_dir&#39;</span><span class="p">]</span>
-        <span class="n">work_dir</span> <span class="o">=</span> <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;work_dir&#39;</span><span class="p">]</span>
         <span class="n">subject_list</span> <span class="o">=</span> <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;subject_list&#39;</span><span class="p">]</span>
         <span class="n">run_uuid</span> <span class="o">=</span> <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;run_uuid&#39;</span><span class="p">]</span>
         <span class="n">retcode</span> <span class="o">=</span> <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;return_code&#39;</span><span class="p">]</span>
@@ -411,7 +419,7 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Writing reports for participants: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subject_list</span><span class="p">))</span>
         <span class="c1"># Generate reports phase</span>
-        <span class="n">errno</span> <span class="o">+=</span> <span class="n">generate_reports</span><span class="p">(</span><span class="n">subject_list</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">work_dir</span><span class="p">,</span> <span class="n">run_uuid</span><span class="p">,</span>
+        <span class="n">errno</span> <span class="o">+=</span> <span class="n">generate_reports</span><span class="p">(</span><span class="n">subject_list</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">run_uuid</span><span class="p">,</span>
                                   <span class="n">packagename</span><span class="o">=</span><span class="s1">&#39;smriprep&#39;</span><span class="p">)</span>
         <span class="n">write_derivative_description</span><span class="p">(</span><span class="n">bids_dir</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span> <span class="o">/</span> <span class="s1">&#39;smriprep&#39;</span><span class="p">))</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">errno</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span></div>
@@ -550,9 +558,8 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;Running --reports-only on participants </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subject_list</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">run_uuid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">run_uuid</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">run_uuid</span>
-        <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;return_code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">generate_reports</span><span class="p">(</span>
-            <span class="n">subject_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">output_dir</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">work_dir</span><span class="p">),</span> <span class="n">run_uuid</span><span class="p">,</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">pkgrf</span><span class="p">(</span><span class="s1">&#39;smriprep&#39;</span><span class="p">,</span> <span class="s1">&#39;data/reports/config.json&#39;</span><span class="p">))</span>
+        <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;return_code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">generate_reports</span><span class="p">(</span><span class="n">subject_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">output_dir</span><span class="p">),</span> <span class="n">run_uuid</span><span class="p">,</span>
+                                                 <span class="n">packagename</span><span class="o">=</span><span class="s2">&quot;smriprep&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">retval</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="n">INIT_MSG</span><span class="p">(</span>
@@ -566,6 +573,7 @@
     <span class="c1"># Build main workflow</span>
     <span class="n">retval</span><span class="p">[</span><span class="s1">&#39;workflow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">init_smriprep_wf</span><span class="p">(</span>
         <span class="n">debug</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">sloppy</span><span class="p">,</span>
+        <span class="n">fast_track</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">fast_track</span><span class="p">,</span>
         <span class="n">freesurfer</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">run_reconall</span><span class="p">,</span>
         <span class="n">fs_subjects_dir</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">fs_subjects_dir</span><span class="p">,</span>
         <span class="n">hires</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">hires</span><span class="p">,</span>
@@ -576,6 +584,7 @@
         <span class="n">output_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">output_dir</span><span class="p">),</span>
         <span class="n">run_uuid</span><span class="o">=</span><span class="n">run_uuid</span><span class="p">,</span>
         <span class="n">skull_strip_fixed_seed</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">skull_strip_fixed_seed</span><span class="p">,</span>
+        <span class="n">skull_strip_mode</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">skull_strip_mode</span><span class="p">,</span>
         <span class="n">skull_strip_template</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">skull_strip_template</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">spaces</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">output_spaces</span><span class="p">,</span>
         <span class="n">subject_list</span><span class="o">=</span><span class="n">subject_list</span><span class="p">,</span>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.norm &mdash; smriprep 0.5.3 documentation</title>
+  <title>smriprep.workflows.norm &mdash; smriprep 0.6.1 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.5.3
+                0.6.1
               </div>
             
           
@@ -332,11 +332,9 @@
     <span class="n">tpl_moving</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">ApplyTransforms</span><span class="p">(</span>
         <span class="n">dimension</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;LanczosWindowedSinc&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;tpl_moving&#39;</span><span class="p">)</span>
-    <span class="n">std_mask</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">ApplyTransforms</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                       <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;MultiLabel&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;std_mask&#39;</span><span class="p">)</span>
 
-    <span class="n">std_dseg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">ApplyTransforms</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                       <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;MultiLabel&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;std_dseg&#39;</span><span class="p">)</span>
+    <span class="n">std_mask</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">ApplyTransforms</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;MultiLabel&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;std_mask&#39;</span><span class="p">)</span>
+    <span class="n">std_dseg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">ApplyTransforms</span><span class="p">(</span><span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;MultiLabel&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;std_dseg&#39;</span><span class="p">)</span>
 
     <span class="n">std_tpms</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">ApplyTransforms</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                           <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;Gaussian&#39;</span><span class="p">),</span>
