@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.interfaces.templateflow module &mdash; smriprep 0.6.1 documentation</title>
+  <title>smriprep.interfaces.templateflow module &mdash; smriprep 0.5.3 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.6.1
+                0.5.3
               </div>
             
           
@@ -184,9 +184,9 @@
 <div class="section" id="module-smriprep.interfaces.templateflow">
 <span id="smriprep-interfaces-templateflow-module"></span><h1>smriprep.interfaces.templateflow module<a class="headerlink" href="#module-smriprep.interfaces.templateflow" title="Permalink to this headline">¶</a></h1>
 <p>Interfaces to get templates from TemplateFlow.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="smriprep.interfaces.templateflow.TemplateDesc">
-<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.templateflow.</code><code class="sig-name descname">TemplateDesc</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateDesc" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.templateflow.</code><code class="sig-name descname">TemplateDesc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">from_file</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resource_monitor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateDesc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Select template description and name pairs.</p>
 <p>This interface is necessary to ensure the good functioning
@@ -211,13 +211,13 @@ with iterables and JoinNodes.</p>
 <span class="go">{&#39;cohort&#39;: &#39;2&#39;}</span>
 </pre></div>
 </div>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="smriprep.interfaces.templateflow.TemplateDesc.input_spec">
 <code class="sig-name descname">input_spec</code><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateDesc.input_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_TemplateDescInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="smriprep.interfaces.templateflow.TemplateDesc.output_spec">
 <code class="sig-name descname">output_spec</code><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateDesc.output_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_TemplateDescOutputSpec</span></code></p>
@@ -225,9 +225,9 @@ with iterables and JoinNodes.</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="smriprep.interfaces.templateflow.TemplateFlowSelect">
-<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.templateflow.</code><code class="sig-name descname">TemplateFlowSelect</code><span class="sig-paren">(</span><em class="sig-param">from_file=None</em>, <em class="sig-param">resource_monitor=None</em>, <em class="sig-param">**inputs</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateFlowSelect" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">smriprep.interfaces.templateflow.</code><code class="sig-name descname">TemplateFlowSelect</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">from_file</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resource_monitor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">inputs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateFlowSelect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nipype.interfaces.base.core.SimpleInterface</span></code></p>
 <p>Select TemplateFlow elements.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -241,7 +241,7 @@ with iterables and JoinNodes.</p>
 <span class="go">&#39;.../tpl-MNI152NLin2009cAsym_res-01_desc-brain_mask.nii.gz&#39;</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;MNIPediatricAsym&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_spec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cohort&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
@@ -249,29 +249,13 @@ with iterables and JoinNodes.</p>
 <span class="go">&#39;.../tpl-MNIPediatricAsym_cohort-5_res-1_T1w.nii.gz&#39;</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;MNIPediatricAsym:cohort-5&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_spec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">t1w_file</span>  
-<span class="go">&#39;.../tpl-MNIPediatricAsym_cohort-5_res-2_T1w.nii.gz&#39;</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span> <span class="o">=</span> <span class="n">TemplateFlowSelect</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;MNIPediatricAsym:cohort-2&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">template_spec</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cohort&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;resolution&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">t1w_file</span>  
-<span class="go">&#39;.../tpl-MNIPediatricAsym_cohort-5_res-1_T1w.nii.gz&#39;</span>
-</pre></div>
-</div>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="smriprep.interfaces.templateflow.TemplateFlowSelect.input_spec">
 <code class="sig-name descname">input_spec</code><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateFlowSelect.input_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_TemplateFlowSelectInputSpec</span></code></p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="smriprep.interfaces.templateflow.TemplateFlowSelect.output_spec">
 <code class="sig-name descname">output_spec</code><a class="headerlink" href="#smriprep.interfaces.templateflow.TemplateFlowSelect.output_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">_TemplateFlowSelectOutputSpec</span></code></p>
@@ -336,6 +320,7 @@ with iterables and JoinNodes.</p>
             <dd><a href="../../0.5.0/api/smriprep.interfaces.templateflow.html">0.5.0</a></dd>
             <dd><a href="../../0.5.1/api/smriprep.interfaces.templateflow.html">0.5.1</a></dd>
             <dd><a href="../../0.5.2/api/smriprep.interfaces.templateflow.html">0.5.2</a></dd>
+            <dd><a href="../../0.5.3/api/smriprep.interfaces.templateflow.html">0.5.3</a></dd>
             <dd><a href="../../0.6.0/api/smriprep.interfaces.templateflow.html">0.6.0</a></dd>
             <dd><a href="../../0.6.0rc1/api/smriprep.interfaces.templateflow.html">0.6.0rc1</a></dd>
             <dd><a href="../../0.6.0rc2/api/smriprep.interfaces.templateflow.html">0.6.0rc2</a></dd>
@@ -347,6 +332,7 @@ with iterables and JoinNodes.</p>
         <dl>
             <dt>Branches</dt>
             <dd><a href="../../maint_0.5.x/api/smriprep.interfaces.templateflow.html">maint/0.5.x</a></dd>
+            <dd><a href="../../maint_0.6.x/api/smriprep.interfaces.templateflow.html">maint/0.6.x</a></dd>
             <dd><a href="../../master/api/smriprep.interfaces.templateflow.html">master</a></dd>
         </dl>
     </div>

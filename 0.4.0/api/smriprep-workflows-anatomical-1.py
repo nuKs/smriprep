@@ -5,10 +5,10 @@ wf = init_anat_preproc_wf(
     freesurfer=True,
     hires=True,
     longitudinal=False,
-    t1w=['t1w.nii.gz'],
+    num_t1w=1,
     omp_nthreads=1,
     output_dir='.',
-    skull_strip_mode='force',
+    reportlets_dir='.',
     skull_strip_template=Reference('OASIS30ANTs'),
     spaces=SpatialReferences(spaces=['MNI152NLin2009cAsym', 'fsaverage5']),
 )

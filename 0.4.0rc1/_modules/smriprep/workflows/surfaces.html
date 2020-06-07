@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.surfaces &mdash; smriprep 0.6.1 documentation</title>
+  <title>smriprep.workflows.surfaces &mdash; smriprep 0.5.3 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.6.1
+                0.5.3
               </div>
             
           
@@ -391,10 +391,12 @@
         <span class="p">(</span><span class="n">autorecon_resume_wf</span><span class="p">,</span> <span class="n">aseg_to_native_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.subjects_dir&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.subject_id&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">fsnative2t1w_xfm</span><span class="p">,</span> <span class="n">aseg_to_native_wf</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_reg_file&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.fsnative2t1w_xfm&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">aparc_to_native_wf</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;corrected_t1&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.in_file&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">autorecon_resume_wf</span><span class="p">,</span> <span class="n">aparc_to_native_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.subjects_dir&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.subject_id&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">fsnative2t1w_xfm</span><span class="p">,</span> <span class="n">aparc_to_native_wf</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_reg_file&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.fsnative2t1w_xfm&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">aseg_to_native_wf</span><span class="p">,</span> <span class="n">refine</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;outputnode.out_file&#39;</span><span class="p">,</span> <span class="s1">&#39;in_aseg&#39;</span><span class="p">)]),</span>
 
         <span class="c1"># Output</span>
@@ -662,6 +664,8 @@
 <span class="sd">        FreeSurfer SUBJECTS_DIR</span>
 <span class="sd">    subject_id</span>
 <span class="sd">        FreeSurfer subject ID</span>
+<span class="sd">    fsnative2t1w_xfm</span>
+<span class="sd">        LTA-style affine matrix translating from FreeSurfer-conformed subject space to T1w</span>
 
 <span class="sd">    Outputs</span>
 <span class="sd">    -------</span>
@@ -670,13 +674,15 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">segmentation</span><span class="p">))</span>
-    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">([</span>
-        <span class="s1">&#39;in_file&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+        <span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">([</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">]),</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputnode&#39;</span><span class="p">)</span>
     <span class="n">outputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">([</span><span class="s1">&#39;out_file&#39;</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputnode&#39;</span><span class="p">)</span>
     <span class="c1"># Extract the aseg and aparc+aseg outputs</span>
     <span class="n">fssource</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">nio</span><span class="o">.</span><span class="n">FreeSurferSource</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fs_datasource&#39;</span><span class="p">)</span>
-    <span class="n">tonative</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">Label2Vol</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;tonative&#39;</span><span class="p">)</span>
-    <span class="n">tonii</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">MRIConvert</span><span class="p">(</span><span class="n">out_type</span><span class="o">=</span><span class="s1">&#39;niigz&#39;</span><span class="p">,</span> <span class="n">resample_type</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;tonii&#39;</span><span class="p">)</span>
+    <span class="c1"># Resample from T1.mgz to T1w.nii.gz, applying any offset in fsnative2t1w_xfm,</span>
+    <span class="c1"># and convert to NIfTI while we&#39;re at it</span>
+    <span class="n">resample</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">ApplyVolTransform</span><span class="p">(</span><span class="n">transformed_file</span><span class="o">=</span><span class="s1">&#39;seg.nii.gz&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;resample&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">segmentation</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;aparc&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">segmentation</span> <span class="o">==</span> <span class="s1">&#39;aparc_aseg&#39;</span><span class="p">:</span>
@@ -691,12 +697,10 @@
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">fssource</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">tonii</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span> <span class="s1">&#39;reslice_like&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">fssource</span><span class="p">,</span> <span class="n">tonative</span><span class="p">,</span> <span class="p">[(</span><span class="n">segmentation</span><span class="p">,</span> <span class="s1">&#39;seg_file&#39;</span><span class="p">),</span>
-                              <span class="p">(</span><span class="s1">&#39;rawavg&#39;</span><span class="p">,</span> <span class="s1">&#39;template_file&#39;</span><span class="p">),</span>
-                              <span class="p">(</span><span class="s1">&#39;aseg&#39;</span><span class="p">,</span> <span class="s1">&#39;reg_header&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">tonative</span><span class="p">,</span> <span class="n">tonii</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;vol_label_file&#39;</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)]),</span>
-        <span class="p">(</span><span class="n">tonii</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">resample</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span> <span class="s1">&#39;target_file&#39;</span><span class="p">),</span>
+                               <span class="p">(</span><span class="s1">&#39;fsnative2t1w_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;lta_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">fssource</span><span class="p">,</span> <span class="n">resample</span><span class="p">,</span> <span class="p">[(</span><span class="n">segmentation</span><span class="p">,</span> <span class="s1">&#39;source_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">resample</span><span class="p">,</span> <span class="n">outputnode</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;transformed_file&#39;</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">)]),</span>
     <span class="p">])</span>
     <span class="k">return</span> <span class="n">workflow</span></div>
 
@@ -758,6 +762,7 @@
             <dd><a href="../../../../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../../../../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../../../../0.5.2/index.html">0.5.2</a></dd>
+            <dd><a href="../../../../0.5.3/index.html">0.5.3</a></dd>
             <dd><a href="../../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
             <dd><a href="../../../../0.6.0rc2/index.html">0.6.0rc2</a></dd>
@@ -769,6 +774,7 @@
         <dl>
             <dt>Branches</dt>
             <dd><a href="../../../../maint_0.5.x/index.html">maint/0.5.x</a></dd>
+            <dd><a href="../../../../maint_0.6.x/index.html">maint/0.6.x</a></dd>
             <dd><a href="../../../../master/index.html">master</a></dd>
         </dl>
     </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.workflows.base module &mdash; smriprep 0.6.1 documentation</title>
+  <title>smriprep.workflows.base module &mdash; smriprep 0.5.3 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.6.1
+                0.5.3
               </div>
             
           
@@ -181,9 +181,9 @@
 <div class="section" id="module-smriprep.workflows.base">
 <span id="smriprep-workflows-base-module"></span><h1>smriprep.workflows.base module<a class="headerlink" href="#module-smriprep.workflows.base" title="Permalink to this headline">¶</a></h1>
 <p><em>sMRIPrep</em> base processing workflows.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="smriprep.workflows.base.init_single_subject_wf">
-<code class="sig-prename descclassname">smriprep.workflows.base.</code><code class="sig-name descname">init_single_subject_wf</code><span class="sig-paren">(</span><em class="sig-param">debug</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">fast_track</em>, <em class="sig-param">hires</em>, <em class="sig-param">layout</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">low_mem</em>, <em class="sig-param">name</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">skull_strip_fixed_seed</em>, <em class="sig-param">skull_strip_mode</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">spaces</em>, <em class="sig-param">subject_id</em>, <em class="sig-param">bids_filters</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/d8fe13da52690b7cf2edd71f6ec38c4d660bd405/smriprep/workflows/base.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.base.init_single_subject_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.base.</code><code class="sig-name descname">init_single_subject_wf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">debug</span></em>, <em class="sig-param"><span class="n">freesurfer</span></em>, <em class="sig-param"><span class="n">hires</span></em>, <em class="sig-param"><span class="n">layout</span></em>, <em class="sig-param"><span class="n">longitudinal</span></em>, <em class="sig-param"><span class="n">low_mem</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">omp_nthreads</span></em>, <em class="sig-param"><span class="n">output_dir</span></em>, <em class="sig-param"><span class="n">reportlets_dir</span></em>, <em class="sig-param"><span class="n">skull_strip_fixed_seed</span></em>, <em class="sig-param"><span class="n">skull_strip_template</span></em>, <em class="sig-param"><span class="n">spaces</span></em>, <em class="sig-param"><span class="n">subject_id</span></em>, <em class="sig-param"><span class="n">bids_filters</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/3896252a7fb6b7068257601387845d5cae484d56/smriprep/workflows/base.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.base.init_single_subject_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a single subject workflow.</p>
 <p>This workflow organizes the preprocessing pipeline for a single subject.
 It collects and reports information about the subject, and prepares
@@ -204,7 +204,6 @@ individual BOLD series.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Enable debugging outputs</p></li>
 <li><p><strong>freesurfer</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Enable FreeSurfer surface reconstruction (may increase runtime)</p></li>
-<li><p><strong>fast_track</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, attempt to collect previously run derivatives.</p></li>
 <li><p><strong>hires</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Enable sub-millimeter preprocessing in FreeSurfer</p></li>
 <li><p><strong>layout</strong> (<em>BIDSLayout object</em>) – BIDS dataset layout</p></li>
 <li><p><strong>longitudinal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Treat multiple sessions as longitudinal (may increase runtime)
@@ -213,11 +212,9 @@ See sub-workflows for specific differences</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Name of workflow</p></li>
 <li><p><strong>omp_nthreads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>) – Maximum number of threads an individual process may use</p></li>
 <li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Directory in which to save derivatives</p></li>
+<li><p><strong>reportlets_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Directory in which to save reportlets</p></li>
 <li><p><strong>skull_strip_fixed_seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Do not use a random seed for skull-stripping - will ensure
 run-to-run replicability when used with –omp-nthreads 1</p></li>
-<li><p><strong>skull_strip_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Determiner for T1-weighted skull stripping (<cite>force</cite> ensures skull stripping,
-<cite>skip</cite> ignores skull stripping, and <cite>auto</cite> automatically ignores skull stripping
-if pre-stripped brains are detected).</p></li>
 <li><p><strong>skull_strip_template</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Reference</span></code>) – Spatial reference to use in atlas-based brain extraction.</p></li>
 <li><p><strong>spaces</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">SpatialReferences</span></code>) – Object containing standard and nonstandard space specifications.</p></li>
 <li><p><strong>subject_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – List of subject labels</p></li>
@@ -231,9 +228,9 @@ A dict with the following structure {&lt;suffix&gt;:{&lt;entity&gt;:&lt;filter&g
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="smriprep.workflows.base.init_smriprep_wf">
-<code class="sig-prename descclassname">smriprep.workflows.base.</code><code class="sig-name descname">init_smriprep_wf</code><span class="sig-paren">(</span><em class="sig-param">debug</em>, <em class="sig-param">fast_track</em>, <em class="sig-param">freesurfer</em>, <em class="sig-param">fs_subjects_dir</em>, <em class="sig-param">hires</em>, <em class="sig-param">layout</em>, <em class="sig-param">longitudinal</em>, <em class="sig-param">low_mem</em>, <em class="sig-param">omp_nthreads</em>, <em class="sig-param">output_dir</em>, <em class="sig-param">run_uuid</em>, <em class="sig-param">skull_strip_mode</em>, <em class="sig-param">skull_strip_fixed_seed</em>, <em class="sig-param">skull_strip_template</em>, <em class="sig-param">spaces</em>, <em class="sig-param">subject_list</em>, <em class="sig-param">work_dir</em>, <em class="sig-param">bids_filters</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/d8fe13da52690b7cf2edd71f6ec38c4d660bd405/smriprep/workflows/base.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.base.init_smriprep_wf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">smriprep.workflows.base.</code><code class="sig-name descname">init_smriprep_wf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">debug</span></em>, <em class="sig-param"><span class="n">freesurfer</span></em>, <em class="sig-param"><span class="n">fs_subjects_dir</span></em>, <em class="sig-param"><span class="n">hires</span></em>, <em class="sig-param"><span class="n">layout</span></em>, <em class="sig-param"><span class="n">longitudinal</span></em>, <em class="sig-param"><span class="n">low_mem</span></em>, <em class="sig-param"><span class="n">omp_nthreads</span></em>, <em class="sig-param"><span class="n">output_dir</span></em>, <em class="sig-param"><span class="n">run_uuid</span></em>, <em class="sig-param"><span class="n">skull_strip_fixed_seed</span></em>, <em class="sig-param"><span class="n">skull_strip_template</span></em>, <em class="sig-param"><span class="n">spaces</span></em>, <em class="sig-param"><span class="n">subject_list</span></em>, <em class="sig-param"><span class="n">work_dir</span></em>, <em class="sig-param"><span class="n">bids_filters</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/poldracklab/smriprep/blob/3896252a7fb6b7068257601387845d5cae484d56/smriprep/workflows/base.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smriprep.workflows.base.init_smriprep_wf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the execution graph of <em>sMRIPrep</em>, with a sub-workflow for each subject.</p>
 <p>If FreeSurfer’s <code class="docutils literal notranslate"><span class="pre">recon-all</span></code> is to be run, a FreeSurfer derivatives folder is
 created and populated with any needed template subjects.</p>
@@ -248,7 +245,6 @@ created and populated with any needed template subjects.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Enable debugging outputs</p></li>
-<li><p><strong>fast_track</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Fast-track the workflow by searching for existing derivatives.</p></li>
 <li><p><strong>freesurfer</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Enable FreeSurfer surface reconstruction (may increase runtime)</p></li>
 <li><p><strong>fs_subjects_dir</strong> (<em>os.PathLike or None</em>) – Use existing FreeSurfer subjects directory if provided</p></li>
 <li><p><strong>hires</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Enable sub-millimeter preprocessing in FreeSurfer</p></li>
@@ -261,9 +257,6 @@ See sub-workflows for specific differences</p></li>
 <li><p><strong>run_uuid</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Unique identifier for execution instance</p></li>
 <li><p><strong>skull_strip_fixed_seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Do not use a random seed for skull-stripping - will ensure
 run-to-run replicability when used with –omp-nthreads 1</p></li>
-<li><p><strong>skull_strip_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – Determiner for T1-weighted skull stripping (<cite>force</cite> ensures skull stripping,
-<cite>skip</cite> ignores skull stripping, and <cite>auto</cite> automatically ignores skull stripping
-if pre-stripped brains are detected).</p></li>
 <li><p><strong>skull_strip_template</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Reference</span></code>) – Spatial reference to use in atlas-based brain extraction.</p></li>
 <li><p><strong>spaces</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">SpatialReferences</span></code>) – Object containing standard and nonstandard space specifications.</p></li>
 <li><p><strong>subject_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a>) – List of subject labels</p></li>
@@ -333,6 +326,7 @@ A dict with the following structure {&lt;suffix&gt;:{&lt;entity&gt;:&lt;filter&g
             <dd><a href="../../0.5.0/api/smriprep.workflows.base.html">0.5.0</a></dd>
             <dd><a href="../../0.5.1/api/smriprep.workflows.base.html">0.5.1</a></dd>
             <dd><a href="../../0.5.2/api/smriprep.workflows.base.html">0.5.2</a></dd>
+            <dd><a href="../../0.5.3/api/smriprep.workflows.base.html">0.5.3</a></dd>
             <dd><a href="../../0.6.0/api/smriprep.workflows.base.html">0.6.0</a></dd>
             <dd><a href="../../0.6.0rc1/api/smriprep.workflows.base.html">0.6.0rc1</a></dd>
             <dd><a href="../../0.6.0rc2/api/smriprep.workflows.base.html">0.6.0rc2</a></dd>
@@ -344,6 +338,7 @@ A dict with the following structure {&lt;suffix&gt;:{&lt;entity&gt;:&lt;filter&g
         <dl>
             <dt>Branches</dt>
             <dd><a href="../../maint_0.5.x/api/smriprep.workflows.base.html">maint/0.5.x</a></dd>
+            <dd><a href="../../maint_0.6.x/api/smriprep.workflows.base.html">maint/0.6.x</a></dd>
             <dd><a href="../../master/api/smriprep.workflows.base.html">master</a></dd>
         </dl>
     </div>

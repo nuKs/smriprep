@@ -8,8 +8,8 @@ surface_recon_wffsnative2t1w_xfm [label="{IN|<insourcefile> source_file|<intarge
 surface_recon_wft1w2fsnative_xfm [label="{IN|<ininlta> in_lta}|{ t1w2fsnative_xfm | freesurfer |  }|{OUT|<outoutlta> out_lta}"];
 surface_recon_wfskull_strip_extern [label="{IN|<ininbrain> in_brain|<insubjectid> subject_id|<insubjectsdir> subjects_dir}|{ skull_strip_extern | freesurfer |  }|{OUT|<outsubjectid> subject_id|<outsubjectsdir> subjects_dir}"];
 surface_recon_wfautorecon_resume_wf [label="{IN|<ininputnodesubjectid> inputnode.subject_id|<ininputnodesubjectsdir> inputnode.subjects_dir|<ininputnodeuseFLAIR> inputnode.use_FLAIR|<ininputnodeuseT2> inputnode.use_T2}|{ autorecon_resume_wf |  |  }|{OUT|<outoutputnodesubjectid> outputnode.subject_id|<outoutputnodesubjectsdir> outputnode.subjects_dir}"];
-surface_recon_wfsegs_to_native_aparc_aseg [label="{IN|<ininputnodeinfile> inputnode.in_file|<ininputnodesubjectid> inputnode.subject_id|<ininputnodesubjectsdir> inputnode.subjects_dir}|{ segs_to_native_aparc_aseg |  |  }|{OUT|<outoutputnodeoutfile> outputnode.out_file}"];
-surface_recon_wfsegs_to_native_aseg [label="{IN|<ininputnodeinfile> inputnode.in_file|<ininputnodesubjectid> inputnode.subject_id|<ininputnodesubjectsdir> inputnode.subjects_dir}|{ segs_to_native_aseg |  |  }|{OUT|<outoutputnodeoutfile> outputnode.out_file}"];
+surface_recon_wfsegs_to_native_aparc_aseg [label="{IN|<ininputnodefsnative2t1wxfm> inputnode.fsnative2t1w_xfm|<ininputnodeinfile> inputnode.in_file|<ininputnodesubjectid> inputnode.subject_id|<ininputnodesubjectsdir> inputnode.subjects_dir}|{ segs_to_native_aparc_aseg |  |  }|{OUT|<outoutputnodeoutfile> outputnode.out_file}"];
+surface_recon_wfsegs_to_native_aseg [label="{IN|<ininputnodefsnative2t1wxfm> inputnode.fsnative2t1w_xfm|<ininputnodeinfile> inputnode.in_file|<ininputnodesubjectid> inputnode.subject_id|<ininputnodesubjectsdir> inputnode.subjects_dir}|{ segs_to_native_aseg |  |  }|{OUT|<outoutputnodeoutfile> outputnode.out_file}"];
 surface_recon_wfrefine [label="{IN|<ininanat> in_anat|<ininants> in_ants|<ininaseg> in_aseg}|{ refine | freesurfer |  }|{OUT|<outoutfile> out_file}"];
 surface_recon_wfgifti_surface_wf [label="{IN|<ininputnodefsnative2t1wxfm> inputnode.fsnative2t1w_xfm|<ininputnodesubjectid> inputnode.subject_id|<ininputnodesubjectsdir> inputnode.subjects_dir}|{ gifti_surface_wf |  |  }|{OUT|<outoutputnodesurfaces> outputnode.surfaces}"];
 surface_recon_wfoutputnode [label="{IN|<infsnative2t1wxfm> fsnative2t1w_xfm|<inoutaparc> out_aparc|<inoutaseg> out_aseg|<inoutbrainmask> out_brainmask|<insubjectid> subject_id|<insubjectsdir> subjects_dir|<insurfaces> surfaces|<int1w2fsnativexfm> t1w2fsnative_xfm}|{ outputnode | utility |  }|{OUT}"];
@@ -27,6 +27,8 @@ surface_recon_wfautorecon_resume_wf:outoutputnodesubjectsdir:e -> surface_recon_
 surface_recon_wffov_check:outout:e -> surface_recon_wfautorecon1:inflags:w;
 surface_recon_wffsnative2t1w_xfm:outoutregfile:e -> surface_recon_wfgifti_surface_wf:ininputnodefsnative2t1wxfm:w;
 surface_recon_wffsnative2t1w_xfm:outoutregfile:e -> surface_recon_wfoutputnode:infsnative2t1wxfm:w;
+surface_recon_wffsnative2t1w_xfm:outoutregfile:e -> surface_recon_wfsegs_to_native_aparc_aseg:ininputnodefsnative2t1wxfm:w;
+surface_recon_wffsnative2t1w_xfm:outoutregfile:e -> surface_recon_wfsegs_to_native_aseg:ininputnodefsnative2t1wxfm:w;
 surface_recon_wffsnative2t1w_xfm:outoutregfile:e -> surface_recon_wft1w2fsnative_xfm:ininlta:w;
 surface_recon_wfgifti_surface_wf:outoutputnodesurfaces:e -> surface_recon_wfoutputnode:insurfaces:w;
 surface_recon_wfinputnode:outantssegs:e -> surface_recon_wfrefine:ininants:w;

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>smriprep.utils.bids &mdash; smriprep 0.6.1 documentation</title>
+  <title>smriprep.utils.bids &mdash; smriprep 0.5.3 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.6.1
+                0.5.3
               </div>
             
           
@@ -160,184 +160,15 @@
 <h1>Source code for smriprep.utils.bids</h1><div class="highlight"><pre>
 <span></span><span class="c1"># emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-</span>
 <span class="c1"># vi: set ft=python sts=4 ts=4 sw=4 et:</span>
-<span class="sd">&quot;&quot;&quot;Utilities to handle BIDS inputs.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">json</span> <span class="kn">import</span> <span class="n">loads</span>
-<span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">resource_filename</span> <span class="k">as</span> <span class="n">pkgrf</span>
-<span class="kn">from</span> <span class="nn">bids.layout.writing</span> <span class="kn">import</span> <span class="n">build_path</span>
-
-
-<div class="viewcode-block" id="get_outputnode_spec"><a class="viewcode-back" href="../../../api/smriprep.utils.bids.html#smriprep.utils.bids.get_outputnode_spec">[docs]</a><span class="k">def</span> <span class="nf">get_outputnode_spec</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generate outputnode&#39;s fields from I/O spec file.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; get_outputnode_spec()  # doctest: +NORMALIZE_WHITESPACE</span>
-<span class="sd">    [&#39;t1w_preproc&#39;, &#39;t1w_mask&#39;, &#39;t1w_dseg&#39;, &#39;t1w_tpms&#39;,</span>
-<span class="sd">    &#39;std_preproc&#39;, &#39;std_mask&#39;, &#39;std_dseg&#39;, &#39;std_tpms&#39;,</span>
-<span class="sd">    &#39;anat2std_xfm&#39;, &#39;std2anat_xfm&#39;,</span>
-<span class="sd">    &#39;t1w_aseg&#39;, &#39;t1w_aparc&#39;,</span>
-<span class="sd">    &#39;t1w2fsnative_xfm&#39;, &#39;fsnative2t1w_xfm&#39;,</span>
-<span class="sd">    &#39;surfaces&#39;]</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">spec</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">pkgrf</span><span class="p">(</span><span class="s1">&#39;smriprep&#39;</span><span class="p">,</span> <span class="s1">&#39;data/io_spec.json&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">read_text</span><span class="p">())[</span><span class="s2">&quot;queries&quot;</span><span class="p">]</span>
-    <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="s2">&quot;baseline&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
-    <span class="n">fields</span> <span class="o">+=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="s2">&quot;std_xfms&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
-    <span class="n">fields</span> <span class="o">+=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="s2">&quot;surfaces&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
-    <span class="k">return</span> <span class="n">fields</span></div>
-
-
-<div class="viewcode-block" id="predict_derivatives"><a class="viewcode-back" href="../../../api/smriprep.utils.bids.html#smriprep.utils.bids.predict_derivatives">[docs]</a><span class="k">def</span> <span class="nf">predict_derivatives</span><span class="p">(</span><span class="n">subject_id</span><span class="p">,</span> <span class="n">output_spaces</span><span class="p">,</span> <span class="n">freesurfer</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generate a list of the files that should be found in the output folder.</span>
-
-<span class="sd">    The prediction of outputs serves two purposes:</span>
-
-<span class="sd">      * Anticipates the set of outputs that will be generated.</span>
-<span class="sd">      * Informs the decision of whether the workflow should be staged or some</span>
-<span class="sd">        sections can be skip.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    subject_id : :obj:`str`</span>
-<span class="sd">        A subject id</span>
-<span class="sd">    output_spaces : :obj:`list`</span>
-<span class="sd">        TemplateFlow identifiers of the requested output spaces</span>
-<span class="sd">    freesurfer : :obj:`bool`</span>
-<span class="sd">        Whether the ``--fs-no-reconall`` flag was used.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; predict_derivatives(&#39;01&#39;, [&#39;MNI152NLin2009cAsym&#39;], False)</span>
-<span class="sd">    [&#39;sub-01/anat/sub-01_desc-brain_mask.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_desc-preproc_T1w.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_dseg.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_from-MNI152NLin2009cAsym_to-T1w_mode-image_xfm.h5&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_from-T1w_to-MNI152NLin2009cAsym_mode-image_xfm.h5&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_label-CSF_probseg.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_label-GM_probseg.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_label-WM_probseg.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_space-MNI152NLin2009cAsym_desc-brain_mask.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_space-MNI152NLin2009cAsym_desc-preproc_T1w.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_space-MNI152NLin2009cAsym_dseg.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_space-MNI152NLin2009cAsym_label-CSF_probseg.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_space-MNI152NLin2009cAsym_label-GM_probseg.nii.gz&#39;,</span>
-<span class="sd">     &#39;sub-01/anat/sub-01_space-MNI152NLin2009cAsym_label-WM_probseg.nii.gz&#39;]</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">spec</span> <span class="o">=</span> <span class="n">loads</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">pkgrf</span><span class="p">(</span><span class="s1">&#39;smriprep&#39;</span><span class="p">,</span> <span class="s1">&#39;data/io_spec.json&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
-
-    <span class="k">def</span> <span class="nf">_normalize_q</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">query</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject_id</span>
-        <span class="k">if</span> <span class="n">space</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">query</span><span class="p">[</span><span class="s1">&#39;space&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">space</span>
-        <span class="k">if</span> <span class="s1">&#39;from&#39;</span> <span class="ow">in</span> <span class="n">query</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">query</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]:</span>
-            <span class="n">query</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_spaces</span>
-        <span class="k">if</span> <span class="s1">&#39;to&#39;</span> <span class="ow">in</span> <span class="n">query</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">query</span><span class="p">[</span><span class="s1">&#39;to&#39;</span><span class="p">]:</span>
-            <span class="n">query</span><span class="p">[</span><span class="s1">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_spaces</span>
-        <span class="k">return</span> <span class="n">query</span>
-
-    <span class="n">queries</span> <span class="o">=</span> <span class="p">[</span><span class="n">_normalize_q</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-               <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;queries&#39;</span><span class="p">][</span><span class="s1">&#39;baseline&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
-
-    <span class="n">queries</span> <span class="o">+=</span> <span class="p">[</span><span class="n">_normalize_q</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">output_spaces</span>
-                <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;queries&#39;</span><span class="p">][</span><span class="s1">&#39;baseline&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
-    <span class="n">queries</span> <span class="o">+=</span> <span class="p">[</span><span class="n">_normalize_q</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;queries&#39;</span><span class="p">][</span><span class="s1">&#39;std_xfms&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
-    <span class="k">if</span> <span class="n">freesurfer</span><span class="p">:</span>
-        <span class="n">queries</span> <span class="o">+=</span> <span class="p">[</span><span class="n">_normalize_q</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;queries&#39;</span><span class="p">][</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
-
-    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">:</span>
-        <span class="n">paths</span> <span class="o">=</span> <span class="n">build_path</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;patterns&#39;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">paths</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="n">paths</span>
-
-    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="collect_derivatives"><a class="viewcode-back" href="../../../api/smriprep.utils.bids.html#smriprep.utils.bids.collect_derivatives">[docs]</a><span class="k">def</span> <span class="nf">collect_derivatives</span><span class="p">(</span><span class="n">derivatives_dir</span><span class="p">,</span> <span class="n">subject_id</span><span class="p">,</span> <span class="n">std_spaces</span><span class="p">,</span> <span class="n">freesurfer</span><span class="p">,</span>
-                        <span class="n">spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Gather existing derivatives and compose a cache.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">patterns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">_spec</span><span class="p">,</span> <span class="n">_patterns</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
-            <span class="n">loads</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">pkgrf</span><span class="p">(</span><span class="s1">&#39;smriprep&#39;</span><span class="p">,</span> <span class="s1">&#39;data/io_spec.json&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-
-        <span class="k">if</span> <span class="n">spec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">spec</span> <span class="o">=</span> <span class="n">_spec</span>
-        <span class="k">if</span> <span class="n">patterns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">patterns</span> <span class="o">=</span> <span class="n">_patterns</span>
-
-    <span class="n">derivs_cache</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="p">{})</span>
-    <span class="n">derivatives_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">derivatives_dir</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_check_item</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">]</span>
-
-        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">derivatives_dir</span> <span class="o">/</span> <span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;.gz&#39;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">derivatives_dir</span> <span class="o">/</span> <span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-                    <span class="k">return</span> <span class="kc">None</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">derivatives_dir</span> <span class="o">/</span> <span class="n">i</span><span class="p">))</span>
-
-        <span class="k">return</span> <span class="n">result</span>
-
-    <span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">std_spaces</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;baseline&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">q</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject_id</span>
-            <span class="k">if</span> <span class="n">space</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">q</span><span class="p">[</span><span class="s1">&#39;space&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">space</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="n">_check_item</span><span class="p">(</span><span class="n">build_path</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">None</span>
-
-            <span class="k">if</span> <span class="n">space</span><span class="p">:</span>
-                <span class="n">derivs_cache</span><span class="p">[</span><span class="s2">&quot;std_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">item</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="p">[</span><span class="n">item</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">derivs_cache</span><span class="p">[</span><span class="s2">&quot;t1w_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">item</span>
-
-    <span class="k">for</span> <span class="n">space</span> <span class="ow">in</span> <span class="n">std_spaces</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;std_xfms&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">q</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject_id</span>
-            <span class="n">q</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">space</span>
-            <span class="n">q</span><span class="p">[</span><span class="s1">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="s1">&#39;to&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">space</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="n">_check_item</span><span class="p">(</span><span class="n">build_path</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">patterns</span><span class="p">))</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">None</span>
-            <span class="n">derivs_cache</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">item</span>
-
-    <span class="n">derivs_cache</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">derivs_cache</span><span class="p">)</span>  <span class="c1"># Back to a standard dictionary</span>
-
-    <span class="k">if</span> <span class="n">freesurfer</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="s1">&#39;surfaces&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">q</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subject_id</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="n">_check_item</span><span class="p">(</span><span class="n">build_path</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">patterns</span><span class="p">))</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">None</span>
-
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">derivs_cache</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
-
-    <span class="n">derivs_cache</span><span class="p">[</span><span class="s1">&#39;template&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">std_spaces</span>
-    <span class="k">return</span> <span class="n">derivs_cache</span></div>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utilities to handle BIDS inputs</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="write_derivative_description"><a class="viewcode-back" href="../../../api/smriprep.utils.bids.html#smriprep.utils.bids.write_derivative_description">[docs]</a><span class="k">def</span> <span class="nf">write_derivative_description</span><span class="p">(</span><span class="n">bids_dir</span><span class="p">,</span> <span class="n">deriv_dir</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Write a ``dataset_description.json`` for the derivatives folder.</span>
+    <span class="sd">&quot;&quot;&quot;Write a ``dataset_description.json`` for the derivatives</span>
+<span class="sd">    folder.</span>
 
 <span class="sd">    .. testsetup::</span>
 
@@ -459,6 +290,7 @@
             <dd><a href="../../../../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../../../../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../../../../0.5.2/index.html">0.5.2</a></dd>
+            <dd><a href="../../../../0.5.3/index.html">0.5.3</a></dd>
             <dd><a href="../../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
             <dd><a href="../../../../0.6.0rc2/index.html">0.6.0rc2</a></dd>
@@ -470,6 +302,7 @@
         <dl>
             <dt>Branches</dt>
             <dd><a href="../../../../maint_0.5.x/index.html">maint/0.5.x</a></dd>
+            <dd><a href="../../../../maint_0.6.x/index.html">maint/0.6.x</a></dd>
             <dd><a href="../../../../master/index.html">master</a></dd>
         </dl>
     </div>

@@ -28,6 +28,8 @@ gifti_surface_wf;
 "skull_strip_extern (freesurfer)" -> autorecon_resume_wf;
 "fsnative2t1w_xfm (freesurfer)" -> gifti_surface_wf;
 "fsnative2t1w_xfm (freesurfer)" -> "t1w2fsnative_xfm (freesurfer)";
+"fsnative2t1w_xfm (freesurfer)" -> segs_to_native_aseg;
+"fsnative2t1w_xfm (freesurfer)" -> segs_to_native_aparc_aseg;
 "fsnative2t1w_xfm (freesurfer)" -> "outputnode (utility)";
 "refine (freesurfer)" -> "outputnode (utility)";
 segs_to_native_aseg -> "refine (freesurfer)";
