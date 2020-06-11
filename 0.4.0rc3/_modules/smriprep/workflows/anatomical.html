@@ -195,6 +195,7 @@
 
 
 <div class="viewcode-block" id="init_anat_preproc_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.anatomical.html#smriprep.workflows.anatomical.init_anat_preproc_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_preproc_wf</span><span class="p">(</span>
+        <span class="o">*</span><span class="p">,</span>
         <span class="n">bids_root</span><span class="p">,</span>
         <span class="n">freesurfer</span><span class="p">,</span>
         <span class="n">hires</span><span class="p">,</span>
@@ -288,10 +289,14 @@
 <span class="sd">        List of T1-weighted structural images</span>
 <span class="sd">    t2w</span>
 <span class="sd">        List of T2-weighted structural images</span>
+<span class="sd">    roi</span>
+<span class="sd">        A mask to exclude regions during standardization</span>
 <span class="sd">    flair</span>
 <span class="sd">        List of FLAIR images</span>
 <span class="sd">    subjects_dir</span>
 <span class="sd">        FreeSurfer SUBJECTS_DIR</span>
+<span class="sd">    subject_id</span>
+<span class="sd">        FreeSurfer subject ID</span>
 
 <span class="sd">    Outputs</span>
 <span class="sd">    -------</span>
@@ -646,7 +651,7 @@
     <span class="k">return</span> <span class="n">workflow</span></div>
 
 
-<div class="viewcode-block" id="init_anat_template_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.anatomical.html#smriprep.workflows.anatomical.init_anat_template_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_template_wf</span><span class="p">(</span><span class="n">longitudinal</span><span class="p">,</span> <span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">num_t1w</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_template_wf&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="init_anat_template_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.anatomical.html#smriprep.workflows.anatomical.init_anat_template_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_template_wf</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">longitudinal</span><span class="p">,</span> <span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">num_t1w</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_template_wf&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a canonically-oriented, structural average from all input T1w images.</span>
 

@@ -189,7 +189,7 @@
 <span class="kn">from</span> <span class="nn">niworkflows.interfaces.surf</span> <span class="kn">import</span> <span class="n">NormalizeSurf</span>
 
 
-<div class="viewcode-block" id="init_surface_recon_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_surface_recon_wf">[docs]</a><span class="k">def</span> <span class="nf">init_surface_recon_wf</span><span class="p">(</span><span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">hires</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;surface_recon_wf&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="init_surface_recon_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_surface_recon_wf">[docs]</a><span class="k">def</span> <span class="nf">init_surface_recon_wf</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">hires</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;surface_recon_wf&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reconstruct anatomical surfaces using FreeSurfer&#39;s ``recon-all``.</span>
 
@@ -413,7 +413,7 @@
     <span class="k">return</span> <span class="n">workflow</span></div>
 
 
-<div class="viewcode-block" id="init_autorecon_resume_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_autorecon_resume_wf">[docs]</a><span class="k">def</span> <span class="nf">init_autorecon_resume_wf</span><span class="p">(</span><span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;autorecon_resume_wf&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="init_autorecon_resume_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_autorecon_resume_wf">[docs]</a><span class="k">def</span> <span class="nf">init_autorecon_resume_wf</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;autorecon_resume_wf&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Resume recon-all execution, assuming the `-autorecon1` stage has been completed.</span>
 
@@ -558,7 +558,7 @@
     <span class="k">return</span> <span class="n">workflow</span></div>
 
 
-<div class="viewcode-block" id="init_gifti_surface_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_gifti_surface_wf">[docs]</a><span class="k">def</span> <span class="nf">init_gifti_surface_wf</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;gifti_surface_wf&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="init_gifti_surface_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_gifti_surface_wf">[docs]</a><span class="k">def</span> <span class="nf">init_gifti_surface_wf</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;gifti_surface_wf&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Prepare GIFTI surfaces from a FreeSurfer subjects directory.</span>
 
@@ -639,7 +639,7 @@
     <span class="k">return</span> <span class="n">workflow</span></div>
 
 
-<div class="viewcode-block" id="init_segs_to_native_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_segs_to_native_wf">[docs]</a><span class="k">def</span> <span class="nf">init_segs_to_native_wf</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;segs_to_native&#39;</span><span class="p">,</span> <span class="n">segmentation</span><span class="o">=</span><span class="s1">&#39;aseg&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="init_segs_to_native_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.surfaces.html#smriprep.workflows.surfaces.init_segs_to_native_wf">[docs]</a><span class="k">def</span> <span class="nf">init_segs_to_native_wf</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;segs_to_native&#39;</span><span class="p">,</span> <span class="n">segmentation</span><span class="o">=</span><span class="s1">&#39;aseg&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get a segmentation from FreeSurfer conformed space into native T1w space.</span>
 

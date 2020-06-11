@@ -176,9 +176,11 @@
 
 
 <div class="viewcode-block" id="init_anat_norm_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.norm.html#smriprep.workflows.norm.init_anat_norm_wf">[docs]</a><span class="k">def</span> <span class="nf">init_anat_norm_wf</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">debug</span><span class="p">,</span>
     <span class="n">omp_nthreads</span><span class="p">,</span>
     <span class="n">templates</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;anat_norm_wf&quot;</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Build an individual spatial normalization workflow using ``antsRegistration``.</span>
@@ -234,6 +236,8 @@
 <span class="sd">        input domain to enable standardization of lesioned brains.</span>
 <span class="sd">    orig_t1w</span>
 <span class="sd">        The original T1w image from the BIDS structure.</span>
+<span class="sd">    template</span>
+<span class="sd">        Template name and specification</span>
 
 <span class="sd">    Outputs</span>
 <span class="sd">    -------</span>
@@ -259,7 +263,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ntpls</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">templates</span><span class="p">)</span>
-    <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="s1">&#39;anat_norm_wf&#39;</span><span class="p">)</span>
+    <span class="n">workflow</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">templates</span><span class="p">:</span>
         <span class="n">workflow</span><span class="o">.</span><span class="n">__desc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>

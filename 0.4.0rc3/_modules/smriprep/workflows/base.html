@@ -184,6 +184,7 @@
 
 
 <div class="viewcode-block" id="init_smriprep_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.base.html#smriprep.workflows.base.init_smriprep_wf">[docs]</a><span class="k">def</span> <span class="nf">init_smriprep_wf</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">debug</span><span class="p">,</span>
     <span class="n">fast_track</span><span class="p">,</span>
     <span class="n">freesurfer</span><span class="p">,</span>
@@ -335,9 +336,10 @@
 
 
 <div class="viewcode-block" id="init_single_subject_wf"><a class="viewcode-back" href="../../../api/smriprep.workflows.base.html#smriprep.workflows.base.init_single_subject_wf">[docs]</a><span class="k">def</span> <span class="nf">init_single_subject_wf</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">debug</span><span class="p">,</span>
-    <span class="n">freesurfer</span><span class="p">,</span>
     <span class="n">fast_track</span><span class="p">,</span>
+    <span class="n">freesurfer</span><span class="p">,</span>
     <span class="n">hires</span><span class="p">,</span>
     <span class="n">layout</span><span class="p">,</span>
     <span class="n">longitudinal</span><span class="p">,</span>
@@ -396,10 +398,10 @@
 <span class="sd">    ----------</span>
 <span class="sd">    debug : :obj:`bool`</span>
 <span class="sd">        Enable debugging outputs</span>
-<span class="sd">    freesurfer : :obj:`bool`</span>
-<span class="sd">        Enable FreeSurfer surface reconstruction (may increase runtime)</span>
 <span class="sd">    fast_track : :obj:`bool`</span>
 <span class="sd">        If ``True``, attempt to collect previously run derivatives.</span>
+<span class="sd">    freesurfer : :obj:`bool`</span>
+<span class="sd">        Enable FreeSurfer surface reconstruction (may increase runtime)</span>
 <span class="sd">    hires : :obj:`bool`</span>
 <span class="sd">        Enable sub-millimeter preprocessing in FreeSurfer</span>
 <span class="sd">    layout : BIDSLayout object</span>
