@@ -320,7 +320,7 @@
     <span class="n">tf_select</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">TemplateFlowSelect</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">1</span> <span class="o">+</span> <span class="n">debug</span><span class="p">),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;tf_select&#39;</span><span class="p">,</span> <span class="n">run_without_submitting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="c1"># With the improvements from poldracklab/niworkflows#342 this truncation is now necessary</span>
+    <span class="c1"># With the improvements from nipreps/niworkflows#342 this truncation is now necessary</span>
     <span class="n">trunc_mov</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">ImageMath</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="s1">&#39;TruncateImageIntensity&#39;</span><span class="p">,</span> <span class="n">op2</span><span class="o">=</span><span class="s1">&#39;0.01 0.999 256&#39;</span><span class="p">),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;trunc_mov&#39;</span><span class="p">)</span>
 

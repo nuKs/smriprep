@@ -372,7 +372,7 @@ running</p>
 </pre></div>
 </div>
 <p>Please report any feedback to our GitHub repository
-(<a class="reference external" href="https://github.com/poldracklab/smriprep">https://github.com/poldracklab/smriprep</a>) and do not
+(<a class="reference external" href="https://github.com/nipreps/smriprep">https://github.com/nipreps/smriprep</a>) and do not
 forget to credit all the authors of software that sMRIPrep
 uses (consider using the citation boilerplate included in the
 individual reports).</p>
@@ -471,7 +471,7 @@ file on the host system:</p>
     -v $HOME/fullds005:/data:ro \
     -v $HOME/dockerout:/out \
     -v $HOME/.licenses/freesurfer/license.txt:/opt/freesurfer/license.txt \
-    poldracklab/smriprep:latest \
+    nipreps/smriprep:latest \
     /data /out/out \
     participant \
     --ignore fieldmaps
@@ -482,7 +482,7 @@ file on the host system:</p>
     /path/to/data/dir /path/to/output/dir participant
 RUNNING: docker run --rm -it -v /path/to/data/dir:/data:ro \
     -v /home/user/.licenses/freesurfer/license.txt:/opt/freesurfer/license.txt \
-    -v /path/to_output/dir:/out poldracklab/smriprep:1.0.0 \
+    -v /path/to_output/dir:/out nipreps/smriprep:1.0.0 \
     /data /out participant
 ...
 </pre></div>
@@ -494,7 +494,7 @@ would be equivalent to the latest example:</p>
 $ smriprep-docker /path/to/data/dir /path/to/output/dir participant
 RUNNING: docker run --rm -it -v /path/to/data/dir:/data:ro \
     -v /home/user/.licenses/freesurfer/license.txt:/opt/freesurfer/license.txt \
-    -v /path/to_output/dir:/out poldracklab/smriprep:1.0.0 \
+    -v /path/to_output/dir:/out nipreps/smriprep:1.0.0 \
     /data /out participant
 ...
 </pre></div>
