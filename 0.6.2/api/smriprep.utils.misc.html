@@ -192,6 +192,28 @@
 <dd><p>Map the input discrete segmentation to a new label set (lookup table, LUT).</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="smriprep.utils.misc.fs_isRunning">
+<code class="sig-prename descclassname">smriprep.utils.misc.</code><code class="sig-name descname">fs_isRunning</code><span class="sig-paren">(</span><em class="sig-param">subjects_dir</em>, <em class="sig-param">subject_id</em>, <em class="sig-param">mtime_tol=86400</em>, <em class="sig-param">logger=None</em><span class="sig-paren">)</span><a class="headerlink" href="#smriprep.utils.misc.fs_isRunning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks FreeSurfer subjects dir for presence of recon-all blocking <code class="docutils literal notranslate"><span class="pre">IsRunning</span></code> files,
+and optionally removes any based on the modification time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subjects_dir</strong> (<em>os.PathLike or None</em>) – Existing FreeSurfer subjects directory</p></li>
+<li><p><strong>subject_id</strong> (<em>str</em>) – Subject label</p></li>
+<li><p><strong>mtime_tol</strong> (<em>int</em>) – Tolerance time (in seconds) between current time and last modification of <code class="docutils literal notranslate"><span class="pre">recon-all.log</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>subjects_dir</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.8)">os.PathLike</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 

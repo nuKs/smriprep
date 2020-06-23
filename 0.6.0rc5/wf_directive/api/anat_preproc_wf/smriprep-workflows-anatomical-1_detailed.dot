@@ -1,6 +1,7 @@
 digraph structs {
 node [shape=record];
 anat_preproc_wfinputnode [label="{IN}|{ inputnode | utility |  }|{OUT|<outflair> flair|<outroi> roi|<outsubjectid> subject_id|<outsubjectsdir> subjects_dir|<outt1w> t1w|<outt2w> t2w}"];
+anat_preproc_wffs_isrunning [label="{IN|<insubjectid> subject_id|<insubjectsdir> subjects_dir}|{ fs_isrunning | utility |  }|{OUT|<outout> out}"];
 anat_preproc_wfanat_template_wf [label="{IN|<ininputnodet1w> inputnode.t1w}|{ anat_template_wf |  |  }|{OUT|<outoutputnodeoutreport> outputnode.out_report|<outoutputnodet1wrealignxfm> outputnode.t1w_realign_xfm|<outoutputnodet1wref> outputnode.t1w_ref|<outoutputnodet1wvalidlist> outputnode.t1w_valid_list}"];
 anat_preproc_wfanat_validate [label="{IN|<ininfile> in_file}|{ anat_validate | images |  }|{OUT|<outoutfile> out_file}"];
 anat_preproc_wfbrain_extraction_wf [label="{IN|<ininputnodeinfiles> inputnode.in_files}|{ brain_extraction_wf |  |  }|{OUT|<outoutputnodebiascorrected> outputnode.bias_corrected|<outoutputnodeoutfile> outputnode.out_file|<outoutputnodeoutsegm> outputnode.out_segm}"];
@@ -40,10 +41,12 @@ anat_preproc_wfbrain_extraction_wf:outoutputnodeoutsegm:e -> anat_preproc_wfsurf
 anat_preproc_wfbuffernode:outt1wbrain:e -> anat_preproc_wfoutputnode:int1wbrain:w;
 anat_preproc_wfbuffernode:outt1wmask:e -> anat_preproc_wfanat_norm_wf:ininputnodemovingmask:w;
 anat_preproc_wfbuffernode:outt1wmask:e -> anat_preproc_wfoutputnode:int1wmask:w;
+anat_preproc_wffs_isrunning:outout:e -> anat_preproc_wfsurface_recon_wf:ininputnodesubjectsdir:w;
 anat_preproc_wfinputnode:outflair:e -> anat_preproc_wfsurface_recon_wf:ininputnodeflair:w;
 anat_preproc_wfinputnode:outroi:e -> anat_preproc_wfanat_norm_wf:ininputnodelesionmask:w;
+anat_preproc_wfinputnode:outsubjectid:e -> anat_preproc_wffs_isrunning:insubjectid:w;
 anat_preproc_wfinputnode:outsubjectid:e -> anat_preproc_wfsurface_recon_wf:ininputnodesubjectid:w;
-anat_preproc_wfinputnode:outsubjectsdir:e -> anat_preproc_wfsurface_recon_wf:ininputnodesubjectsdir:w;
+anat_preproc_wfinputnode:outsubjectsdir:e -> anat_preproc_wffs_isrunning:insubjectsdir:w;
 anat_preproc_wfinputnode:outt1w:e -> anat_preproc_wfanat_norm_wf:ininputnodeorigt1w:w;
 anat_preproc_wfinputnode:outt1w:e -> anat_preproc_wfanat_reports_wf:ininputnodesourcefile:w;
 anat_preproc_wfinputnode:outt1w:e -> anat_preproc_wfanat_template_wf:ininputnodet1w:w;

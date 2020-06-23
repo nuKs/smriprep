@@ -189,7 +189,7 @@
 <span class="kn">from</span> <span class="nn">niworkflows.utils.misc</span> <span class="kn">import</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">,</span> <span class="n">add_suffix</span>
 <span class="kn">from</span> <span class="nn">niworkflows.anat.ants</span> <span class="kn">import</span> <span class="n">init_brain_extraction_wf</span><span class="p">,</span> <span class="n">init_n4_only_wf</span>
 <span class="kn">from</span> <span class="nn">..utils.bids</span> <span class="kn">import</span> <span class="n">get_outputnode_spec</span>
-<span class="kn">from</span> <span class="nn">..utils.misc</span> <span class="kn">import</span> <span class="n">apply_lut</span> <span class="k">as</span> <span class="n">_apply_bids_lut</span>
+<span class="kn">from</span> <span class="nn">..utils.misc</span> <span class="kn">import</span> <span class="n">apply_lut</span> <span class="k">as</span> <span class="n">_apply_bids_lut</span><span class="p">,</span> <span class="n">fs_isRunning</span> <span class="k">as</span> <span class="n">_fs_isRunning</span>
 <span class="kn">from</span> <span class="nn">.norm</span> <span class="kn">import</span> <span class="n">init_anat_norm_wf</span>
 <span class="kn">from</span> <span class="nn">.outputs</span> <span class="kn">import</span> <span class="n">init_anat_reports_wf</span><span class="p">,</span> <span class="n">init_anat_derivatives_wf</span>
 <span class="kn">from</span> <span class="nn">.surfaces</span> <span class="kn">import</span> <span class="n">init_surface_recon_wf</span>
@@ -601,16 +601,24 @@
     <span class="n">split_seg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">_split_segments</span><span class="p">),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;split_seg&#39;</span><span class="p">)</span>
 
+    <span class="c1"># check for older IsRunning files and remove accordingly</span>
+    <span class="n">fs_isrunning</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">niu</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">_fs_isRunning</span><span class="p">),</span>
+                           <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fs_isrunning&#39;</span><span class="p">)</span>
+    <span class="n">fs_isrunning</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">LOGGER</span>
+
     <span class="c1"># 5. Surface reconstruction (--fs-no-reconall not set)</span>
     <span class="n">surface_recon_wf</span> <span class="o">=</span> <span class="n">init_surface_recon_wf</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;surface_recon_wf&#39;</span><span class="p">,</span>
                                              <span class="n">omp_nthreads</span><span class="o">=</span><span class="n">omp_nthreads</span><span class="p">,</span> <span class="n">hires</span><span class="o">=</span><span class="n">hires</span><span class="p">)</span>
     <span class="n">applyrefined</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">fsl</span><span class="o">.</span><span class="n">ApplyMask</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;applyrefined&#39;</span><span class="p">)</span>
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
+        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">fs_isrunning</span><span class="p">,</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">surface_recon_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;t2w&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t2w&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;flair&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.flair&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.subjects_dir&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.subject_id&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">fs_isrunning</span><span class="p">,</span> <span class="n">surface_recon_wf</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.subjects_dir&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">anat_validate</span><span class="p">,</span> <span class="n">surface_recon_wf</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">brain_extraction_wf</span><span class="p">,</span> <span class="n">surface_recon_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">((</span><span class="s1">&#39;outputnode.out_file&#39;</span><span class="p">,</span> <span class="n">_pop</span><span class="p">),</span> <span class="s1">&#39;inputnode.skullstripped_t1&#39;</span><span class="p">),</span>
