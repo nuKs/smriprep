@@ -338,6 +338,17 @@
     <span class="k">return</span> <span class="n">derivs_cache</span></div>
 
 
+<div class="viewcode-block" id="write_bidsignore"><a class="viewcode-back" href="../../../api/smriprep.utils.bids.html#smriprep.utils.bids.write_bidsignore">[docs]</a><span class="k">def</span> <span class="nf">write_bidsignore</span><span class="p">(</span><span class="n">deriv_dir</span><span class="p">):</span>
+    <span class="n">bids_ignore</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;*.html&quot;</span><span class="p">,</span> <span class="s2">&quot;logs/&quot;</span><span class="p">,</span> <span class="s2">&quot;figures/&quot;</span><span class="p">,</span>  <span class="c1"># Reports</span>
+        <span class="s2">&quot;*_xfm.*&quot;</span><span class="p">,</span>  <span class="c1"># Unspecified transform files</span>
+        <span class="s2">&quot;*.surf.gii&quot;</span><span class="p">,</span>  <span class="c1"># Unspecified structural outputs</span>
+    <span class="p">]</span>
+    <span class="n">ignore_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">deriv_dir</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;.bidsignore&quot;</span>
+
+    <span class="n">ignore_file</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bids_ignore</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="write_derivative_description"><a class="viewcode-back" href="../../../api/smriprep.utils.bids.html#smriprep.utils.bids.write_derivative_description">[docs]</a><span class="k">def</span> <span class="nf">write_derivative_description</span><span class="p">(</span><span class="n">bids_dir</span><span class="p">,</span> <span class="n">deriv_dir</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write a ``dataset_description.json`` for the derivatives folder.</span>
@@ -366,19 +377,19 @@
     <span class="kn">import</span> <span class="nn">os</span>
     <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
     <span class="kn">import</span> <span class="nn">json</span>
-    <span class="kn">from</span> <span class="nn">..__about__</span> <span class="kn">import</span> <span class="n">__version__</span><span class="p">,</span> <span class="n">__url__</span><span class="p">,</span> <span class="n">DOWNLOAD_URL</span>
+    <span class="kn">from</span> <span class="nn">..__about__</span> <span class="kn">import</span> <span class="n">__version__</span><span class="p">,</span> <span class="n">DOWNLOAD_URL</span>
 
     <span class="n">bids_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">bids_dir</span><span class="p">)</span>
     <span class="n">deriv_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">deriv_dir</span><span class="p">)</span>
     <span class="n">desc</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;Name&#39;</span><span class="p">:</span> <span class="s1">&#39;sMRIPrep - Structural MRI PREProcessing workflow&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;BIDSVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;1.1.1&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;PipelineDescription&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;BIDSVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;1.4.0&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;DatasetType&#39;</span><span class="p">:</span> <span class="s1">&#39;derivative&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;GeneratedBy&#39;</span><span class="p">:</span> <span class="p">[{</span>
             <span class="s1">&#39;Name&#39;</span><span class="p">:</span> <span class="s1">&#39;sMRIPrep&#39;</span><span class="p">,</span>
             <span class="s1">&#39;Version&#39;</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
             <span class="s1">&#39;CodeURL&#39;</span><span class="p">:</span> <span class="n">DOWNLOAD_URL</span><span class="p">,</span>
-        <span class="p">},</span>
-        <span class="s1">&#39;CodeURL&#39;</span><span class="p">:</span> <span class="n">__url__</span><span class="p">,</span>
+        <span class="p">}],</span>
         <span class="s1">&#39;HowToAcknowledge&#39;</span><span class="p">:</span>
             <span class="s1">&#39;Please cite our paper (https://doi.org/10.1101/306951), and &#39;</span>
             <span class="s1">&#39;include the generated citation boilerplate within the Methods &#39;</span>
@@ -387,34 +398,32 @@
 
     <span class="c1"># Keys that can only be set by environment</span>
     <span class="k">if</span> <span class="s1">&#39;SMRIPREP_DOCKER_TAG&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="n">desc</span><span class="p">[</span><span class="s1">&#39;DockerHubContainerTag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SMRIPREP_DOCKER_TAG&#39;</span><span class="p">]</span>
+        <span class="n">desc</span><span class="p">[</span><span class="s1">&#39;GeneratedBy&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Container&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Type&quot;</span><span class="p">:</span> <span class="s2">&quot;docker&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Tag&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;poldracklab/smriprep:</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SMRIPREP_DOCKER_TAG&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">}</span>
     <span class="k">if</span> <span class="s1">&#39;SMRIPREP_SINGULARITY_URL&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="n">singularity_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SMRIPREP_SINGULARITY_URL&#39;</span><span class="p">]</span>
-        <span class="n">desc</span><span class="p">[</span><span class="s1">&#39;SingularityContainerURL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">singularity_url</span>
-
-        <span class="n">singularity_md5</span> <span class="o">=</span> <span class="n">_get_shub_version</span><span class="p">(</span><span class="n">singularity_url</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">singularity_md5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">singularity_md5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">NotImplemented</span><span class="p">:</span>
-            <span class="n">desc</span><span class="p">[</span><span class="s1">&#39;SingularityContainerMD5&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_shub_version</span><span class="p">(</span><span class="n">singularity_url</span><span class="p">)</span>
+        <span class="n">desc</span><span class="p">[</span><span class="s1">&#39;GeneratedBy&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Container&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Type&quot;</span><span class="p">:</span> <span class="s2">&quot;singularity&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;URI&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SMRIPREP_SINGULARITY_URL&#39;</span><span class="p">],</span>
+        <span class="p">}</span>
 
     <span class="c1"># Keys deriving from source dataset</span>
     <span class="n">orig_desc</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">fname</span> <span class="o">=</span> <span class="n">bids_dir</span> <span class="o">/</span> <span class="s1">&#39;dataset_description.json&#39;</span>
     <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="k">with</span> <span class="n">fname</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
-            <span class="n">orig_desc</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fobj</span><span class="p">)</span>
+        <span class="n">orig_desc</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
 
     <span class="k">if</span> <span class="s1">&#39;DatasetDOI&#39;</span> <span class="ow">in</span> <span class="n">orig_desc</span><span class="p">:</span>
-        <span class="n">desc</span><span class="p">[</span><span class="s1">&#39;SourceDatasetsURLs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://doi.org/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">orig_desc</span><span class="p">[</span><span class="s1">&#39;DatasetDOI&#39;</span><span class="p">])]</span>
+        <span class="n">doi</span> <span class="o">=</span> <span class="n">orig_desc</span><span class="p">[</span><span class="s2">&quot;DatasetDOI&quot;</span><span class="p">]</span>
+        <span class="n">desc</span><span class="p">[</span><span class="s1">&#39;SourceDatasets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span>
+            <span class="s1">&#39;URL&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;https://doi.org/</span><span class="si">{</span><span class="n">doi</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s1">&#39;DOI&#39;</span><span class="p">:</span> <span class="n">doi</span><span class="p">,</span>
+        <span class="p">}]</span>
     <span class="k">if</span> <span class="s1">&#39;License&#39;</span> <span class="ow">in</span> <span class="n">orig_desc</span><span class="p">:</span>
         <span class="n">desc</span><span class="p">[</span><span class="s1">&#39;License&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig_desc</span><span class="p">[</span><span class="s1">&#39;License&#39;</span><span class="p">]</span>
 
-    <span class="k">with</span> <span class="p">(</span><span class="n">deriv_dir</span> <span class="o">/</span> <span class="s1">&#39;dataset_description.json&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
-        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="n">fobj</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
-
-
-<span class="k">def</span> <span class="nf">_get_shub_version</span><span class="p">(</span><span class="n">singularity_url</span><span class="p">):</span>
-    <span class="k">return</span> <span class="bp">NotImplemented</span>
+    <span class="n">Path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">deriv_dir</span> <span class="o">/</span> <span class="s1">&#39;dataset_description.json&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span></div>
 </pre></div>
 
            </div>
