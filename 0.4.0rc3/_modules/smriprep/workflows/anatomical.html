@@ -552,6 +552,7 @@
         <span class="n">freesurfer</span><span class="o">=</span><span class="n">freesurfer</span><span class="p">,</span>
         <span class="n">num_t1w</span><span class="o">=</span><span class="n">num_t1w</span><span class="p">,</span>
         <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
+        <span class="n">spaces</span><span class="o">=</span><span class="n">spaces</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
@@ -559,20 +560,16 @@
         <span class="p">(</span><span class="n">anat_template_wf</span><span class="p">,</span> <span class="n">anat_derivatives_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;outputnode.t1w_valid_list&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.source_files&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">anat_norm_wf</span><span class="p">,</span> <span class="n">anat_derivatives_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;poutputnode.template&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.template&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;poutputnode.anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.anat2std_xfm&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;poutputnode.std2anat_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std2anat_xfm&#39;</span><span class="p">)</span>
+            <span class="p">(</span><span class="s1">&#39;outputnode.template&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.template&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;outputnode.anat2std_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.anat2std_xfm&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;outputnode.std2anat_xfm&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std2anat_xfm&#39;</span><span class="p">)</span>
         <span class="p">]),</span>
         <span class="p">(</span><span class="n">outputnode</span><span class="p">,</span> <span class="n">anat_derivatives_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;std_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_t1w&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;t1w_ref_xfms&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_ref_xfms&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;t1w_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_preproc&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;t1w_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_mask&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;t1w_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_dseg&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;t1w_tpms&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.t1w_tpms&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_mask&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;std_dseg&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_dseg&#39;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;std_tpms&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_tpms&#39;</span><span class="p">),</span>
         <span class="p">]),</span>
     <span class="p">])</span>
 
