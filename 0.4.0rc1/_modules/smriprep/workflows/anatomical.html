@@ -392,8 +392,7 @@
         <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">existing_derivatives</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="n">outputnode</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-        <span class="n">anat_reports_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">source_file</span> <span class="o">=</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">existing_derivatives</span><span class="p">[</span><span class="s1">&#39;t1w_preproc&#39;</span><span class="p">]])</span>
+        <span class="n">anat_reports_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputnode</span><span class="o">.</span><span class="n">source_file</span> <span class="o">=</span> <span class="p">[</span><span class="n">existing_derivatives</span><span class="p">[</span><span class="s1">&#39;t1w_preproc&#39;</span><span class="p">]]</span>
 
         <span class="n">stdselect</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">KeySelect</span><span class="p">(</span>
             <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;std_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;std_mask&#39;</span><span class="p">],</span> <span class="n">keys</span><span class="o">=</span><span class="n">templates</span><span class="p">),</span>
@@ -534,8 +533,7 @@
 
     <span class="c1"># Connect reportlets</span>
     <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
-        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
-            <span class="p">((</span><span class="s1">&#39;t1w&#39;</span><span class="p">,</span> <span class="n">fix_multi_T1w_source_name</span><span class="p">),</span> <span class="s1">&#39;inputnode.source_file&#39;</span><span class="p">)]),</span>
+        <span class="p">(</span><span class="n">inputnode</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;t1w&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.source_file&#39;</span><span class="p">)]),</span>
         <span class="p">(</span><span class="n">outputnode</span><span class="p">,</span> <span class="n">anat_reports_wf</span><span class="p">,</span> <span class="p">[</span>
             <span class="p">(</span><span class="s1">&#39;std_preproc&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_t1w&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;std_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;inputnode.std_mask&#39;</span><span class="p">),</span>
