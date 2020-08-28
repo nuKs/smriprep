@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>What’s new? &mdash; smriprep 0.6.2 documentation</title>
+  <title>What’s new? &mdash; smriprep 0.7.0rc1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.6.2
+                0.7.0rc1
               </div>
             
           
@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Library API (application program interface)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">What’s new?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tbd">0.7.0 (TBD)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#june-9-2020">0.6.2 (June 9, 2020)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#may-27-2020">0.6.1 (May 27, 2020)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#may-22-2020">0.6.0 (May 22, 2020)</a></li>
@@ -191,11 +192,31 @@
   
 
 
+    
+    
 
 
 
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="master/changes.html"><b>Warning:</b> This document is for an old version of smriprep. The main version is master.</a></p>
 <div class="section" id="what-s-new">
 <h1>What’s new?<a class="headerlink" href="#what-s-new" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tbd">
+<h2>0.7.0 (TBD)<a class="headerlink" href="#tbd" title="Permalink to this headline">¶</a></h2>
+<p>Minor release in preparation for fMRIPrep 20.2.x LTS series.
+Includes minor features and bug-fixes over the previous 0.6 series.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>FIX: Generate anatomical conversions with full spec from <code class="docutils literal notranslate"><span class="pre">--output-spaces</span></code> (#219)</p></li>
+<li><p>FIX: Ordering of <code class="docutils literal notranslate"><span class="pre">probseg</span></code> maps with anatomical <em>fast-track</em> (#214)</p></li>
+<li><p>FIX: Progress partial volume maps instead of posteriors (FSL FAST) (#213)</p></li>
+<li><p>ENH: Retain session info when multi-session data are not averaged (#225)</p></li>
+<li><p>ENH: Update derivatives description, <code class="docutils literal notranslate"><span class="pre">.bidsignore</span></code> for derivatives (#220)</p></li>
+<li><p>ENH: Add <code class="docutils literal notranslate"><span class="pre">--no-tty</span></code> option to Docker wrapper (#216)</p></li>
+<li><p>ENH: Add function to handle stale <code class="docutils literal notranslate"><span class="pre">IsRunning</span></code> files (#207)</p></li>
+<li><p>MAINT: Make workflows keyword-only (PEP 3102) (#208)</p></li>
+</ul>
+</div></blockquote>
+</div>
 <div class="section" id="june-9-2020">
 <h2>0.6.2 (June 9, 2020)<a class="headerlink" href="#june-9-2020" title="Permalink to this headline">¶</a></h2>
 <p>Bug-fix release addressing minor problems related to FreeSurfer handling.</p>
@@ -488,7 +509,7 @@ in <a class="reference external" href="https://github.com/poldracklab/fmriprep/i
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: master
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
